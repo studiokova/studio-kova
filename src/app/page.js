@@ -360,7 +360,7 @@ export default function Home() {
                 <li>Moodboard sur mesure</li>
                 <li>Livraison par email</li>
               </ul>
-              <a href="/quiz" className="btn-dark">C'est parti →</a>
+              <a href="/quiz" className="btn-dark" onClick={() => window.plausible?.("Clic offre gratuite")}>C'est parti →</a>
             </div>
           </div>
 
@@ -378,7 +378,7 @@ export default function Home() {
                 <li>Recommandations couleurs et matières</li>
                 <li>PDF complet livré en 48h</li>
               </ul>
-              <a href="/analyse" className="btn-primary">C'est parti →</a>
+              <a href="/analyse" className="btn-primary" onClick={() => window.plausible?.("Clic offre 69")}>C'est parti →</a>
             </div>
           </div>
 
@@ -396,7 +396,7 @@ export default function Home() {
                 <li>Liens d'achat IKEA et Maisons du Monde</li>
                 <li>Planche produits complète</li>
               </ul>
-              <a href="/surmesure" className="btn-dark">C'est parti →</a>
+              <a href="/surmesure" className="btn-dark" onClick={() => window.plausible?.("Clic offre 299")}>C'est parti →</a>
             </div>
           </div>
 
