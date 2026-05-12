@@ -290,6 +290,8 @@ export default function Home() {
         .footer-social { display: inline-flex; align-items: center; gap: 7px; font-size: 13px; opacity: 0.7; color: var(--sauge-text); text-decoration: none; transition: opacity 0.2s; margin-bottom: 6px; }
         .footer-social:hover { opacity: 1; }
         .footer-bottom { display: flex; flex-direction: column; gap: 6px; font-size: 11.5px; font-weight: 300; color: var(--sauge-text); opacity: 0.4; }
+        .footer-bottom a { color: inherit; text-decoration: none; }
+        .footer-bottom a:hover { text-decoration: underline; }
 
         @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
@@ -509,7 +511,7 @@ export default function Home() {
         <div className="footer-divider"></div>
         <div className="footer-bottom">
           <span>© 2025 Studio Kova</span>
-          <span>Mentions légales · Politique de confidentialité</span>
+          <span><a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Politique de confidentialité</a></span>
         </div>
       </footer>
     </>

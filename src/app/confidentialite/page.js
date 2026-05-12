@@ -63,7 +63,7 @@ export default function Confidentialite() {
         <a href="/" className="ml-back">← Retour à l'accueil</a>
 
         <h1>Politique de confidentialité</h1>
-        <p className="ml-date">Dernière mise à jour : mai 2025</p>
+        <p className="ml-date">Dernière mise à jour : mai 2026</p>
 
         <div className="ml-section">
           <h2>Qui sommes-nous</h2>
