@@ -87,7 +87,7 @@ export default function Home() {
         }
         .hero-bg {
           position: absolute; inset: 0;
-          background-image: url("/hero.jpg");
+          background-image: url("/hero.webp");
           background-size: cover; background-position: center 25%;
           animation: zoomIn 14s ease-out both;
         }
@@ -195,7 +195,7 @@ export default function Home() {
 
         .photo-sep {
           height: 260px;
-          background-image: url("/section.jpg");
+          background-image: url("/section.webp");
           background-size: cover; background-position: center 40%;
         }
 
@@ -235,7 +235,7 @@ export default function Home() {
         .section-cta::before {
           content: "";
           position: absolute; top: -40px; left: -40px; right: -40px; bottom: -40px;
-          background-image: url("/bath.jpg");
+          background-image: url("/bath.webp");
           background-size: cover; background-position: center; opacity: 0.06;
         }
         .section-cta-inner { position: relative; z-index: 1; }
@@ -347,7 +347,7 @@ export default function Home() {
         <div className="cards-wrapper">
 
           <div className="card reveal" ref={addReveal} style={{transitionDelay: "0.1s"}}>
-            <div className="card-img" style={{backgroundImage: "url('/window.jpg')"}}>
+            <div className="card-img" style={{backgroundImage: "url('/window.webp')"}}>
               <div className="card-img-overlay"></div>
               <span className="card-badge badge-free">Gratuit</span>
               <div className="card-price">0€</div>
@@ -365,7 +365,7 @@ export default function Home() {
           </div>
 
           <div className="card featured reveal" ref={addReveal} style={{transitionDelay: "0.2s"}}>
-            <div className="card-img" style={{backgroundImage: "url('/shelves.jpg')"}}>
+            <div className="card-img" style={{backgroundImage: "url('/shelves.webp')"}}>
               <div className="card-img-overlay"></div>
               <span className="card-badge badge-ia">Populaire</span>
               <div className="card-price">69€</div>
@@ -383,7 +383,7 @@ export default function Home() {
           </div>
 
           <div className="card reveal" ref={addReveal} style={{transitionDelay: "0.3s"}}>
-            <div className="card-img" style={{backgroundImage: "url('/lamp.jpg')"}}>
+            <div className="card-img" style={{backgroundImage: "url('/lamp.webp')"}}>
               <div className="card-img-overlay"></div>
               <span className="card-badge badge-premium">Sur mesure</span>
               <div className="card-price"><small>à partir de </small>299€<small>/pièce</small></div>

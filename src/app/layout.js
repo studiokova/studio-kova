@@ -26,7 +26,7 @@ export const metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-image.jpg',
+        url: '/og-image.webp',
         width: 1200,
         height: 630,
         alt: 'Studio Kova — Conseil en décoration accessible',
@@ -37,7 +37,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: "Studio Kova · La déco personnalisée, enfin accessible.",
     description: "Conseil en décoration d'appartement personnalisé et accessible.",
-    images: ['/og-image.jpg'],
+    images: ['/og-image.webp'],
   },
 };
  
