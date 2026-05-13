@@ -16,6 +16,29 @@ const playfair = Playfair_Display({
 export const metadata = {
   title: "Studio Kova — La déco personnalisée, enfin accessible.",
   description: "Conseil en décoration d'appartement personnalisé et accessible. Palette, moodboard et sélection meuble sur mesure.",
+  metadataBase: new URL('https://www.studiokova.fr'),
+  openGraph: {
+    title: "Studio Kova — La déco personnalisée, enfin accessible.",
+    description: "Conseil en décoration d'appartement personnalisé et accessible. Palette, moodboard et sélection meuble sur mesure.",
+    url: 'https://www.studiokova.fr',
+    siteName: 'Studio Kova',
+    locale: 'fr_FR',
+    type: 'website',
+    images: [
+      {
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Studio Kova — Conseil en décoration accessible',
+      },
+    ],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: "Studio Kova — La déco personnalisée, enfin accessible.",
+    description: "Conseil en décoration d'appartement personnalisé et accessible.",
+    images: ['/og-image.jpg'],
+  },
 };
  
 export default function RootLayout({ children }) {
