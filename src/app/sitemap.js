@@ -1,4 +1,15 @@
+import { getAllPosts } from '@/lib/blog';
+
 export default function sitemap() {
+  const posts = getAllPosts();
+
+  const blogEntries = posts.map((post) => ({
+    url: `https://www.studiokova.fr/blog/${post.slug}`,
+    lastModified: new Date(post.date),
+    changeFrequency: 'monthly',
+    priority: 0.6,
+  }));
+
   return [
     {
       url: 'https://www.studiokova.fr',
@@ -24,5 +35,12 @@ export default function sitemap() {
       changeFrequency: 'monthly',
       priority: 0.7,
     },
-  ]
+    {
+      url: 'https://www.studiokova.fr/blog',
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.65,
+    },
+    ...blogEntries,
+  ];
 }
