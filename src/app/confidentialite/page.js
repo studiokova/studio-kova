@@ -1,4 +1,5 @@
 // src/app/confidentialite/page.js
+import Nav from "@/components/Nav";
 
 export const metadata = {
   title: "Politique de confidentialité — Studio Kova",
@@ -18,15 +19,6 @@ export default function Confidentialite() {
           --gris-clair: #D3D1C7;
         }
         body { background: var(--craie); font-family: "DM Sans", sans-serif; color: var(--sauge-dk); -webkit-font-smoothing: antialiased; }
-        .ml-nav {
-          display: flex; align-items: center;
-          padding: 0 24px; height: 58px;
-          border-bottom: 1px solid rgba(211,209,199,0.5);
-        }
-        .ml-nav a { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .nav-logotype { display: flex; flex-direction: column; line-height: 1; gap: 1px; }
-        .nav-logotype .studio { font-size: 7.5px; font-weight: 500; letter-spacing: 0.2em; color: var(--sauge-lt); text-transform: uppercase; }
-        .nav-logotype .kova { font-size: 19px; font-weight: 300; letter-spacing: 0.03em; color: var(--sauge-dk); }
         .ml-content { max-width: 640px; margin: 0 auto; padding: 48px 24px 80px; }
         .ml-back { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--gris); text-decoration: none; margin-bottom: 40px; transition: color 0.2s; }
         .ml-back:hover { color: var(--sauge-dk); }
@@ -44,24 +36,9 @@ export default function Confidentialite() {
         .ml-footer a:hover { text-decoration: underline; }
       `}</style>
 
-      <nav className="ml-nav">
-        <a href="/">
-          <svg width="26" height="26" viewBox="-14 -14 28 28" xmlns="http://www.w3.org/2000/svg">
-            <rect transform="translate(0,-8) rotate(45)" x="-4" y="-4" width="8" height="8" rx="1.5" fill="#B8612A"/>
-            <rect transform="translate(8,0) rotate(45)" x="-4" y="-4" width="8" height="8" rx="1.5" fill="#2E4A3A"/>
-            <rect transform="translate(-8,0) rotate(45)" x="-4" y="-4" width="8" height="8" rx="1.5" fill="#E8C97A"/>
-            <rect transform="translate(0,8) rotate(45)" x="-4" y="-4" width="8" height="8" rx="1.5" fill="#6B9E7A"/>
-          </svg>
-          <div className="nav-logotype">
-            <span className="studio">Studio</span>
-            <span className="kova">Kova</span>
-          </div>
-        </a>
-      </nav>
+      <Nav showBack={true} />
 
       <div className="ml-content">
-        <a href="/" className="ml-back">← Retour à l'accueil</a>
-
         <h1>Politique de confidentialité</h1>
         <p className="ml-date">Dernière mise à jour : mai 2026</p>
 

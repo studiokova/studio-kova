@@ -1,6 +1,7 @@
 // src/components/ComingSoon.js
 "use client";
 import { useState } from "react";
+import Nav from "@/components/Nav";
 
 export default function ComingSoon({ offre, titre, description, couleur }) {
   const [email, setEmail] = useState("");
@@ -45,16 +46,6 @@ export default function ComingSoon({ offre, titre, description, couleur }) {
 
         .cs-wrap { min-height: 100svh; display: flex; flex-direction: column; }
 
-        .cs-nav {
-          display: flex; align-items: center;
-          padding: 0 24px; height: 58px;
-          border-bottom: 1px solid rgba(211,209,199,0.5);
-        }
-        .cs-nav a { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .nav-logotype { display: flex; flex-direction: column; line-height: 1; gap: 1px; }
-        .nav-logotype .studio { font-size: 7.5px; font-weight: 500; letter-spacing: 0.2em; color: var(--sauge-lt); text-transform: uppercase; }
-        .nav-logotype .kova { font-size: 19px; font-weight: 300; letter-spacing: 0.03em; color: var(--sauge-dk); }
-
         .cs-main {
           flex: 1;
           display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -83,47 +74,44 @@ export default function ComingSoon({ offre, titre, description, couleur }) {
           line-height: 1.7; margin-bottom: 36px; max-width: 300px;
         }
 
-        .cs-form { width: 100%; max-width: 340px; }
+        .cs-form {
+          width: 100%; max-width: 340px;
+          background: #2E4A3A; border-radius: 16px; padding: 28px;
+        }
 
         .cs-input {
-          width: 100%; padding: 14px 16px; border-radius: 3px;
-          border: 1px solid var(--gris-clair); background: white;
+          width: 100%; padding: 14px; border-radius: 8px;
+          border: none; background: #F5EFE4;
           font-family: "DM Sans", sans-serif; font-size: 14px; color: var(--sauge-dk);
-          outline: none; transition: border-color 0.2s; margin-bottom: 10px;
+          outline: none; display: block; margin-bottom: 10px;
         }
-        .cs-input:focus { border-color: var(--sauge-md); }
-        .cs-input::placeholder { color: var(--gris); }
+        .cs-input::placeholder { color: #888780; }
 
         .cs-submit {
-          width: 100%; padding: 14px 24px; border-radius: 3px;
-          background: var(--cuivre); color: white;
+          width: 100%; padding: 14px; border-radius: 999px;
+          background: #B8612A; color: white;
           font-family: "DM Sans", sans-serif; font-size: 14.5px; font-weight: 500;
-          border: none; cursor: pointer; transition: background 0.2s, transform 0.15s;
-          margin-bottom: 12px;
+          border: none; cursor: pointer; display: block; transition: opacity 0.18s;
+          margin-bottom: 14px;
         }
-        .cs-submit:hover { background: #a3541f; transform: translateY(-1px); }
-        .cs-submit:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .cs-submit:hover { opacity: 0.9; }
+        .cs-submit:disabled { opacity: 0.6; cursor: not-allowed; }
 
         .cs-consent {
-          font-size: 11px; font-weight: 300; color: var(--gris);
+          font-size: 11px; font-weight: 300; color: rgba(245,239,228,0.55);
           line-height: 1.6; text-align: center;
         }
-        .cs-consent a { color: var(--gris); text-decoration: underline; }
+        .cs-consent a { color: rgba(245,239,228,0.55); text-decoration: underline; }
 
-        .cs-success {
-          padding: 24px 20px; border-radius: 8px;
-          background: rgba(61,107,82,0.07);
-          border: 1px solid rgba(61,107,82,0.15);
-          text-align: center;
-        }
-        .cs-success-icon { font-size: 24px; margin-bottom: 12px; }
+        .cs-success { text-align: center; }
+        .cs-success-icon { font-size: 24px; margin-bottom: 12px; color: #E8C97A; }
         .cs-success h3 {
           font-family: "Playfair Display", serif; font-size: 18px; font-weight: 400;
-          color: var(--sauge-dk); margin-bottom: 6px;
+          color: #F5EFE4; margin-bottom: 6px;
         }
-        .cs-success p { font-size: 13.5px; font-weight: 300; color: var(--gris); line-height: 1.6; }
+        .cs-success p { font-size: 13.5px; font-weight: 300; color: rgba(245,239,228,0.7); line-height: 1.6; }
 
-        .cs-error { font-size: 13px; color: #c0392b; margin-top: 8px; text-align: center; }
+        .cs-error { font-size: 13px; color: #ffb3a0; margin-top: 8px; text-align: center; }
 
         .cs-back {
           display: inline-flex; align-items: center; gap: 5px;
@@ -145,20 +133,7 @@ export default function ComingSoon({ offre, titre, description, couleur }) {
 
       <div className="cs-wrap">
 
-        <nav className="cs-nav">
-          <a href="/">
-            <svg width="26" height="26" viewBox="-14 -14 28 28" xmlns="http://www.w3.org/2000/svg">
-              <rect transform="translate(0,-8) rotate(45)" x="-4" y="-4" width="8" height="8" rx="1.5" fill="#B8612A"/>
-              <rect transform="translate(8,0) rotate(45)" x="-4" y="-4" width="8" height="8" rx="1.5" fill="#2E4A3A"/>
-              <rect transform="translate(-8,0) rotate(45)" x="-4" y="-4" width="8" height="8" rx="1.5" fill="#E8C97A"/>
-              <rect transform="translate(0,8) rotate(45)" x="-4" y="-4" width="8" height="8" rx="1.5" fill="#6B9E7A"/>
-            </svg>
-            <div className="nav-logotype">
-              <span className="studio">Studio</span>
-              <span className="kova">Kova</span>
-            </div>
-          </a>
-        </nav>
+        <Nav showBack={true} />
 
         <main className="cs-main">
 

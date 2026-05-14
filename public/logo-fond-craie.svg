@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="220" height="70" viewBox="0 0 220 70">
+  <rect width="220" height="70" fill="#F5EFE4"/>
+  <g transform="translate(35,35)">
+    <rect transform="translate(0,-8) rotate(45)" x="-4.5" y="-4.5" width="9" height="9" rx="1.5" fill="#C4714A"/>
+    <rect transform="translate(8,0) rotate(45)" x="-4.5" y="-4.5" width="9" height="9" rx="1.5" fill="#2E4A3A"/>
+    <rect transform="translate(-8,0) rotate(45)" x="-4.5" y="-4.5" width="9" height="9" rx="1.5" fill="#E8C97A"/>
+    <rect transform="translate(0,8) rotate(45)" x="-4.5" y="-4.5" width="9" height="9" rx="1.5" fill="#6B9E7A"/>
+  </g>
+  <text x="58" y="30" font-family="'Helvetica Neue', Arial, sans-serif" font-size="10" font-weight="300" letter-spacing="2" fill="#2E4A3A">STUDIO</text>
+  <text x="56" y="52" font-family="'Helvetica Neue', Arial, sans-serif" font-size="22" font-weight="300" letter-spacing="2" fill="#2E4A3A">KOVA</text>
+</svg>

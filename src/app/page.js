@@ -1,8 +1,8 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import Nav from "@/components/Nav";
 
 export default function Home() {
-  const [menuOpen, setMenuOpen] = useState(false);
   const revealRefs = useRef([]);
 
   useEffect(() => {
@@ -45,45 +45,10 @@ export default function Home() {
         html { scroll-behavior: smooth; }
         body { background: var(--craie); font-family: "DM Sans", sans-serif; color: var(--sauge-dk); overflow-x: hidden; -webkit-font-smoothing: antialiased; }
 
-        nav {
-          position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-          display: flex; align-items: center; justify-content: space-between;
-          padding: 0 20px; height: 58px;
-          background: rgba(245,239,228,0.94);
-          backdrop-filter: blur(14px);
-          border-bottom: 1px solid rgba(211,209,199,0.5);
-        }
-        .nav-logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-        .nav-logotype { display: flex; flex-direction: column; line-height: 1; gap: 1px; }
-        .nav-logotype .studio { font-size: 7.5px; font-weight: 500; letter-spacing: 0.2em; color: var(--sauge-lt); text-transform: uppercase; }
-        .nav-logotype .kova { font-size: 19px; font-weight: 300; letter-spacing: 0.03em; color: var(--sauge-dk); }
-        .hamburger { background: none; border: none; cursor: pointer; display: flex; flex-direction: column; gap: 5px; padding: 6px; }
-        .hamburger span { display: block; width: 22px; height: 1.5px; background: var(--sauge-dk); transition: all 0.3s ease; border-radius: 1px; }
-        .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
-        .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-        .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-
-        .mobile-menu {
-          position: fixed; top: 58px; left: 0; right: 0; z-index: 99;
-          background: var(--craie);
-          transform: translateY(-8px); opacity: 0; pointer-events: none;
-          transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-          border-bottom: 1px solid var(--gris-clair);
-        }
-        .mobile-menu.open { transform: translateY(0); opacity: 1; pointer-events: all; }
-        .mobile-menu a {
-          display: block; padding: 15px 24px;
-          font-size: 14px; font-weight: 400; color: var(--sauge-dk); text-decoration: none;
-          border-bottom: 1px solid rgba(211,209,199,0.5);
-          transition: padding-left 0.2s, color 0.2s;
-        }
-        .mobile-menu a:last-child { border: none; }
-        .mobile-menu a:hover { padding-left: 30px; color: var(--cuivre); }
-
         .hero {
           position: relative; height: 100svh; min-height: 620px;
           display: flex; flex-direction: column; justify-content: flex-end;
-          padding: 0 24px 52px; overflow: hidden; padding-top: 58px;
+          padding: 0 24px 52px; overflow: hidden;
         }
         .hero-bg {
           position: absolute; inset: 0;
@@ -299,30 +264,7 @@ export default function Home() {
       `}</style>
 
       {/* NAV */}
-      <nav>
-        <a href="#" className="nav-logo">
-          <svg width="28" height="28" viewBox="-14 -14 28 28" xmlns="http://www.w3.org/2000/svg">
-            <rect transform="translate(0,-8) rotate(45)" x="-4" y="-4" width="8" height="8" rx="1.5" fill="#B8612A"/>
-            <rect transform="translate(8,0) rotate(45)" x="-4" y="-4" width="8" height="8" rx="1.5" fill="#2E4A3A"/>
-            <rect transform="translate(-8,0) rotate(45)" x="-4" y="-4" width="8" height="8" rx="1.5" fill="#E8C97A"/>
-            <rect transform="translate(0,8) rotate(45)" x="-4" y="-4" width="8" height="8" rx="1.5" fill="#6B9E7A"/>
-          </svg>
-          <div className="nav-logotype">
-            <span className="studio">Studio</span>
-            <span className="kova">Kova</span>
-          </div>
-        </a>
-        <button className={`hamburger${menuOpen ? " open" : ""}`} onClick={() => setMenuOpen(!menuOpen)} aria-label="Menu">
-          <span></span><span></span><span></span>
-        </button>
-      </nav>
-
-      <div className={`mobile-menu${menuOpen ? " open" : ""}`}>
-        <a href="#offres" onClick={() => setMenuOpen(false)}>Les offres</a>
-        <a href="#process" onClick={() => setMenuOpen(false)}>Comment ça marche</a>
-        <a href="#temoignages" onClick={() => setMenuOpen(false)}>Témoignages</a>
-        <a href="mailto:hello@studiokova.fr" onClick={() => setMenuOpen(false)}>Contact</a>
-      </div>
+      <Nav showBack={false} />
 
       {/* HERO */}
       <section className="hero">
@@ -332,7 +274,7 @@ export default function Home() {
           <h1>La déco personnalisée,<br /><em>enfin accessible.</em></h1>
           <p className="hero-sub">Vous allez adorer rentrer chez vous.</p>
           <div className="hero-ctas">
-            <a href="#offres" className="btn-primary">Je trouve mon style →</a>
+            <a href="/quiz" className="btn-primary">Je trouve mon style →</a>
             <a href="#offres" className="btn-ghost">Voir les offres</a>
           </div>
         </div>
@@ -354,11 +296,11 @@ export default function Home() {
             </div>
             <div className="card-body">
               <div className="card-title">Je trouve mon style</div>
-              <p className="card-desc">Un quiz de style et je reçois ma palette de couleurs et mon moodboard par email.</p>
+              <p className="card-desc">Un quiz de style et je reçois mon profil déco personnalisé par email.</p>
               <ul className="card-features">
-                <li>Palette de couleurs personnalisée</li>
-                <li>Moodboard sur mesure</li>
-                <li>Livraison par email</li>
+                <li>Votre profil déco personnalisé</li>
+                <li>Palette de couleurs sur mesure</li>
+                <li>3 premières actions concrètes</li>
               </ul>
               <a href="/quiz" className="btn-dark" onClick={() => window.plausible?.("Clic offre gratuite")}>C'est parti →</a>
             </div>
@@ -477,7 +419,7 @@ export default function Home() {
         <div className="section-cta-inner">
           <h2>Votre style existe déjà.<br /><em>Je vous aide à le trouver.</em></h2>
           <div className="cta-buttons">
-            <a href="#offres" className="btn-craie">Je trouve mon style →</a>
+            <a href="/quiz" className="btn-craie">Je trouve mon style →</a>
             <a href="#offres" className="btn-outline-craie">Voir toutes les offres</a>
           </div>
         </div>
