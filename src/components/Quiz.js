@@ -396,7 +396,7 @@ export default function Quiz() {
                       { v: "F", label: "Pop & éclectique" },
                     ].map(({ v, label }) => (
                       <div key={v} className={`qz-photo${(answers[3] || []).includes(v) ? " sel" : ""}`} onClick={() => togglePhoto(v)}>
-                        <img src={`/${v}.jpg`} alt={label} loading="lazy" />
+                        <img src={`/${v}.webp`} alt={label} loading="lazy" />
                         <div className="qz-photo-lbl">{label}</div>
                         <div className="qz-photo-chk"><CheckIcon /></div>
                       </div>
