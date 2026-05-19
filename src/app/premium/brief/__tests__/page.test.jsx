@@ -317,3 +317,172 @@ describe('PremiumBriefPage — étape 3 (pièces)', () => {
     expect(screen.getByText(/Étape 3\/4/)).toBeInTheDocument()
   })
 })
+
+// ── Fichiers pièce ─────────────────────────────────────────────────────────────
+
+describe('PremiumBriefPage — upload fichiers pièce', () => {
+  beforeAll(() => {
+    global.URL.createObjectURL = jest.fn(() => 'blob:mock-url')
+    global.URL.revokeObjectURL = jest.fn()
+  })
+
+  async function goToStep3WithFiles(files) {
+    global.fetch = mockSessionAndProfile(null, 1)
+    const { container } = render(<PremiumBriefPage />)
+    await goToStep2()
+    await waitFor(() => expect(screen.getByText('Ambiance recherchée')).toBeInTheDocument())
+
+    fireEvent.click(screen.getByRole('button', { name: 'Cosy' }))
+    fireEvent.change(screen.getByPlaceholderText(/J'adore le bleu nuit/), { target: { value: 'Bleu' } })
+    fireEvent.change(screen.getByPlaceholderText('https://pinterest.com/...'), { target: { value: 'https://pinterest.com/test' } })
+    fireEvent.click(screen.getByRole('button', { name: /Continuer/ }))
+    await waitFor(() => expect(screen.getByText('Parlez-moi de cette pièce')).toBeInTheDocument())
+
+    if (files) {
+      const input = container.querySelector('input[type="file"]')
+      Object.defineProperty(input, 'files', { value: files, configurable: true })
+      fireEvent.change(input, { target: { files } })
+    }
+    return { container }
+  }
+
+  it('affiche les aperçus quand des photos sont ajoutées', async () => {
+    const files = [
+      new File(['a'], 'a.jpg', { type: 'image/jpeg' }),
+      new File(['b'], 'b.jpg', { type: 'image/jpeg' }),
+      new File(['c'], 'c.jpg', { type: 'image/jpeg' }),
+    ]
+    await goToStep3WithFiles(files)
+    const previews = document.querySelectorAll('.pb-thumb')
+    expect(previews.length).toBe(3)
+  })
+
+  it('supprime un aperçu quand on clique sur le bouton supprimer', async () => {
+    const files = [
+      new File(['a'], 'a.jpg', { type: 'image/jpeg' }),
+      new File(['b'], 'b.jpg', { type: 'image/jpeg' }),
+    ]
+    await goToStep3WithFiles(files)
+    const delBtns = screen.getAllByRole('button', { name: /Supprimer/ })
+    fireEvent.click(delBtns[0])
+    await waitFor(() => {
+      expect(document.querySelectorAll('.pb-thumb').length).toBe(1)
+    })
+  })
+})
+
+// ── Soumission brief ──────────────────────────────────────────────────────────
+
+describe('PremiumBriefPage — soumission', () => {
+  beforeAll(() => {
+    global.URL.createObjectURL = jest.fn(() => 'blob:mock-url')
+    global.URL.revokeObjectURL = jest.fn()
+    window.scrollTo = jest.fn()
+  })
+
+  it('affiche une erreur si la session échoue au fetch', async () => {
+    global.fetch = jest.fn().mockRejectedValueOnce(new Error('Network error'))
+    render(<PremiumBriefPage />)
+    await waitFor(() => {
+      expect(screen.getByRole('alert')).toBeInTheDocument()
+    })
+  })
+
+  it('affiche le lien de contact dans l\'état d\'erreur de session', async () => {
+    global.fetch = jest.fn().mockResolvedValueOnce({
+      json: () => Promise.resolve({ error: 'Session introuvable' }),
+    })
+    render(<PremiumBriefPage />)
+    await waitFor(() => {
+      expect(screen.getByRole('link', { name: /hello@studiokova.fr/ })).toBeInTheDocument()
+    })
+  })
+})
+
+// ── Intégration complète : étape 3 → soumission ────────────────────────────────
+
+describe('PremiumBriefPage — intégration complète', () => {
+  const makeFiles = () => [
+    new File(['a'], 'a.jpg', { type: 'image/jpeg' }),
+    new File(['b'], 'b.jpg', { type: 'image/jpeg' }),
+    new File(['c'], 'c.jpg', { type: 'image/jpeg' }),
+  ]
+
+  async function renderAndNavigateToStep3() {
+    global.fetch = jest.fn()
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ email: 'a@test.fr', rooms_count: 1 }) })
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ profile: null }) })
+
+    const { container } = render(<PremiumBriefPage />)
+    await waitForStep1()
+    fillStep1()
+    fireEvent.click(screen.getByRole('button', { name: /Continuer/ }))
+    await waitFor(() => expect(screen.getByText('Ambiance recherchée')).toBeInTheDocument())
+    fireEvent.click(screen.getByRole('button', { name: 'Cosy' }))
+    fireEvent.change(screen.getByPlaceholderText(/J'adore le bleu nuit/), { target: { value: 'Bleu' } })
+    fireEvent.change(screen.getByPlaceholderText('https://pinterest.com/...'), { target: { value: 'https://p.com' } })
+    fireEvent.click(screen.getByRole('button', { name: /Continuer/ }))
+    await waitFor(() => expect(screen.getByText('Parlez-moi de cette pièce')).toBeInTheDocument())
+    return container
+  }
+
+  async function fillRoomForm(container) {
+    fireEvent.click(screen.getByRole('button', { name: 'Salon' }))
+    const fileInput = container.querySelector('input[type="file"]')
+    const files = makeFiles()
+    Object.defineProperty(fileInput, 'files', { value: files, configurable: true })
+    fireEvent.change(fileInput, { target: { files } })
+    fireEvent.click(screen.getByRole('button', { name: /Repartir de zéro/ }))
+    fireEvent.change(screen.getByPlaceholderText(/Soyez honnête/), { target: { value: 'Trop chargé' } })
+    fireEvent.change(screen.getByPlaceholderText(/apaisée/), { target: { value: 'Apaisée' } })
+    fireEvent.click(screen.getByRole('button', { name: '500–1000€' }))
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /Envoyer mon brief/ })).not.toBeDisabled()
+    })
+  }
+
+  it('soumet le brief et redirige vers /premium/merci', async () => {
+    const container = await renderAndNavigateToStep3()
+    await fillRoomForm(container)
+
+    global.fetch
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ urls: ['u1', 'u2', 'u3'] }) })
+      .mockResolvedValueOnce({ json: () => Promise.resolve({}) })
+
+    fireEvent.click(screen.getByRole('button', { name: /Envoyer mon brief/ }))
+
+    await waitFor(() => {
+      expect(window.location.href).toBe('/premium/merci')
+    })
+  })
+
+  it('affiche une erreur si l\'upload échoue', async () => {
+    const container = await renderAndNavigateToStep3()
+    await fillRoomForm(container)
+
+    global.fetch.mockResolvedValueOnce({
+      json: () => Promise.resolve({ error: 'Upload failed' }),
+    })
+
+    fireEvent.click(screen.getByRole('button', { name: /Envoyer mon brief/ }))
+
+    await waitFor(() => {
+      expect(screen.getByText(/Erreur lors de l'envoi des photos/)).toBeInTheDocument()
+    })
+  })
+
+  it('affiche une erreur si la soumission du brief échoue', async () => {
+    const container = await renderAndNavigateToStep3()
+    await fillRoomForm(container)
+
+    global.fetch
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ urls: ['u1', 'u2', 'u3'] }) })
+      .mockResolvedValueOnce({ json: () => Promise.resolve({ error: 'Erreur serveur' }) })
+
+    fireEvent.click(screen.getByRole('button', { name: /Envoyer mon brief/ }))
+
+    await waitFor(() => {
+      expect(screen.getByText(/Erreur lors de l'envoi/)).toBeInTheDocument()
+    })
+  })
+})

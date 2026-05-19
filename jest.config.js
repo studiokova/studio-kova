@@ -28,7 +28,7 @@ const customConfig = {
     '!src/app/analyse/**',
   ],
   coverageThreshold: {
-    global: { branches: 45, functions: 40, lines: 45, statements: 45 },
+    global: { branches: 80, functions: 80, lines: 80, statements: 80 },
   },
 };
 

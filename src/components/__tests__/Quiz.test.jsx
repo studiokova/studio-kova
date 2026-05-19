@@ -12,30 +12,33 @@ beforeAll(() => {
 // Q2=A (Naturel & lumière) → chaud:4, epure:4, neutre_col:4
 // Q3=Tons naturels → chaud:2, neutre_col:2
 // → chaud|epure|neutre
-function remplirEtSoumettre() {
-  // Q1 — attrait principal
+function remplirQuiz() {
   fireEvent.click(screen.getByText('Les couleurs'));
   fireEvent.click(screen.getByText('Suivant →'));
 
-  // Q2 — photos ambiances (div avec onClick)
   fireEvent.click(screen.getByText('Naturel & lumière'));
   fireEvent.click(screen.getByText('Suivant →'));
 
-  // Q3 — palette
   fireEvent.click(screen.getByText('Tons naturels (lin, rotin, sable)'));
   fireEvent.click(screen.getByText('Suivant →'));
 
-  // Q4 — pièce problématique
   fireEvent.click(screen.getByText('Salon'));
   fireEvent.click(screen.getByText('Suivant →'));
 
-  // Q5 — blocage
   fireEvent.click(screen.getByText('Je ne sais pas par où commencer'));
   fireEvent.click(screen.getByText('Suivant →'));
 
-  // Q6 — budget (déclenche setPhase("loading"))
+  // Q6 — déclenche setPhase("gate")
   fireEvent.click(screen.getByText('Entre 500€ et 1 500€'));
   fireEvent.click(screen.getByText('Voir mon profil →'));
+}
+
+async function soumettreGate(emailValue = 'test@example.fr') {
+  const input = screen.getByPlaceholderText('votre@email.fr');
+  fireEvent.change(input, { target: { value: emailValue } });
+  await act(async () => {
+    fireEvent.click(screen.getByText('Recevoir ma palette →'));
+  });
 }
 
 describe('Quiz — navigation et questions', () => {
@@ -131,7 +134,7 @@ describe('Quiz — navigation et questions', () => {
   });
 });
 
-describe('Quiz — phase loading et résultat', () => {
+describe('Quiz — email gate', () => {
   beforeEach(() => {
     jest.useFakeTimers();
     global.fetch = jest.fn();
@@ -143,46 +146,57 @@ describe('Quiz — phase loading et résultat', () => {
     jest.clearAllMocks();
   });
 
-  it('affiche la phase loading après le dernier Suivant', () => {
+  it('affiche le gate avec l\'aperçu du profil après Q6', () => {
     render(<Quiz />);
-    remplirEtSoumettre();
-    expect(screen.getByText(/On prépare votre profil/)).toBeInTheDocument();
+    remplirQuiz();
+    // Le nom de profil calculé est visible
+    expect(screen.getByText('Scandinave chaleureux')).toBeInTheDocument();
+    // Le formulaire email est présent
+    expect(screen.getByPlaceholderText('votre@email.fr')).toBeInTheDocument();
+    expect(screen.getByText('Recevoir ma palette →')).toBeInTheDocument();
   });
 
-  it('affiche le profil après 2 secondes de loading', async () => {
+  it('affiche les axes et la palette dans l\'aperçu', () => {
     render(<Quiz />);
-    remplirEtSoumettre();
-
-    act(() => { jest.advanceTimersByTime(2100); });
-
-    await waitFor(() => {
-      expect(screen.getByText('Scandinave chaleureux')).toBeInTheDocument();
-    });
+    remplirQuiz();
+    expect(screen.getByText(/Doux · Épuré · Naturel/)).toBeInTheDocument();
   });
 
-  it('affiche le formulaire email dans les résultats', async () => {
+  it('affiche une erreur si l\'email est invalide', () => {
     render(<Quiz />);
-    remplirEtSoumettre();
-    act(() => { jest.advanceTimersByTime(2100); });
+    remplirQuiz();
 
-    await waitFor(() => {
-      expect(screen.getByPlaceholderText('votre@email.fr')).toBeInTheDocument();
-    });
+    const input = screen.getByPlaceholderText('votre@email.fr');
+    fireEvent.change(input, { target: { value: 'invalide' } });
+    fireEvent.click(screen.getByText('Recevoir ma palette →'));
+
+    expect(screen.getByText(/Adresse email invalide/)).toBeInTheDocument();
+    expect(global.fetch).not.toHaveBeenCalled();
   });
 
-  it('affiche le bouton CTA dans les résultats', async () => {
+  it('n\'envoie pas si l\'email est vide', () => {
     render(<Quiz />);
-    remplirEtSoumettre();
-    act(() => { jest.advanceTimersByTime(2100); });
+    remplirQuiz();
+    fireEvent.click(screen.getByText('Recevoir ma palette →'));
 
-    await waitFor(() => {
-      // budget 500-1500€ → CTA /surmesure
-      expect(screen.getByRole('link', { name: /Je vous confie mon intérieur/ })).toBeInTheDocument();
-    });
+    expect(screen.getByText(/Adresse email invalide/)).toBeInTheDocument();
+    expect(global.fetch).not.toHaveBeenCalled();
+  });
+
+  it('efface l\'erreur quand l\'utilisateur retape', () => {
+    render(<Quiz />);
+    remplirQuiz();
+
+    fireEvent.click(screen.getByText('Recevoir ma palette →'));
+    expect(screen.getByText(/Adresse email invalide/)).toBeInTheDocument();
+
+    const input = screen.getByPlaceholderText('votre@email.fr');
+    fireEvent.change(input, { target: { value: 'a' } });
+    expect(screen.queryByText(/Adresse email invalide/)).not.toBeInTheDocument();
   });
 });
 
-describe('Quiz — capture email', () => {
+describe('Quiz — résultat', () => {
   beforeEach(() => {
     jest.useFakeTimers();
     global.fetch = jest.fn();
@@ -195,58 +209,78 @@ describe('Quiz — capture email', () => {
   });
 
   async function allerAuResultat() {
-    render(<Quiz />);
-    remplirEtSoumettre();
-    act(() => { jest.advanceTimersByTime(2100); });
-    await waitFor(() => screen.getByPlaceholderText('votre@email.fr'));
-  }
-
-  it("soumet l'email avec succès et affiche la confirmation", async () => {
     global.fetch
       .mockResolvedValueOnce({ ok: true, json: async () => ({ success: true }) })
-      .mockResolvedValueOnce({ ok: true, json: async () => ({}) }); // /api/profile
+      .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
 
+    render(<Quiz />);
+    remplirQuiz();
+    await soumettreGate();
+    await waitFor(() => screen.getByText('Vos 3 premières actions'));
+  }
+
+  it('affiche le profil complet immédiatement après le gate', async () => {
     await allerAuResultat();
-
-    const emailInput = screen.getByPlaceholderText('votre@email.fr');
-    fireEvent.change(emailInput, { target: { value: 'test@example.fr' } });
-
-    await act(async () => {
-      fireEvent.click(screen.getByText("Recevoir mon profil →"));
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText(/C'est noté/)).toBeInTheDocument();
-    });
+    expect(screen.getByText('Scandinave chaleureux')).toBeInTheDocument();
+    expect(screen.getByText(/Doux · Épuré · Naturel/)).toBeInTheDocument();
   });
 
-  it("affiche une erreur si l'envoi échoue", async () => {
-    global.fetch.mockResolvedValueOnce({
-      ok: true,
-      json: async () => ({ success: false }),
-    });
-
+  it('affiche la section actions', async () => {
     await allerAuResultat();
-
-    const emailInput = screen.getByPlaceholderText('votre@email.fr');
-    fireEvent.change(emailInput, { target: { value: 'test@example.fr' } });
-
-    await act(async () => {
-      fireEvent.click(screen.getByText("Recevoir mon profil →"));
-    });
-
-    await waitFor(() => {
-      expect(screen.getByText(/Une erreur s'est produite/)).toBeInTheDocument();
-    });
+    expect(screen.getByText('Vos 3 premières actions')).toBeInTheDocument();
   });
 
-  it("n'envoie pas si l'email est invalide (sans @)", async () => {
+  it('affiche le bouton CTA avec le bon libellé', async () => {
     await allerAuResultat();
+    // budget 500-1500€ → CTA /surmesure
+    expect(screen.getByRole('link', { name: /Je vous confie mon intérieur/ })).toBeInTheDocument();
+  });
 
-    const emailInput = screen.getByPlaceholderText('votre@email.fr');
-    fireEvent.change(emailInput, { target: { value: 'invalide' } });
-    fireEvent.click(screen.getByText("Recevoir mon profil →"));
+  it('n\'affiche pas de formulaire email dans la page résultat', async () => {
+    await allerAuResultat();
+    // L'input email du gate a disparu
+    expect(screen.queryByPlaceholderText('votre@email.fr')).not.toBeInTheDocument();
+  });
+});
 
-    expect(global.fetch).not.toHaveBeenCalled();
+describe('Quiz — soumission email via gate', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+    global.fetch = jest.fn();
+  });
+
+  afterEach(() => {
+    act(() => { jest.runOnlyPendingTimers(); });
+    jest.useRealTimers();
+    jest.clearAllMocks();
+  });
+
+  it('appelle /api/subscribe lors de la soumission du gate', async () => {
+    global.fetch
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ success: true }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+    render(<Quiz />);
+    remplirQuiz();
+    await soumettreGate('contact@test.fr');
+
+    expect(global.fetch).toHaveBeenCalledWith(
+      '/api/subscribe',
+      expect.objectContaining({ method: 'POST' })
+    );
+  });
+
+  it('envoie le profil calculé avec l\'email', async () => {
+    global.fetch
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ success: true }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+    render(<Quiz />);
+    remplirQuiz();
+    await soumettreGate('contact@test.fr');
+
+    const body = JSON.parse(global.fetch.mock.calls[0][1].body);
+    expect(body.email).toBe('contact@test.fr');
+    expect(body.attributes.PROFIL).toBe('Scandinave chaleureux');
   });
 });

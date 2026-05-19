@@ -170,4 +170,42 @@ describe('ConfirmationContent — soumission', () => {
 
     expect(screen.getByText('Envoi…')).toBeInTheDocument();
   });
+
+  it('affiche une erreur si fetch lève une exception', async () => {
+    global.fetch.mockRejectedValueOnce(new Error('Network error'));
+
+    render(<ConfirmationContent />);
+    goToStep(4);
+
+    await act(async () => {
+      fireEvent.click(screen.getByRole('button', { name: /Envoyer mon brief/ }));
+    });
+
+    await waitFor(() => {
+      expect(screen.getByText(/Une erreur.*produite/)).toBeInTheDocument();
+    });
+  });
+});
+
+describe('ConfirmationContent — étape 4 avec lien photos', () => {
+  it('affiche le lien photos dans le récap si renseigné', () => {
+    render(<ConfirmationContent />);
+    fireEvent.change(screen.getByLabelText(/Pièce\(s\) concernée\(s\)/), { target: { value: 'Salon' } });
+    fireEvent.change(screen.getByLabelText(/Lien vers vos photos/), { target: { value: 'https://drive.google.com/test' } });
+    fireEvent.click(screen.getByRole('button', { name: /Continuer/ }));
+    fireEvent.change(screen.getByLabelText(/Décrivez votre style/), { target: { value: 'Épuré' } });
+    fireEvent.click(screen.getByRole('button', { name: /Continuer/ }));
+    fireEvent.change(screen.getByLabelText(/Budget pour les meubles/), { target: { value: '500€' } });
+    fireEvent.click(screen.getByRole('button', { name: /Continuer/ }));
+    expect(screen.getByText('https://drive.google.com/test')).toBeInTheDocument();
+  });
+
+  it('revient à l\'étape précédente avec le bouton Précédent', () => {
+    render(<ConfirmationContent />);
+    fireEvent.change(screen.getByLabelText(/Pièce\(s\) concernée\(s\)/), { target: { value: 'Salon' } });
+    fireEvent.click(screen.getByRole('button', { name: /Continuer/ }));
+    expect(screen.getByText(/Votre style en une phrase/)).toBeInTheDocument();
+    fireEvent.click(screen.getByRole('button', { name: /Précédent/ }));
+    expect(screen.getByText(/Montrez-moi votre pièce/)).toBeInTheDocument();
+  });
 });

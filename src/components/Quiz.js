@@ -9,8 +9,26 @@ import { OFFERS } from "@/lib/config";
 import { track } from "@/lib/plausible";
 import { useConsent } from "@/app/components/ConsentContext";
 import { getStoredUtms } from "@/lib/utmTracking";
+import { PROFILE_VALIDATIONS } from "@/lib/profileValidations";
 
 const TOTAL = 6;
+
+function formatPieceForSentence(piece) {
+  const map = {
+    "Salon": "votre salon",
+    "Chambre": "votre chambre",
+    "Cuisine / salle à manger": "votre cuisine",
+    "Entrée": "votre entrée",
+    "Salle de bain": "votre salle de bain",
+  };
+  return map[piece] || "votre pièce";
+}
+
+const GateCheckIcon = () => (
+  <svg width="16" height="16" viewBox="0 0 16 16" style={{ flexShrink: 0, marginTop: "2px" }}>
+    <path d="M3 8.5L6 11.5L13 4.5" stroke="#3D6B52" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+  </svg>
+);
 
 const SCORING = {
   1: {
@@ -470,10 +488,12 @@ const CheckIcon = () => (
 export default function Quiz() {
   const [step, setStep] = useState(1);
   const [answers, setAnswers] = useState({});
-  const [phase, setPhase] = useState("quiz"); // quiz | loading | result
+  const [phase, setPhase] = useState("quiz"); // quiz | gate | loading | result
+  const [profile, setProfile] = useState(null);
   const [email, setEmail] = useState("");
   const [emailStatus, setEmailStatus] = useState(null);
   const [marketingConsent, setMarketingConsent] = useState(false);
+  const [gateError, setGateError] = useState("");
   const { consent } = useConsent();
 
   useEffect(() => {
@@ -510,7 +530,10 @@ export default function Quiz() {
       : String(answers[step] ?? "");
     track("Quiz Step Completed", { step, answer: answerVal });
     if (step < TOTAL) setStep(s => s + 1);
-    else setPhase("loading");
+    else {
+      setProfile(computeProfile(answers));
+      setPhase("gate");
+    }
   };
 
   const setAnswer = (q, val) => setAnswers(prev => ({ ...prev, [q]: val }));
@@ -524,8 +547,20 @@ export default function Quiz() {
     });
   };
 
+  const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+  const submitGate = () => {
+    if (!EMAIL_REGEX.test(email)) {
+      setGateError("Adresse email invalide");
+      return;
+    }
+    setGateError("");
+    setPhase("result"); // profil déjà calculé au gate — pas besoin du loader
+    submitEmail();
+  };
+
   const submitEmail = async () => {
-    if (!email || !email.includes("@")) return;
+    if (!email || !EMAIL_REGEX.test(email) || !profile) return;
     setEmailStatus("loading");
 
     let eventId = null;
@@ -598,8 +633,6 @@ export default function Quiz() {
       setEmailStatus("error");
     }
   };
-
-  const profile = phase === "result" ? computeProfile(answers) : null;
 
   const ctaLabel = () => {
     const b = answers[6];
@@ -678,10 +711,104 @@ export default function Quiz() {
         .qz-cta { display: block; width: 100%; padding: 18px 24px; background: var(--sauge-fonce, #2E4A3A); color: white; border: none; border-radius: 50px; font-family: "DM Sans", sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; text-align: center; text-decoration: none; transition: opacity 0.18s, transform 0.15s; }
         .qz-cta:hover { opacity: 0.9; transform: translateY(-2px); }
 
+        .qz-gate { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; background: var(--craie, #F5EFE4); overflow-y: auto; z-index: 50; }
+        .qz-gate-inner { width: 100%; max-width: 600px; margin: 0 auto; padding: 40px 24px 80px; }
+        .qz-gate-preview { margin-bottom: 4px; }
+        .qz-gate-blur-wrap { position: relative; margin-bottom: 28px; max-height: 180px; overflow: hidden; }
+        .qz-gate-blurred { filter: blur(6px); user-select: none; pointer-events: none; }
+        .qz-gate-blur-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(245,239,228,0.05) 0%, var(--craie, #F5EFE4) 72%); }
+        .qz-gate-sub { font-size: 16px; color: var(--gris, #888780); margin-bottom: 20px; }
+        .qz-gate-in { width: 100%; padding: 16px; border: 1.5px solid var(--gris-clair, #D3D1C7); border-radius: 8px; background: white; font-family: "DM Sans", sans-serif; font-size: 16px; color: var(--sauge-fonce, #2E4A3A); outline: none; display: block; margin-bottom: 12px; transition: border-color 0.18s; }
+        .qz-gate-in:focus { border-color: var(--sauge-med, #3D6B52); }
+        .qz-gate-in::placeholder { color: var(--gris, #888780); }
+        .qz-gate-in.err { border-color: #c0392b; }
+        .qz-gate-error { font-size: 13px; color: #c0392b; display: block; margin-bottom: 10px; }
+        .qz-gate-consent { margin-bottom: 16px; }
+        .qz-gate-btn { width: 100%; padding: 16px; background: var(--cuivre, #B8612A); color: white; border: none; border-radius: 10px; font-family: "DM Sans", sans-serif; font-size: 16px; font-weight: 500; cursor: pointer; transition: opacity 0.18s, transform 0.15s; }
+        .qz-gate-btn:hover { opacity: 0.9; transform: translateY(-1px); }
+        .qz-gate-validation { font-family: "Playfair Display", serif; font-style: italic; font-size: 16px; line-height: 1.5; color: var(--sauge-fonce, #2E4A3A); margin: 0 0 22px 0; }
+        .qz-gate-benefits { background: rgba(255,255,255,0.5); border-radius: 12px; padding: 16px; margin-bottom: 18px; }
+        .qz-gate-benefits-label { font-size: 11px; font-weight: 500; color: var(--cuivre, #B8612A); text-transform: uppercase; letter-spacing: 0.8px; margin: 0 0 12px 0; }
+        .qz-gate-benefits-list { list-style: none; padding: 0; margin: 0; }
+        .qz-gate-benefits-list li { font-size: 13px; color: var(--sauge-fonce, #2E4A3A); line-height: 1.5; display: flex; gap: 10px; align-items: flex-start; margin-bottom: 10px; }
+        .qz-gate-benefits-list li:last-child { margin-bottom: 0; }
+        .qz-gate-privacy { font-size: 11px; color: var(--sauge-fonce, #2E4A3A); opacity: 0.5; text-align: center; margin: 12px 0 0 0; }
+
         @media (max-width: 480px) {
           .qz-screen { padding: 24px 16px 110px; }
         }
       `}</style>
+
+      {/* ─── GATE ─── */}
+      {phase === "gate" && profile && (
+        <>
+          <KovaNav showBack backLabel="Accueil" backHref="/" />
+          <div className="qz-gate">
+            <div className="qz-gate-inner">
+              {/* Aperçu du profil — nom + axes visibles, reste flouté */}
+              <div className="qz-gate-preview">
+                <h1 className="qz-result-name">{profile.name}</h1>
+                <p className="qz-result-axes" style={{ marginBottom: "24px" }}>{profile.axes}</p>
+                <div className="qz-gate-blur-wrap">
+                  <div className="qz-gate-blurred">
+                    <div className="qz-palette" style={{ marginBottom: "20px" }}>
+                      {profile.palette.map(p => (
+                        <div key={p.name} className="qz-swatch">
+                          <div className="qz-swatch-dot" style={{ background: p.color }} />
+                          <span className="qz-swatch-name">{p.name.charAt(0).toUpperCase() + p.name.slice(1)}</span>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="qz-result-text">{profile.text}</p>
+                  </div>
+                  <div className="qz-gate-blur-overlay" />
+                </div>
+              </div>
+
+              {/* Phrase de validation du profil */}
+              <p className="qz-gate-validation">
+                {PROFILE_VALIDATIONS[profile.name]}
+              </p>
+
+              {/* Bénéfices email */}
+              <div className="qz-gate-benefits">
+                <p className="qz-gate-benefits-label">La suite par email</p>
+                <ul className="qz-gate-benefits-list">
+                  <li><GateCheckIcon /> Votre palette détaillée avec codes</li>
+                  <li><GateCheckIcon /> 3 actions concrètes pour {formatPieceForSentence(answers[4])}</li>
+                  <li><GateCheckIcon /> Les matières qui vous correspondent</li>
+                </ul>
+              </div>
+
+              {/* Formulaire */}
+              <input
+                type="email"
+                className={`qz-gate-in${gateError ? " err" : ""}`}
+                placeholder="votre@email.fr"
+                value={email}
+                onChange={e => { setEmail(e.target.value); setGateError(""); }}
+                onKeyDown={e => e.key === "Enter" && submitGate()}
+                autoFocus
+              />
+              {gateError && <span className="qz-gate-error">{gateError}</span>}
+              <div className="qz-gate-consent">
+                <KovaCheckbox
+                  id="gate-marketing-consent"
+                  checked={marketingConsent}
+                  onChange={e => setMarketingConsent(e.target.checked)}
+                >
+                  Je veux bien recevoir vos prochains conseils déco. Désinscription en 1 clic.
+                </KovaCheckbox>
+              </div>
+              <button className="qz-gate-btn" onClick={submitGate}>
+                Recevoir ma palette →
+              </button>
+              <p className="qz-gate-privacy">Pas de spam. Vos données restent privées.</p>
+            </div>
+            <KovaFooter />
+          </div>
+        </>
+      )}
 
       {/* ─── LOADING ─── */}
       {phase === "loading" && (
@@ -844,36 +971,6 @@ export default function Quiz() {
                 <ol className="qz-actions-list">
                   {(profile.actions[answers[4]] || profile.actions["Salon"]).map((a, i) => <li key={i}>{a}</li>)}
                 </ol>
-              </div>
-              <div className="qz-email-box">
-                {emailStatus === "success" ? (
-                  <span className="qz-email-ok">✓ C'est noté, on vous envoie tout ça dans la minute.</span>
-                ) : (
-                  <>
-                    <span className="qz-email-label">Votre profil arrive par email</span>
-                    <input
-                      type="email"
-                      className="qz-email-in"
-                      placeholder="votre@email.fr"
-                      value={email}
-                      onChange={e => setEmail(e.target.value)}
-                    />
-                    <div style={{ marginBottom: "14px" }}>
-                      <KovaCheckbox
-                        id="marketing-consent"
-                        checked={marketingConsent}
-                        onChange={e => setMarketingConsent(e.target.checked)}
-                        color="var(--craie)"
-                      >
-                        Je veux bien recevoir vos prochains conseils déco. Je peux me désinscrire quand je veux.
-                      </KovaCheckbox>
-                    </div>
-                    <button className="qz-email-btn" onClick={submitEmail} disabled={emailStatus === "loading"}>
-                      {emailStatus === "loading" ? "Envoi..." : "Recevoir mon profil →"}
-                    </button>
-                    {emailStatus === "error" && <span className="qz-email-err">Une erreur s'est produite, réessayez.</span>}
-                  </>
-                )}
               </div>
               <a
                 href={ctaHref()}
