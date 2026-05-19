@@ -7,6 +7,7 @@ const customConfig = {
   testEnvironment: 'jsdom',
   moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^next/image$': '<rootDir>/src/__mocks__/nextImageMock.jsx',
   },
   setupFilesAfterEnv: [require.resolve('./jest.setup.js')],
   collectCoverageFrom: [

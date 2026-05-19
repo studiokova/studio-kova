@@ -85,7 +85,7 @@ describe('PriceCalculator', () => {
       '/api/create-checkout-session',
       expect.objectContaining({
         method: 'POST',
-        body: JSON.stringify({ rooms: 3 }),
+        body: JSON.stringify({ rooms: 3, utms: {} }),
       })
     );
   });

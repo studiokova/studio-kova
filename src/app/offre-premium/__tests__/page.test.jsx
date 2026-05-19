@@ -34,8 +34,8 @@ describe('Page Offre Premium', () => {
 
   it('affiche la checklist des livrables', () => {
     render(<OffrePremiumPage />);
-    expect(screen.getByText('Questionnaire préalable approfondi')).toBeInTheDocument();
-    expect(screen.getByText('Livraison en 5 jours ouvrés')).toBeInTheDocument();
+    expect(screen.getByText('Questionnaire approfondi et analyse de votre pièce')).toBeInTheDocument();
+    expect(screen.getByText('Une révision incluse, livraison en 5 jours')).toBeInTheDocument();
   });
 
   it('contient le calculateur de prix', () => {

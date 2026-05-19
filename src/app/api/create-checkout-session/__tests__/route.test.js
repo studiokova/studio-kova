@@ -108,7 +108,7 @@ describe('POST /api/create-checkout-session', () => {
 
     expect(mockSessionCreate).toHaveBeenCalledWith(
       expect.objectContaining({
-        metadata: { rooms: '3' },
+        metadata: expect.objectContaining({ rooms: '3' }),
       })
     );
   });
