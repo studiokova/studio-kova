@@ -124,7 +124,7 @@ const PROFILES = {
   },
   "neutre|epure|neutre": {
     name: "Japonais minimaliste",
-    axes: "Neutre · Épuré · Naturel",
+    axes: "Neutre · Épuré · Serein",
     palette: [{ color: "#E8E4DC", name: "washi" }, { color: "#C4B8A0", name: "pierre douce" }, { color: "#4A4A48", name: "encre" }],
     text: "Vous êtes attirée par les intérieurs où le vide fait partie de la composition. Peu de meubles, peu de couleurs, peu d'objets, mais chacun parfaitement à sa place. Ce style demande une discipline que la plupart des gens trouvent difficile à tenir : savoir quoi enlever est toujours plus dur que savoir quoi ajouter.",
     actions: {
@@ -531,7 +531,13 @@ export default function Quiz() {
     track("Quiz Step Completed", { step, answer: answerVal });
     if (step < TOTAL) setStep(s => s + 1);
     else {
-      setProfile(computeProfile(answers));
+      const p = computeProfile(answers);
+      setProfile(p);
+      track("Quiz Gate Shown", {
+        profile: p.name,
+        budget_range: answers[6] || "",
+        room: answers[4] || "",
+      });
       setPhase("gate");
     }
   };
@@ -713,8 +719,8 @@ export default function Quiz() {
 
         .qz-gate { position: fixed; top: 56px; left: 0; right: 0; bottom: 0; background: var(--craie, #F5EFE4); overflow-y: auto; z-index: 50; }
         .qz-gate-inner { width: 100%; max-width: 600px; margin: 0 auto; padding: 40px 24px 80px; }
-        .qz-gate-preview { margin-bottom: 4px; }
-        .qz-gate-blur-wrap { position: relative; margin-bottom: 28px; max-height: 180px; overflow: hidden; }
+        .qz-gate-preview { margin-bottom: 20px; }
+        .qz-gate-blur-wrap { position: relative; margin-bottom: 0; max-height: 90px; overflow: hidden; padding: 10px 0 6px 12px; }
         .qz-gate-blurred { filter: blur(6px); user-select: none; pointer-events: none; }
         .qz-gate-blur-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(245,239,228,0.05) 0%, var(--craie, #F5EFE4) 72%); }
         .qz-gate-sub { font-size: 16px; color: var(--gris, #888780); margin-bottom: 20px; }
@@ -751,15 +757,13 @@ export default function Quiz() {
                 <p className="qz-result-axes" style={{ marginBottom: "24px" }}>{profile.axes}</p>
                 <div className="qz-gate-blur-wrap">
                   <div className="qz-gate-blurred">
-                    <div className="qz-palette" style={{ marginBottom: "20px" }}>
+                    <div className="qz-palette">
                       {profile.palette.map(p => (
                         <div key={p.name} className="qz-swatch">
                           <div className="qz-swatch-dot" style={{ background: p.color }} />
-                          <span className="qz-swatch-name">{p.name.charAt(0).toUpperCase() + p.name.slice(1)}</span>
                         </div>
                       ))}
                     </div>
-                    <p className="qz-result-text">{profile.text}</p>
                   </div>
                   <div className="qz-gate-blur-overlay" />
                 </div>
@@ -776,7 +780,7 @@ export default function Quiz() {
                 <ul className="qz-gate-benefits-list">
                   <li><GateCheckIcon /> Votre palette détaillée avec codes</li>
                   <li><GateCheckIcon /> 3 actions concrètes pour {formatPieceForSentence(answers[4])}</li>
-                  <li><GateCheckIcon /> Les matières qui vous correspondent</li>
+                  <li><GateCheckIcon /> Les matières à privilégier</li>
                 </ul>
               </div>
 
