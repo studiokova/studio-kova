@@ -1,7 +1,8 @@
 // src/components/ComingSoon.js
 "use client";
 import { useState } from "react";
-import Nav from "@/components/Nav";
+import KovaNav    from "@/components/kova/KovaNav";
+import KovaFooter from "@/components/kova/KovaFooter";
 
 export default function ComingSoon({ offre, titre, description, couleur }) {
   const [email, setEmail] = useState("");
@@ -121,19 +122,11 @@ export default function ComingSoon({ offre, titre, description, couleur }) {
         }
         .cs-back:hover { color: var(--sauge-dk); }
 
-        .cs-footer {
-          padding: 20px 24px; text-align: center;
-          font-size: 11px; color: var(--gris);
-          border-top: 1px solid var(--gris-clair);
-          opacity: 0.7;
-        }
-        .cs-footer a { color: var(--gris); text-decoration: none; }
-        .cs-footer a:hover { text-decoration: underline; }
       `}</style>
 
       <div className="cs-wrap">
 
-        <Nav showBack={true} />
+        <KovaNav showBack backLabel="Accueil" backHref="/" />
 
         <main className="cs-main">
 
@@ -181,9 +174,7 @@ export default function ComingSoon({ offre, titre, description, couleur }) {
 
         </main>
 
-        <footer className="cs-footer">
-          <a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a>
-        </footer>
+        <KovaFooter />
 
       </div>
     </>

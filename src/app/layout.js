@@ -1,22 +1,30 @@
 import { DM_Sans, Playfair_Display } from "next/font/google";
- 
+import "./globals.css";
+import MetaPixel from "./components/MetaPixel";
+import UtmCapture from "./components/UtmCapture";
+import { ConsentProvider } from "./components/ConsentContext";
+import ConsentBanner from "./components/ConsentBanner";
+import ConsentPreferences from "./components/ConsentPreferences";
+import { JsonLd } from "@/components/seo/JsonLd";
+
 const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500"],
   variable: "--font-dm-sans",
 });
- 
+
 const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500"],
   style: ["normal", "italic"],
   variable: "--font-playfair",
 });
- 
+
 export const metadata = {
   title: "Studio Kova · La déco personnalisée, enfin accessible.",
   description: "Conseil en décoration d'appartement personnalisé et accessible. Palette, moodboard et sélection meuble sur mesure.",
   metadataBase: new URL('https://www.studiokova.fr'),
+  alternates: { canonical: 'https://www.studiokova.fr' },
   openGraph: {
     title: "Studio Kova · La déco personnalisée, enfin accessible.",
     description: "Conseil en décoration d'appartement personnalisé et accessible. Palette, moodboard et sélection meuble sur mesure.",
@@ -40,17 +48,34 @@ export const metadata = {
     images: ['/og-image.webp'],
   },
 };
- 
+
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
       <head>
         {/* Privacy-friendly analytics by Plausible */}
-        <script async src="https://plausible.io/js/pa-VceMkiq3LUFOHHjYXLSCe.js"></script>
-        <script dangerouslySetInnerHTML={{__html: `window.plausible=window.plausible||function(){(plausible.q=plausible.q||[]).push(arguments)},plausible.init=plausible.init||function(i){plausible.o=i||{}};plausible.init()`}} />
+        <script defer data-domain="studiokova.fr" src="https://plausible.io/js/script.manual.revenue.tagged-events.js" />
+        <script dangerouslySetInnerHTML={{__html: `window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}`}} />
       </head>
       <body className={`${dmSans.variable} ${playfair.variable}`}>
-        {children}
+        <JsonLd data={{
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          "name": "Studio Kova",
+          "url": "https://www.studiokova.fr",
+          "logo": "https://www.studiokova.fr/logo-fond-vert.svg",
+          "email": "hello@studiokova.fr",
+          "description": "Conseil en décoration intérieure personnalisé et accessible en ligne. Quiz gratuit, analyse photo 49€, sur-mesure dès 299€/pièce.",
+          "serviceArea": { "@type": "Country", "name": "France" },
+          "sameAs": ["https://instagram.com/studiokova.fr"],
+        }} />
+        <ConsentProvider>
+          <MetaPixel />
+          <UtmCapture />
+          {children}
+          <ConsentBanner />
+          <ConsentPreferences />
+        </ConsentProvider>
       </body>
     </html>
   );

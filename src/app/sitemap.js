@@ -6,7 +6,7 @@ export default function sitemap() {
   const blogEntries = posts.map((post) => ({
     url: `https://www.studiokova.fr/blog/${post.slug}`,
     lastModified: new Date(post.date),
-    changeFrequency: 'monthly',
+    changeFrequency: 'yearly',
     priority: 0.6,
   }));
 
@@ -21,7 +21,7 @@ export default function sitemap() {
       url: 'https://www.studiokova.fr/quiz',
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.9,
+      priority: 0.8,
     },
     {
       url: 'https://www.studiokova.fr/analyse',
@@ -33,13 +33,13 @@ export default function sitemap() {
       url: 'https://www.studiokova.fr/surmesure',
       lastModified: new Date(),
       changeFrequency: 'monthly',
-      priority: 0.7,
+      priority: 0.8,
     },
     {
       url: 'https://www.studiokova.fr/blog',
       lastModified: new Date(),
       changeFrequency: 'weekly',
-      priority: 0.65,
+      priority: 0.6,
     },
     ...blogEntries,
   ];

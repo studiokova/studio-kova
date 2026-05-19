@@ -1,5 +1,5 @@
-// src/app/confidentialite/page.js
-import Nav from "@/components/Nav";
+import KovaNav    from "@/components/kova/KovaNav";
+import KovaFooter from "@/components/kova/KovaFooter";
 
 export const metadata = {
   title: "Politique de confidentialité — Studio Kova",
@@ -8,110 +8,266 @@ export const metadata = {
 export default function Confidentialite() {
   return (
     <>
-      <style>{`
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-          --craie: #F5EFE4;
-          --cuivre: #B8612A;
-          --sauge-dk: #2E4A3A;
-          --sauge-lt: #6B9E7A;
-          --gris: #888780;
-          --gris-clair: #D3D1C7;
-        }
-        body { background: var(--craie); font-family: "DM Sans", sans-serif; color: var(--sauge-dk); -webkit-font-smoothing: antialiased; }
-        .ml-content { max-width: 640px; margin: 0 auto; padding: 48px 24px 80px; }
-        .ml-back { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; color: var(--gris); text-decoration: none; margin-bottom: 40px; transition: color 0.2s; }
-        .ml-back:hover { color: var(--sauge-dk); }
-        .ml-content h1 { font-family: "Playfair Display", serif; font-size: clamp(28px, 7vw, 36px); font-weight: 400; color: var(--sauge-dk); margin-bottom: 8px; }
-        .ml-date { font-size: 12px; color: var(--gris); margin-bottom: 40px; }
-        .ml-section { margin-bottom: 36px; }
-        .ml-section h2 { font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase; color: var(--cuivre); margin-bottom: 12px; }
-        .ml-section p { font-size: 14px; font-weight: 300; color: var(--sauge-dk); line-height: 1.8; margin-bottom: 10px; }
-        .ml-section ul { padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; }
-        .ml-section ul li { font-size: 14px; font-weight: 300; color: var(--sauge-dk); line-height: 1.7; padding-left: 16px; position: relative; }
-        .ml-section ul li::before { content: "✓"; position: absolute; left: 0; color: var(--sauge-lt); font-size: 11px; }
-        .ml-divider { height: 1px; background: var(--gris-clair); margin: 36px 0; }
-        .ml-footer { padding: 20px 24px; text-align: center; font-size: 11px; color: var(--gris); border-top: 1px solid var(--gris-clair); opacity: 0.7; }
-        .ml-footer a { color: var(--gris); text-decoration: none; }
-        .ml-footer a:hover { text-decoration: underline; }
-      `}</style>
+      <KovaNav showBack backLabel="Accueil" backHref="/" />
 
-      <Nav showBack={true} />
-
-      <div className="ml-content">
+      <div className="kova-legal">
         <h1>Politique de confidentialité</h1>
-        <p className="ml-date">Dernière mise à jour : mai 2026</p>
+        <p className="kova-legal__date">Dernière mise à jour : 18 mai 2026</p>
 
-        <div className="ml-section">
-          <h2>Qui sommes-nous</h2>
-          <p>Studio Kova est un service de conseil en décoration d'intérieur édité par Clémence Laurent, 41500 Mer, France. Contact : hello@studiokova.fr</p>
+        <div className="kova-legal__section">
+          <h2>Qui suis-je</h2>
+          <p>
+            Studio Kova est un service de conseil en décoration d&rsquo;intérieur édité par
+            Clémence Laurent, 41500 Mer, France.<br />
+            Contact : hello@studiokova.fr<br />
+            Je suis responsable du traitement de vos données personnelles au sens du RGPD.
+          </p>
         </div>
 
-        <div className="ml-divider"></div>
+        <div className="kova-legal__divider" />
 
-        <div className="ml-section">
+        <div className="kova-legal__section">
           <h2>Données collectées</h2>
-          <p>Lorsque vous laissez votre email sur ce site, nous collectons uniquement :</p>
+          <p>Selon les services que vous utilisez, je collecte les données suivantes :</p>
           <ul>
-            <li>Votre adresse email</li>
-            <li>L'offre qui vous intéresse</li>
-            <li>La date d'inscription</li>
+            <li>Votre adresse email (quiz de style et tunnel d&rsquo;analyse)</li>
+            <li>Votre prénom, si vous le renseignez</li>
+            <li>Vos réponses au quiz de style : ambiance cible, couleurs aimées, matières préférées, références visuelles</li>
+            <li>La photo de votre pièce, uploadée pour l&rsquo;analyse 69&nbsp;€</li>
+            <li>Le contexte de votre pièce : type de pièce, approche souhaitée, budget, ce qui vous dérange, objectif</li>
+            <li>Le statut de votre consentement marketing et, le cas échéant, sa date</li>
+            <li>Des données techniques (adresse IP, navigateur, pages visitées) collectées automatiquement par Vercel pour l&rsquo;hébergement</li>
           </ul>
-          <p>Aucune autre donnée personnelle n'est collectée. Nous n'utilisons pas de cookies de tracking.</p>
+          <p>
+            Les données de paiement (numéro de carte, etc.) sont traitées directement par Stripe.
+            Je n&rsquo;y ai jamais accès et ne les stocke pas.
+          </p>
         </div>
 
-        <div className="ml-divider"></div>
+        <div className="kova-legal__divider" />
 
-        <div className="ml-section">
-          <h2>Utilisation des données</h2>
-          <p>Votre email est utilisé exclusivement pour :</p>
+        <div className="kova-legal__section">
+          <h2>Finalités du traitement</h2>
+          <p>Je traite vos données pour les raisons suivantes :</p>
           <ul>
-            <li>Vous prévenir de l'ouverture de l'offre qui vous intéresse</li>
-            <li>Vous envoyer des informations sur Studio Kova si vous y avez consenti</li>
+            <li><strong>Livraison du quiz</strong> : envoyer par email votre palette personnalisée et votre profil de style</li>
+            <li><strong>Livraison de l&rsquo;analyse</strong> : générer le PDF de recommandations et vous l&rsquo;envoyer par email</li>
+            <li><strong>Paiement</strong> : traitement sécurisé de l&rsquo;offre analyse 69&nbsp;€ via Stripe</li>
+            <li><strong>Emails marketing</strong> : conseils déco et informations sur les offres — uniquement si vous avez coché la case de consentement</li>
+            <li><strong>Amélioration du service</strong> : analyse agrégée et anonymisée des profils et retours clients</li>
           </ul>
-          <p>Vos données ne sont jamais vendues ni partagées avec des tiers à des fins commerciales.</p>
         </div>
 
-        <div className="ml-divider"></div>
+        <div className="kova-legal__divider" />
 
-        <div className="ml-section">
+        <div className="kova-legal__section">
+          <h2>Base légale du traitement</h2>
+          <ul>
+            <li>
+              <strong>Exécution du contrat</strong> (art. 6.1.b RGPD) : emails transactionnels
+              (livraison palette, PDF) et traitement du paiement
+            </li>
+            <li>
+              <strong>Consentement</strong> (art. 6.1.a RGPD) : emails marketing, recueilli via
+              case à cocher non pré-cochée, retirable à tout moment
+            </li>
+            <li>
+              <strong>Obligation légale</strong> (art. 6.1.c RGPD) : conservation des données
+              comptables pendant 10 ans (gérées par Stripe)
+            </li>
+          </ul>
+        </div>
+
+        <div className="kova-legal__divider" />
+
+        <div className="kova-legal__section">
           <h2>Sous-traitants</h2>
-          <p>Nous utilisons Brevo (anciennement Sendinblue) pour gérer l'envoi d'emails. Brevo est une société française conforme au RGPD. En savoir plus : brevo.com/fr/politique-de-confidentialite</p>
+          <p>Je fais appel aux prestataires suivants, qui traitent des données en mon nom :</p>
+          <table className="kova-legal__table">
+            <thead>
+              <tr>
+                <th>Prestataire</th>
+                <th>Données traitées</th>
+                <th>Finalité</th>
+                <th>Localisation</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Supabase</td>
+                <td>Email, profil style, métadonnées analyses</td>
+                <td>Base de données</td>
+                <td>UE / USA</td>
+              </tr>
+              <tr>
+                <td>Vercel</td>
+                <td>IP, navigation, photos temporaires</td>
+                <td>Hébergement, stockage Blob</td>
+                <td>USA / mondial</td>
+              </tr>
+              <tr>
+                <td>Stripe</td>
+                <td>Email, données de paiement</td>
+                <td>Paiement analyse 69&nbsp;€</td>
+                <td>USA / Irlande</td>
+              </tr>
+              <tr>
+                <td>Anthropic</td>
+                <td>Photo de pièce, profil style, contexte</td>
+                <td>Analyse IA des photos</td>
+                <td>USA</td>
+              </tr>
+              <tr>
+                <td>Pexels</td>
+                <td>Aucune donnée personnelle</td>
+                <td>Photos de moodboard</td>
+                <td>USA</td>
+              </tr>
+              <tr>
+                <td>Brevo</td>
+                <td>Email, prénom, consentement</td>
+                <td>Envoi d&rsquo;emails</td>
+                <td>France</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
 
-        <div className="ml-divider"></div>
+        <div className="kova-legal__divider" />
 
-        <div className="ml-section">
+        <div className="kova-legal__section">
+          <h2>Transferts hors Union européenne</h2>
+          <p>
+            Certains prestataires (Supabase, Vercel, Stripe, Anthropic, Pexels) peuvent
+            traiter vos données aux États-Unis. Ces transferts sont encadrés par :
+          </p>
+          <ul>
+            <li>
+              Les <strong>Clauses Contractuelles Types (CCT)</strong> adoptées par la
+              Commission européenne
+            </li>
+            <li>
+              Le <strong>Data Privacy Framework (DPF)</strong> UE–États-Unis, pour les
+              prestataires certifiés : Stripe, Anthropic et Vercel sont certifiés DPF
+            </li>
+          </ul>
+        </div>
+
+        <div className="kova-legal__divider" />
+
+        <div className="kova-legal__section">
+          <h2>Traitement des photos uploadées</h2>
+          <p>
+            Lorsque vous uploadez une photo de votre pièce pour l&rsquo;analyse, voici
+            précisément ce qui se passe :
+          </p>
+          <ul>
+            <li>La photo est stockée temporairement sur Vercel Blob</li>
+            <li>
+              Elle est transmise à Anthropic (Claude) uniquement pour générer votre
+              analyse personnalisée
+            </li>
+            <li>
+              Elle est supprimée automatiquement après génération du PDF, généralement
+              dans les minutes qui suivent
+            </li>
+            <li>
+              Elle n&rsquo;est jamais réutilisée pour entraîner des modèles d&rsquo;IA —
+              l&rsquo;API Anthropic n&rsquo;utilise pas les données clients pour l&rsquo;entraînement
+            </li>
+            <li>Elle n&rsquo;est jamais partagée avec d&rsquo;autres tiers en dehors de ce flux</li>
+          </ul>
+        </div>
+
+        <div className="kova-legal__divider" />
+
+        <div className="kova-legal__section">
+          <h2>Consentement marketing</h2>
+          <ul>
+            <li>
+              Le consentement à recevoir des emails de conseil déco est libre, éclairé et
+              explicite — il est recueilli via une case à cocher non pré-cochée
+            </li>
+            <li>
+              Vous pouvez retirer votre consentement à tout moment via le lien de
+              désinscription présent dans chaque email
+            </li>
+            <li>
+              Le retrait du consentement n&rsquo;affecte pas les emails liés à une commande
+              (livraison de votre analyse, confirmations de paiement)
+            </li>
+          </ul>
+        </div>
+
+        <div className="kova-legal__divider" />
+
+        <div className="kova-legal__section">
+          <h2>Durée de conservation</h2>
+          <ul>
+            <li>
+              <strong>Email et profil style (quiz)</strong> : conservés tant que vous ne
+              demandez pas la suppression, ou 3 ans après le dernier contact
+            </li>
+            <li>
+              <strong>Photos uploadées</strong> : supprimées dans l&rsquo;heure suivant la
+              génération du PDF
+            </li>
+            <li>
+              <strong>Données de paiement</strong> : 10 ans (obligation comptable légale,
+              gérées par Stripe)
+            </li>
+            <li>
+              <strong>Liste marketing</strong> : conservées tant que vous êtes abonné·e,
+              supprimées immédiatement en cas de désinscription
+            </li>
+          </ul>
+        </div>
+
+        <div className="kova-legal__divider" />
+
+        <div className="kova-legal__section">
           <h2>Vos droits</h2>
           <p>Conformément au RGPD, vous disposez des droits suivants :</p>
           <ul>
-            <li>Droit d'accès à vos données</li>
+            <li>Droit d&rsquo;accès à vos données</li>
             <li>Droit de rectification</li>
-            <li>Droit à l'effacement</li>
-            <li>Droit d'opposition</li>
+            <li>Droit à l&rsquo;effacement (droit à l&rsquo;oubli)</li>
+            <li>Droit à la limitation du traitement</li>
             <li>Droit à la portabilité</li>
+            <li>Droit d&rsquo;opposition</li>
+            <li>Droit de retirer votre consentement à tout moment</li>
+            <li>
+              Droit d&rsquo;introduire une réclamation auprès de la{" "}
+              <strong>CNIL</strong> (cnil.fr)
+            </li>
           </ul>
-          <p>Pour exercer ces droits : hello@studiokova.fr. Vous pouvez également vous désabonner à tout moment via le lien présent dans chaque email.</p>
+          <p>
+            Pour exercer ces droits, écrivez-moi à{" "}
+            <strong>hello@studiokova.fr</strong>. Je réponds sous 30 jours maximum.
+          </p>
         </div>
 
-        <div className="ml-divider"></div>
+        <div className="kova-legal__divider" />
 
-        <div className="ml-section">
-          <h2>Conservation des données</h2>
-          <p>Vos données sont conservées jusqu'à votre désabonnement ou jusqu'à ce que vous demandiez leur suppression.</p>
+        <div className="kova-legal__section">
+          <h2>Cookies</h2>
+          <p>
+            Ce site n&rsquo;utilise pas de cookies de traçage, d&rsquo;analytics tiers ni de
+            publicité. Les seuls cookies déposés sont techniques et strictement nécessaires
+            au fonctionnement du site (session, sécurité). Ils ne nécessitent pas votre
+            consentement.
+          </p>
         </div>
 
-        <div className="ml-divider"></div>
+        <div className="kova-legal__divider" />
 
-        <div className="ml-section">
+        <div className="kova-legal__section">
           <h2>Contact</h2>
           <p>Pour toute question relative à vos données personnelles : hello@studiokova.fr</p>
         </div>
       </div>
 
-      <footer className="ml-footer">
-        <a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a>
-      </footer>
+      <KovaFooter />
     </>
   );
 }

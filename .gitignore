@@ -42,3 +42,7 @@ next-env.d.ts
 
 # claude code
 .claude/
+
+# local tools / prototypes
+stripe.exe
+studio-kova-quiz.html

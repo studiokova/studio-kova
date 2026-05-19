@@ -1,5 +1,5 @@
-// src/app/mentions-legales/page.js
-import Nav from "@/components/Nav";
+import KovaNav    from "@/components/kova/KovaNav";
+import KovaFooter from "@/components/kova/KovaFooter";
 
 export const metadata = {
   title: "Mentions légales — Studio Kova",
@@ -8,57 +8,12 @@ export const metadata = {
 export default function MentionsLegales() {
   return (
     <>
-      <style>{`
-        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        :root {
-          --craie: #F5EFE4;
-          --cuivre: #B8612A;
-          --sauge-dk: #2E4A3A;
-          --sauge-lt: #6B9E7A;
-          --gris: #888780;
-          --gris-clair: #D3D1C7;
-        }
-        body { background: var(--craie); font-family: "DM Sans", sans-serif; color: var(--sauge-dk); -webkit-font-smoothing: antialiased; }
-        .ml-content {
-          max-width: 640px; margin: 0 auto;
-          padding: 48px 24px 80px;
-        }
-        .ml-back {
-          display: inline-flex; align-items: center; gap: 5px;
-          font-size: 12px; color: var(--gris); text-decoration: none;
-          margin-bottom: 40px; transition: color 0.2s;
-        }
-        .ml-back:hover { color: var(--sauge-dk); }
-        .ml-content h1 {
-          font-family: "Playfair Display", serif;
-          font-size: clamp(28px, 7vw, 36px); font-weight: 400;
-          color: var(--sauge-dk); margin-bottom: 40px;
-        }
-        .ml-section { margin-bottom: 36px; }
-        .ml-section h2 {
-          font-size: 11px; font-weight: 500; letter-spacing: 0.16em; text-transform: uppercase;
-          color: var(--cuivre); margin-bottom: 12px;
-        }
-        .ml-section p, .ml-section address {
-          font-size: 14px; font-weight: 300; color: var(--sauge-dk);
-          line-height: 1.8; font-style: normal;
-        }
-        .ml-divider { height: 1px; background: var(--gris-clair); margin: 36px 0; }
-        .ml-footer {
-          padding: 20px 24px; text-align: center;
-          font-size: 11px; color: var(--gris);
-          border-top: 1px solid var(--gris-clair); opacity: 0.7;
-        }
-        .ml-footer a { color: var(--gris); text-decoration: none; }
-        .ml-footer a:hover { text-decoration: underline; }
-      `}</style>
+      <KovaNav showBack backLabel="Accueil" backHref="/" />
 
-      <Nav showBack={true} />
-
-      <div className="ml-content">
+      <div className="kova-legal">
         <h1>Mentions légales</h1>
 
-        <div className="ml-section">
+        <div className="kova-legal__section">
           <h2>Éditeur du site</h2>
           <address>
             Clémence Laurent<br />
@@ -68,16 +23,16 @@ export default function MentionsLegales() {
           </address>
         </div>
 
-        <div className="ml-divider"></div>
+        <div className="kova-legal__divider" />
 
-        <div className="ml-section">
+        <div className="kova-legal__section">
           <h2>Activité</h2>
-          <p>Studio Kova est une activité de conseil en décoration d'intérieur exercée à titre individuel.</p>
+          <p>Studio Kova est une activité de conseil en décoration d&rsquo;intérieur exercée à titre individuel.</p>
         </div>
 
-        <div className="ml-divider"></div>
+        <div className="kova-legal__divider" />
 
-        <div className="ml-section">
+        <div className="kova-legal__section">
           <h2>Hébergement</h2>
           <address>
             Vercel Inc.<br />
@@ -87,24 +42,25 @@ export default function MentionsLegales() {
           </address>
         </div>
 
-        <div className="ml-divider"></div>
+        <div className="kova-legal__divider" />
 
-        <div className="ml-section">
+        <div className="kova-legal__section">
           <h2>Propriété intellectuelle</h2>
-          <p>L'ensemble du contenu de ce site (textes, visuels, logo) est la propriété exclusive de Studio Kova. Toute reproduction, même partielle, est interdite sans autorisation préalable.</p>
+          <p>
+            L&rsquo;ensemble du contenu de ce site (textes, visuels, logo) est la propriété exclusive
+            de Studio Kova. Toute reproduction, même partielle, est interdite sans autorisation préalable.
+          </p>
         </div>
 
-        <div className="ml-divider"></div>
+        <div className="kova-legal__divider" />
 
-        <div className="ml-section">
+        <div className="kova-legal__section">
           <h2>Contact</h2>
           <p>Pour toute question : hello@studiokova.fr</p>
         </div>
       </div>
 
-      <footer className="ml-footer">
-        <a href="/mentions-legales">Mentions légales</a> · <a href="/confidentialite">Confidentialité</a>
-      </footer>
+      <KovaFooter />
     </>
   );
 }
