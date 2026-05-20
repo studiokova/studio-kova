@@ -1571,20 +1571,12 @@ body {
   opacity: 0.9;
   animation: fadeUp 0.7s 0.4s both;
 }
-.kova-hero-pf__anchor {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 15px;
-  font-weight: 400;
-  color: var(--ocre);
-  text-decoration: none;
-  border-bottom: 1px solid rgba(232,201,122,0.35);
-  padding-bottom: 2px;
-  transition: border-color 0.2s, opacity 0.2s;
+.kova-hero-pf__ctas {
+  display: flex;
+  flex-direction: column;
+  gap: 11px;
   animation: fadeUp 0.7s 0.55s both;
 }
-.kova-hero-pf__anchor:hover { border-color: var(--ocre); opacity: 0.85; }
 
 
 /* ═══════════════════════════════════════

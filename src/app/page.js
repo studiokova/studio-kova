@@ -41,9 +41,12 @@ export default function Home() {
           <p className="kova-hero-pf__sub">
             Analyse IA personnalisée + plan d&apos;action concret. Livré en 48h. À partir de 49€.
           </p>
-          <a href="#pieces" className="kova-hero-pf__anchor" onClick={() => track("Clic ancre piece")}>
-            Quelle pièce voulez-vous transformer&nbsp;? ↓
-          </a>
+          <div className="kova-hero-pf__ctas">
+            <KovaButton variant="light" href="#pieces" onClick={() => track("Clic ancre piece")}>
+              Quelle pièce transformer&nbsp;? ↓
+            </KovaButton>
+            <KovaButton variant="ghost" href="#offres">Voir les offres</KovaButton>
+          </div>
         </div>
       </section>
 
@@ -183,9 +186,9 @@ export default function Home() {
           <KovaHeading level="h2" light>Par quelle pièce on commence&nbsp;?</KovaHeading>
           <div className="kova-cta-final__buttons">
             <KovaButton variant="light" href="#pieces" fullWidth>Choisir ma pièce →</KovaButton>
-            <a href="/quiz" className="kova-cta-final__secondary" onClick={() => track("Clic offre gratuite")}>
+            <KovaButton variant="outline-light" href="/quiz" fullWidth onClick={() => track("Clic offre gratuite")}>
               Faire le quiz d&apos;abord →
-            </a>
+            </KovaButton>
           </div>
         </div>
       </section>

@@ -62,9 +62,9 @@ describe('Homepage', () => {
     expect(screen.getByText(/Transformez votre pièce en 48h/)).toBeInTheDocument();
   });
 
-  it('affiche le lien ancre vers le sélecteur de pièce', () => {
+  it('affiche le CTA hero vers le sélecteur de pièce', () => {
     render(<Home />);
-    expect(screen.getByRole('link', { name: /Quelle pièce voulez-vous transformer/ })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Quelle pièce transformer/ })).toBeInTheDocument();
   });
 
   it('affiche les 6 pièces', () => {
@@ -158,10 +158,10 @@ describe('Homepage — IntersectionObserver', () => {
 })
 
 describe('Homepage — CTA clicks', () => {
-  it('déclenche "Clic ancre piece" au clic sur le lien hero', () => {
+  it('déclenche "Clic ancre piece" au clic sur le CTA hero', () => {
     const { track } = require('@/lib/plausible')
     render(<Home />)
-    const anchor = screen.getByRole('link', { name: /Quelle pièce voulez-vous transformer/ })
+    const anchor = screen.getByRole('link', { name: /Quelle pièce transformer/ })
     fireEvent.click(anchor)
     expect(track).toHaveBeenCalledWith('Clic ancre piece')
   })
