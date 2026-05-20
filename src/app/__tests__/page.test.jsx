@@ -57,7 +57,12 @@ describe('Homepage', () => {
     expect(screen.getByRole('link', { name: 'Mentions légales' })).toBeInTheDocument();
   });
 
-  it('affiche le titre hero pièce-first', () => {
+  it('affiche le titre hero', () => {
+    render(<Home />);
+    expect(screen.getByText(/Une pièce qui vous ressemble/)).toBeInTheDocument();
+  });
+
+  it('affiche le titre au-dessus de la grille pièces', () => {
     render(<Home />);
     expect(screen.getByText(/Par où on commence/)).toBeInTheDocument();
   });
@@ -161,11 +166,19 @@ describe('Homepage — CTA clicks', () => {
     expect(track).toHaveBeenCalledWith('Clic pièce home', { piece: 'chambre' })
   })
 
+  it('déclenche "Clic ancre piece" au clic sur le CTA hero', () => {
+    const { track } = require('@/lib/plausible')
+    render(<Home />)
+    const heroCtaLinks = screen.getAllByRole('link', { name: /Choisir ma pièce/ })
+    fireEvent.click(heroCtaLinks[0])
+    expect(track).toHaveBeenCalledWith('Clic ancre piece')
+  })
+
   it('déclenche "Clic offre 49" au clic sur le CTA Analyser ma pièce', () => {
     const { track } = require('@/lib/plausible')
     render(<Home />)
-    const analyseLinks = screen.getAllByRole('link', { name: /Analyser ma pièce/ })
-    fireEvent.click(analyseLinks[0])
+    const analyseLink = screen.getByRole('link', { name: /Analyser ma pièce/ })
+    fireEvent.click(analyseLink)
     expect(track).toHaveBeenCalledWith('Clic offre 49')
   })
 

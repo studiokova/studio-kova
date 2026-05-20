@@ -349,6 +349,15 @@ body {
   border-color: rgba(245,239,228,0.6);
   background: rgba(245,239,228,0.06);
 }
+.kova-btn--outline-dark {
+  background: transparent;
+  color: var(--sauge-dk);
+  border: 1.5px solid var(--sauge-dk);
+}
+.kova-btn--outline-dark:hover {
+  background: rgba(46,74,58,0.06);
+  transform: translateY(-1px);
+}
 .kova-btn--disabled,
 .kova-btn[disabled] {
   opacity: 0.55;
@@ -1629,6 +1638,10 @@ body {
   font-weight: 400;
   color: var(--craie);
   line-height: 1;
+}
+.kova-pieces__quiz-cta {
+  text-align: center;
+  margin-top: 32px;
 }
 .kova-pieces__quiz-link {
   text-align: center;

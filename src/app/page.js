@@ -34,21 +34,23 @@ export default function Home() {
         <div className="kova-hero-pf__bg" style={{ backgroundImage: "url('/hero.webp')" }} />
         <div className="kova-hero-pf__bg-overlay" />
         <div className="kova-hero-pf__inner">
-          <h1 className="kova-hero-pf__title">Par où on commence&nbsp;?</h1>
+          <h1 className="kova-hero-pf__title">Une pièce qui vous ressemble, en 48h.</h1>
           <p className="kova-hero-pf__sub">
-            Une analyse personnalisée et un plan d&apos;action concret pour transformer votre pièce, livré en 48h.
+            Analyse personnalisée et plan d&apos;action concret, sans rendez-vous.
           </p>
           <div className="kova-hero-pf__ctas">
-            <KovaButton variant="light" href="/analyse" onClick={() => track("Clic offre 49")}>
-              Analyser ma pièce →
+            <KovaButton variant="primary" href="#pieces" onClick={() => track("Clic ancre piece")}>
+              Choisir ma pièce ↓
             </KovaButton>
-            <KovaButton variant="ghost" href="#offres">Voir les offres</KovaButton>
           </div>
         </div>
       </section>
 
       {/* ── 2. SÉLECTEUR DE PIÈCE ── */}
       <section className="kova-pieces" id="pieces">
+        <div className="kova-pieces__header reveal" ref={ref}>
+          <KovaHeading level="h2">Par où on commence&nbsp;?</KovaHeading>
+        </div>
         <div className="kova-pieces__grid">
           {PIECES.map((p, i) => (
             <a
@@ -65,10 +67,11 @@ export default function Home() {
             </a>
           ))}
         </div>
-        <p className="kova-pieces__quiz-link">
-          Pas sûre de votre style&nbsp;?{" "}
-          <a href="/quiz" onClick={() => track("Clic offre gratuite")}>Faites le quiz de 3 minutes (gratuit) →</a>
-        </p>
+        <div className="kova-pieces__quiz-cta">
+          <KovaButton variant="outline-dark" href="/quiz" onClick={() => track("Clic offre gratuite")}>
+            Faire le quiz de style (3 min)
+          </KovaButton>
+        </div>
       </section>
 
       {/* ── 3. LES 3 OFFRES ── */}
