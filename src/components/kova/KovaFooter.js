@@ -53,7 +53,7 @@ export default function KovaFooter({ full = false }) {
       <div className="kova-footer__divider" />
 
       <div className="kova-footer__bottom">
-        <span>© 2025 Studio Kova</span>
+        <span>© 2026 Studio Kova</span>
         <span>
           <a href="/mentions-legales">Mentions légales</a>
           {" · "}

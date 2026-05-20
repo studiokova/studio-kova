@@ -14,7 +14,7 @@ export const OFFRES = [
     price: "Gratuit",
     title: "Quiz de style",
     desc: "Découvrez votre profil déco en 3 minutes. Recevez votre palette de couleurs et 3 actions concrètes.",
-    ctaLabel: "Faire le quiz →", ctaHref: "/quiz", ctaVariant: "outline-dark",
+    ctaLabel: "Faire le quiz →", ctaHref: "/quiz", ctaVariant: "dark",
     event: "Clic offre gratuite", featured: false,
   },
   {
@@ -32,7 +32,7 @@ export const OFFRES = [
     priceFrom: "à partir de", price: "299€", priceUnit: "/pièce",
     title: "Aménagement clé en main",
     desc: "Je sélectionne chaque meuble pour vous, avec les liens d'achat directs et une planche par pièce. Délai 5 jours.",
-    ctaLabel: "Démarrer mon projet →", ctaHref: "/surmesure", ctaVariant: "outline-dark",
+    ctaLabel: "Démarrer mon projet →", ctaHref: "/surmesure", ctaVariant: "dark",
     event: "Clic offre 299", featured: false,
   },
 ];

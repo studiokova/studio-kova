@@ -62,11 +62,6 @@ describe('Homepage', () => {
     expect(screen.getByText(/Une pièce qui vous ressemble/)).toBeInTheDocument();
   });
 
-  it('affiche le titre au-dessus de la grille pièces', () => {
-    render(<Home />);
-    expect(screen.getByText(/Par où on commence/)).toBeInTheDocument();
-  });
-
   it('affiche les 6 pièces', () => {
     render(<Home />);
     expect(screen.getByRole('link', { name: 'Chambre' })).toBeInTheDocument();
@@ -102,13 +97,13 @@ describe('Homepage', () => {
 
   it('affiche la FAQ', () => {
     render(<Home />);
-    expect(screen.getByText(/Vos questions, nos réponses/)).toBeInTheDocument();
+    expect(screen.getByText(/Vos questions, mes réponses/)).toBeInTheDocument();
     expect(screen.getByText(/Combien de temps pour recevoir l/)).toBeInTheDocument();
   });
 
   it('affiche le CTA final', () => {
     render(<Home />);
-    expect(screen.getByText(/Par quelle pièce on commence/)).toBeInTheDocument();
+    expect(screen.getByText(/Prête à transformer votre pièce/)).toBeInTheDocument();
   });
 
   it('affiche les liens nav : Offres, Quiz', () => {
@@ -164,14 +159,6 @@ describe('Homepage — CTA clicks', () => {
     const chambreLink = screen.getByRole('link', { name: 'Chambre' })
     fireEvent.click(chambreLink)
     expect(track).toHaveBeenCalledWith('Clic pièce home', { piece: 'chambre' })
-  })
-
-  it('déclenche "Clic ancre piece" au clic sur le CTA hero', () => {
-    const { track } = require('@/lib/plausible')
-    render(<Home />)
-    const heroCtaLinks = screen.getAllByRole('link', { name: /Choisir ma pièce/ })
-    fireEvent.click(heroCtaLinks[0])
-    expect(track).toHaveBeenCalledWith('Clic ancre piece')
   })
 
   it('déclenche "Clic offre 49" au clic sur le CTA Analyser ma pièce', () => {

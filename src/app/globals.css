@@ -1545,7 +1545,7 @@ body {
   position: relative;
   overflow: hidden;
   background: var(--sauge-dk);
-  padding: 72px 24px 64px;
+  padding: 24px 24px 20px;
   text-align: center;
 }
 .kova-hero-pf__bg {
@@ -1567,7 +1567,7 @@ body {
   font-weight: 400;
   color: var(--craie);
   line-height: 1.18;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   animation: fadeUp 0.7s 0.2s both;
 }
 .kova-hero-pf__title em { font-style: italic; color: var(--ocre); }
@@ -1576,7 +1576,7 @@ body {
   font-weight: 300;
   color: var(--sauge-text);
   line-height: 1.65;
-  margin-bottom: 36px;
+  margin-bottom: 0;
   opacity: 0.9;
   animation: fadeUp 0.7s 0.4s both;
 }
@@ -1824,7 +1824,7 @@ body {
 /* ═══════════════════════════════════════
    RÉASSURANCE
    ═══════════════════════════════════════ */
-.kova-reassurance { background: var(--craie); padding: 64px 24px 56px; }
+.kova-reassurance { background: var(--craie); padding: 64px 24px 24px; }
 .kova-reassurance__header { margin-bottom: 32px; }
 .kova-reassurance__list { display: flex; flex-direction: column; gap: 16px; max-width: 640px; }
 .kova-reassurance__item {
@@ -1842,7 +1842,7 @@ body {
 /* ═══════════════════════════════════════
    FAQ ACCORDION
    ═══════════════════════════════════════ */
-.kova-faq { background: white; padding: 64px 24px 56px; }
+.kova-faq { background: var(--craie); padding: 32px 24px 56px; }
 .kova-faq__header { margin-bottom: 32px; }
 .kova-faq__list { max-width: 720px; }
 .kova-faq details { border-bottom: 1px solid var(--gris-clair); }

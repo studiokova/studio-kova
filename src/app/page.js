@@ -38,19 +38,11 @@ export default function Home() {
           <p className="kova-hero-pf__sub">
             Analyse personnalisée et plan d&apos;action concret, sans rendez-vous.
           </p>
-          <div className="kova-hero-pf__ctas">
-            <KovaButton variant="primary" href="#pieces" onClick={() => track("Clic ancre piece")}>
-              Choisir ma pièce ↓
-            </KovaButton>
-          </div>
         </div>
       </section>
 
       {/* ── 2. SÉLECTEUR DE PIÈCE ── */}
       <section className="kova-pieces" id="pieces">
-        <div className="kova-pieces__header reveal" ref={ref}>
-          <KovaHeading level="h2">Par où on commence&nbsp;?</KovaHeading>
-        </div>
         <div className="kova-pieces__grid">
           {PIECES.map((p, i) => (
             <a
@@ -68,7 +60,7 @@ export default function Home() {
           ))}
         </div>
         <div className="kova-pieces__quiz-cta">
-          <KovaButton variant="outline-dark" href="/quiz" onClick={() => track("Clic offre gratuite")}>
+          <KovaButton variant="dark" href="/quiz" onClick={() => track("Clic offre gratuite")}>
             Faire le quiz de style (3 min)
           </KovaButton>
         </div>
@@ -77,7 +69,7 @@ export default function Home() {
       {/* ── 3. LES 3 OFFRES ── */}
       <section className="kova-offres" id="offres">
         <div className="kova-offres__header reveal" ref={ref}>
-          <KovaHeading level="h2">Choisissez votre niveau d&apos;accompagnement</KovaHeading>
+          <KovaHeading level="h2">Trois façons de travailler ensemble</KovaHeading>
         </div>
         <div className="kova-offres__grid">
           {OFFRES.map((o, i) => (
@@ -121,10 +113,6 @@ export default function Home() {
             </div>
           ))}
         </div>
-        <div className="kova-how__reassurance reveal" ref={ref}>
-          <p className="kova-how__reassurance-text">« L&apos;IA fait l&apos;analyse. Je supervise et je vous livre. »</p>
-          <p className="kova-how__reassurance-sig">— Studio Kova</p>
-        </div>
       </section>
 
       {/* ── 6. RÉASSURANCE ── */}
@@ -145,7 +133,7 @@ export default function Home() {
       {/* ── 7. FAQ ── */}
       <section className="kova-faq">
         <div className="kova-faq__header reveal" ref={ref}>
-          <KovaHeading level="h2">Vos questions, nos réponses</KovaHeading>
+          <KovaHeading level="h2">Vos questions, mes réponses</KovaHeading>
         </div>
         <div className="kova-faq__list">
           {FAQ_ITEMS.map((item, i) => (
@@ -161,10 +149,10 @@ export default function Home() {
       <section className="kova-cta-final" style={{ position: "relative", overflow: "hidden" }}>
         <div style={{ position: "absolute", inset: "-40px", backgroundImage: "url('/bath.webp')", backgroundSize: "cover", backgroundPosition: "center", opacity: 0.08 }} />
         <div className="kova-cta-final__inner" style={{ position: "relative", zIndex: 1 }}>
-          <KovaHeading level="h2" light>Par quelle pièce on commence&nbsp;?</KovaHeading>
+          <KovaHeading level="h2" light>Prête à transformer votre pièce&nbsp;?</KovaHeading>
           <div className="kova-cta-final__buttons">
             <KovaButton variant="light" href="#pieces" fullWidth>Choisir ma pièce →</KovaButton>
-            <KovaButton variant="outline-light" href="/quiz" fullWidth onClick={() => track("Clic offre gratuite")}>
+            <KovaButton variant="dark" href="/quiz" fullWidth onClick={() => track("Clic offre gratuite")}>
               Faire le quiz d&apos;abord →
             </KovaButton>
           </div>

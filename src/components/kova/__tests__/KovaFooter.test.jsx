@@ -30,7 +30,7 @@ describe('KovaFooter', () => {
 
   it('affiche le copyright', () => {
     render(<KovaFooter />);
-    expect(screen.getByText(/© 2025 Studio Kova/)).toBeInTheDocument();
+    expect(screen.getByText(/© 2026 Studio Kova/)).toBeInTheDocument();
   });
 
   it('affiche les liens légaux', () => {
