@@ -114,7 +114,7 @@ describe('Homepage', () => {
 
   it('affiche le CTA nav Analyse IA', () => {
     render(<Home />);
-    const ctaLinks = screen.getAllByRole('link', { name: /Analyse IA — 69€/ });
+    const ctaLinks = screen.getAllByRole('link', { name: /Analyse IA/ });
     expect(ctaLinks.length).toBeGreaterThan(0);
   });
 });
