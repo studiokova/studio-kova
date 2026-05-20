@@ -1301,3 +1301,463 @@ body {
    ARTICLE BODY WRAP
    ═══════════════════════════════════════ */
 .kova-article-body-wrap { max-width: 700px; margin: 0 auto; padding: 44px 24px 100px; }
+
+
+/* ═══════════════════════════════════════
+   KOVA NAV — variante complète (homepage)
+   ═══════════════════════════════════════ */
+.kova-nav--full { justify-content: space-between; }
+
+.kova-nav__links {
+  display: none;
+  list-style: none;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  gap: 28px;
+  margin: 0 24px;
+  padding: 0;
+}
+.kova-nav__link {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--sauge-dk);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.kova-nav__link:hover { color: var(--cuivre); }
+
+.kova-nav__right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.kova-nav__cta {
+  display: inline-flex;
+  align-items: center;
+  background: var(--cuivre);
+  color: white;
+  font-family: var(--font-dm-sans, "DM Sans"), sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 9px 15px;
+  border-radius: 10px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.kova-nav__cta:hover { background: var(--cuivre-hover); }
+
+.kova-nav__burger {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 6px 4px;
+}
+.kova-nav__burger-line {
+  display: block;
+  width: 22px;
+  height: 1.5px;
+  background: var(--sauge-dk);
+  border-radius: 1px;
+}
+
+.kova-nav__drawer {
+  position: fixed;
+  top: 56px;
+  left: 0;
+  right: 0;
+  background: var(--craie);
+  border-bottom: 1px solid var(--gris-clair);
+  padding: 8px 24px 20px;
+  z-index: 99;
+  transform: translateY(-8px);
+  opacity: 0;
+  pointer-events: none;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.kova-nav__drawer--open {
+  transform: translateY(0);
+  opacity: 1;
+  pointer-events: all;
+}
+.kova-nav__drawer-link {
+  display: block;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--sauge-dk);
+  text-decoration: none;
+  padding: 13px 0;
+  border-bottom: 1px solid rgba(211,209,199,0.5);
+  transition: color 0.2s;
+}
+.kova-nav__drawer-link:last-child { border-bottom: none; }
+.kova-nav__drawer-link:hover { color: var(--cuivre); }
+.kova-nav__drawer-cta { margin-top: 16px; }
+
+@media (min-width: 768px) {
+  .kova-nav__links { display: flex; }
+  .kova-nav__burger { display: none; }
+  .kova-nav__drawer { display: none !important; }
+}
+
+
+/* ═══════════════════════════════════════
+   HERO PIÈCE-FIRST
+   ═══════════════════════════════════════ */
+.kova-hero-pf {
+  background: var(--sauge-dk);
+  padding: 72px 24px 64px;
+  text-align: center;
+}
+.kova-hero-pf__inner { max-width: 720px; margin: 0 auto; }
+.kova-hero-pf__title {
+  font-family: var(--font-playfair, "Playfair Display"), serif;
+  font-size: clamp(28px, 7.5vw, 46px);
+  font-weight: 400;
+  color: var(--craie);
+  line-height: 1.18;
+  margin-bottom: 20px;
+  animation: fadeUp 0.7s 0.2s both;
+}
+.kova-hero-pf__title em { font-style: italic; color: var(--ocre); }
+.kova-hero-pf__sub {
+  font-size: clamp(14px, 3.5vw, 17px);
+  font-weight: 300;
+  color: var(--sauge-text);
+  line-height: 1.65;
+  margin-bottom: 36px;
+  opacity: 0.9;
+  animation: fadeUp 0.7s 0.4s both;
+}
+.kova-hero-pf__anchor {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--ocre);
+  text-decoration: none;
+  border-bottom: 1px solid rgba(232,201,122,0.35);
+  padding-bottom: 2px;
+  transition: border-color 0.2s, opacity 0.2s;
+  animation: fadeUp 0.7s 0.55s both;
+}
+.kova-hero-pf__anchor:hover { border-color: var(--ocre); opacity: 0.85; }
+
+
+/* ═══════════════════════════════════════
+   SÉLECTEUR DE PIÈCE
+   ═══════════════════════════════════════ */
+.kova-pieces {
+  padding: 64px 20px 56px;
+  background: var(--craie);
+}
+.kova-pieces__header { text-align: center; margin-bottom: 32px; }
+.kova-pieces__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+.kova-piece-card {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  aspect-ratio: 4 / 3;
+  text-decoration: none;
+  display: block;
+  transition: transform 0.22s, box-shadow 0.22s;
+}
+.kova-piece-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 32px rgba(46,74,58,0.16);
+}
+.kova-piece-card__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center;
+}
+.kova-piece-card__overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(46,74,58,0.78) 0%, rgba(46,74,58,0.18) 60%, transparent 100%);
+}
+.kova-piece-card__name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 14px 16px;
+  font-family: var(--font-playfair, "Playfair Display"), serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--craie);
+  line-height: 1;
+}
+.kova-pieces__quiz-link {
+  text-align: center;
+  margin-top: 24px;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--gris);
+}
+.kova-pieces__quiz-link a {
+  color: var(--cuivre);
+  text-decoration: none;
+}
+.kova-pieces__quiz-link a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+@media (min-width: 640px) {
+  .kova-pieces__grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+
+/* ═══════════════════════════════════════
+   ANCRAGE PRIX
+   ═══════════════════════════════════════ */
+.kova-price-anchor {
+  background: white;
+  padding: 64px 20px 56px;
+}
+.kova-price-anchor__header { text-align: center; margin-bottom: 36px; }
+.kova-price-anchor__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: 780px;
+  margin: 0 auto;
+}
+.kova-price-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 22px;
+  border-radius: 10px;
+  border: 1px solid var(--gris-clair);
+}
+.kova-price-row--featured {
+  background: var(--sauge-dk);
+  border-color: var(--sauge-dk);
+}
+.kova-price-row__option {
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--sauge-dk);
+}
+.kova-price-row--featured .kova-price-row__option { color: var(--craie); }
+.kova-price-row__price {
+  font-family: var(--font-playfair, "Playfair Display"), serif;
+  font-size: 18px;
+  font-weight: 400;
+  color: var(--gris);
+  text-align: right;
+}
+.kova-price-row--featured .kova-price-row__price { color: var(--ocre); }
+
+@media (min-width: 640px) {
+  .kova-price-anchor__grid { flex-direction: row; align-items: stretch; }
+  .kova-price-row {
+    flex: 1;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 12px;
+    padding: 28px 20px;
+  }
+  .kova-price-row__price { text-align: center; }
+}
+
+
+/* ═══════════════════════════════════════
+   LES 3 OFFRES
+   ═══════════════════════════════════════ */
+.kova-offres {
+  padding: 64px 20px 56px;
+  background: var(--craie);
+}
+.kova-offres__header { text-align: center; margin-bottom: 36px; }
+.kova-offres__grid {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.kova-offres__grid > .kova-card {
+  display: flex;
+  flex-direction: column;
+}
+.kova-offres__grid .kova-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.kova-offres__grid .kova-card__body .kova-btn { margin-top: auto; }
+
+@media (min-width: 860px) {
+  .kova-offres__grid {
+    flex-direction: row;
+    align-items: stretch;
+  }
+  .kova-offres__grid > .kova-card { flex: 1; }
+}
+
+
+/* ═══════════════════════════════════════
+   COMMENT FONCTIONNE L'ANALYSE IA
+   ═══════════════════════════════════════ */
+.kova-how {
+  background: var(--sauge-dk);
+  padding: 64px 24px 56px;
+}
+.kova-how__header { margin-bottom: 36px; }
+.kova-how__steps { display: flex; flex-direction: column; }
+.kova-how__step {
+  display: flex;
+  gap: 20px;
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(168,204,184,0.12);
+}
+.kova-how__step:last-child { border-bottom: none; }
+.kova-how__num {
+  font-family: var(--font-playfair, "Playfair Display"), serif;
+  font-size: 44px;
+  font-weight: 400;
+  font-style: italic;
+  color: var(--ocre);
+  opacity: 0.45;
+  flex-shrink: 0;
+  width: 46px;
+  line-height: 1;
+}
+.kova-how__step-title { font-size: 15px; font-weight: 500; color: var(--craie); margin-bottom: 6px; }
+.kova-how__step-desc { font-size: 13.5px; font-weight: 300; color: var(--sauge-text); line-height: 1.65; opacity: 0.85; }
+.kova-how__reassurance {
+  margin-top: 36px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(168,204,184,0.15);
+  border-radius: 10px;
+  padding: 20px 24px;
+}
+.kova-how__reassurance-text {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--sauge-text);
+  font-style: italic;
+  line-height: 1.65;
+  opacity: 0.9;
+}
+.kova-how__reassurance-sig {
+  margin-top: 10px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--ocre);
+  letter-spacing: 0.05em;
+}
+
+@media (min-width: 640px) {
+  .kova-how__steps { flex-direction: row; }
+  .kova-how__step {
+    flex: 1;
+    flex-direction: column;
+    padding: 0 28px 0 0;
+    border-bottom: none;
+    border-right: 1px solid rgba(168,204,184,0.12);
+  }
+  .kova-how__step:last-child { border-right: none; padding-right: 0; }
+  .kova-how__num { font-size: 56px; margin-bottom: 16px; width: auto; }
+}
+
+
+/* ═══════════════════════════════════════
+   RÉASSURANCE
+   ═══════════════════════════════════════ */
+.kova-reassurance { background: var(--craie); padding: 64px 24px 56px; }
+.kova-reassurance__header { margin-bottom: 32px; }
+.kova-reassurance__list { display: flex; flex-direction: column; gap: 16px; max-width: 640px; }
+.kova-reassurance__item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-size: 15px;
+  font-weight: 300;
+  color: var(--sauge-dk);
+  line-height: 1.6;
+}
+.kova-reassurance__check { color: var(--cuivre); font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+
+
+/* ═══════════════════════════════════════
+   FAQ ACCORDION
+   ═══════════════════════════════════════ */
+.kova-faq { background: white; padding: 64px 24px 56px; }
+.kova-faq__header { margin-bottom: 32px; }
+.kova-faq__list { max-width: 720px; }
+.kova-faq details { border-bottom: 1px solid var(--gris-clair); }
+.kova-faq details:first-child { border-top: 1px solid var(--gris-clair); }
+.kova-faq summary {
+  padding: 18px 0;
+  cursor: pointer;
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--sauge-dk);
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  user-select: none;
+}
+.kova-faq summary::-webkit-details-marker { display: none; }
+.kova-faq summary::after {
+  content: "+";
+  font-size: 20px;
+  font-weight: 300;
+  color: var(--cuivre);
+  flex-shrink: 0;
+  transition: transform 0.2s;
+}
+.kova-faq details[open] summary::after { transform: rotate(45deg); }
+.kova-faq__answer {
+  padding: 0 0 20px;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--gris);
+  line-height: 1.7;
+}
+
+
+/* ═══════════════════════════════════════
+   CTA FINAL
+   ═══════════════════════════════════════ */
+.kova-cta-final {
+  background: var(--sauge-dk);
+  padding: 72px 24px 64px;
+  text-align: center;
+}
+.kova-cta-final__inner { max-width: 540px; margin: 0 auto; }
+.kova-cta-final__buttons {
+  margin-top: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-items: center;
+}
+.kova-cta-final__secondary {
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--sauge-text);
+  text-decoration: none;
+  opacity: 0.75;
+  transition: opacity 0.2s;
+}
+.kova-cta-final__secondary:hover { opacity: 1; }

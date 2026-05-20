@@ -21,13 +21,13 @@ const playfair = Playfair_Display({
 });
 
 export const metadata = {
-  title: "Studio Kova · La déco personnalisée, enfin accessible.",
-  description: "Conseil en décoration d'appartement personnalisé et accessible. Palette, moodboard et sélection meuble sur mesure.",
+  title: "Studio Kova — Transformez votre pièce en 48h | Analyse IA déco 49€",
+  description: "Conseil déco en ligne : analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 49€. Pour locataires et primo-accédantes.",
   metadataBase: new URL('https://www.studiokova.fr'),
   alternates: { canonical: 'https://www.studiokova.fr' },
   openGraph: {
-    title: "Studio Kova · La déco personnalisée, enfin accessible.",
-    description: "Conseil en décoration d'appartement personnalisé et accessible. Palette, moodboard et sélection meuble sur mesure.",
+    title: "Studio Kova — Transformez votre pièce en 48h",
+    description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 49€.",
     url: 'https://www.studiokova.fr',
     siteName: 'Studio Kova',
     locale: 'fr_FR',
@@ -37,14 +37,14 @@ export const metadata = {
         url: '/og-image.webp',
         width: 1200,
         height: 630,
-        alt: 'Studio Kova — Conseil en décoration accessible',
+        alt: 'Studio Kova — Transformez votre pièce en 48h',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Studio Kova · La déco personnalisée, enfin accessible.",
-    description: "Conseil en décoration d'appartement personnalisé et accessible.",
+    title: "Studio Kova — Transformez votre pièce en 48h",
+    description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 49€.",
     images: ['/og-image.webp'],
   },
 };

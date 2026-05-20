@@ -57,34 +57,70 @@ describe('Homepage', () => {
     expect(screen.getByRole('link', { name: 'Mentions légales' })).toBeInTheDocument();
   });
 
-  it('affiche le titre hero', () => {
+  it('affiche le titre hero pièce-first', () => {
     render(<Home />);
-    expect(screen.getByText(/La déco personnalisée/)).toBeInTheDocument();
+    expect(screen.getByText(/Transformez votre pièce en 48h/)).toBeInTheDocument();
   });
 
-  it('affiche les trois offres', () => {
+  it('affiche le lien ancre vers le sélecteur de pièce', () => {
     render(<Home />);
-    expect(screen.getByText('Je trouve mon style')).toBeInTheDocument();
-    expect(screen.getByText('Je transforme ma pièce')).toBeInTheDocument();
-    expect(screen.getByText('Je vous confie mon intérieur')).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /Quelle pièce voulez-vous transformer/ })).toBeInTheDocument();
   });
 
-  it('affiche la section "Comment ça marche"', () => {
+  it('affiche les 6 pièces', () => {
     render(<Home />);
-    expect(screen.getByText(/De chez vous/)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Chambre' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Salon' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Cuisine' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Bureau' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: 'Entrée' })).toBeInTheDocument();
   });
 
-  it('affiche les trois étapes du process', () => {
+  it('affiche les trois offres avec les nouveaux noms', () => {
     render(<Home />);
-    expect(screen.getByText('Je choisis mon offre')).toBeInTheDocument();
-    expect(screen.getByText('Je partage mon espace')).toBeInTheDocument();
-    expect(screen.getByText('Je reçois mon plan')).toBeInTheDocument();
+    expect(screen.getByText('Quiz de style')).toBeInTheDocument();
+    expect(screen.getByText('Analyse IA + plan d\'action en 48h')).toBeInTheDocument();
+    expect(screen.getByText('Aménagement clé en main')).toBeInTheDocument();
   });
 
-  it('affiche les témoignages', () => {
+  it('affiche la section comment fonctionne l\'analyse IA', () => {
     render(<Home />);
-    expect(screen.getByText('Marie T.')).toBeInTheDocument();
-    expect(screen.getByText('Camille R.')).toBeInTheDocument();
+    expect(screen.getByText(/Comment fonctionne l/)).toBeInTheDocument();
+  });
+
+  it('affiche les étapes de l\'analyse IA', () => {
+    render(<Home />);
+    expect(screen.getByText('Vous envoyez 1 à 3 photos')).toBeInTheDocument();
+    expect(screen.getByText('Vous recevez en 48h')).toBeInTheDocument();
+  });
+
+  it('affiche la section réassurance', () => {
+    render(<Home />);
+    expect(screen.getByText(/Pourquoi Studio Kova/)).toBeInTheDocument();
+    expect(screen.getByText(/Livré en 48h chrono/)).toBeInTheDocument();
+  });
+
+  it('affiche la FAQ', () => {
+    render(<Home />);
+    expect(screen.getByText(/Vos questions, nos réponses/)).toBeInTheDocument();
+    expect(screen.getByText(/Combien de temps pour recevoir l/)).toBeInTheDocument();
+  });
+
+  it('affiche le CTA final', () => {
+    render(<Home />);
+    expect(screen.getByText(/Par quelle pièce on commence/)).toBeInTheDocument();
+  });
+
+  it('affiche les liens nav : Offres, Quiz', () => {
+    render(<Home />);
+    const quizLinks = screen.getAllByRole('link', { name: 'Quiz' });
+    expect(quizLinks.length).toBeGreaterThan(0);
+  });
+
+  it('affiche le CTA nav Analyse IA', () => {
+    render(<Home />);
+    const ctaLinks = screen.getAllByRole('link', { name: /Analyse IA — 49€/ });
+    expect(ctaLinks.length).toBeGreaterThan(0);
   });
 });
 
@@ -122,43 +158,51 @@ describe('Homepage — IntersectionObserver', () => {
 })
 
 describe('Homepage — CTA clicks', () => {
-  it('déclenche le tracking au clic sur le CTA hero', () => {
+  it('déclenche "Clic ancre piece" au clic sur le lien hero', () => {
     const { track } = require('@/lib/plausible')
     render(<Home />)
-    const styleLinks = screen.getAllByRole('link', { name: /Je trouve mon style →/ })
-    fireEvent.click(styleLinks[0])
-    expect(track).toHaveBeenCalledWith('Hero CTA Clicked', { offer: 'free' })
+    const anchor = screen.getByRole('link', { name: /Quelle pièce voulez-vous transformer/ })
+    fireEvent.click(anchor)
+    expect(track).toHaveBeenCalledWith('Clic ancre piece')
   })
 
-  it('déclenche le tracking au clic sur le CTA carte quiz', () => {
+  it('déclenche "Clic pièce home" avec la pièce au clic sur une carte', () => {
     const { track } = require('@/lib/plausible')
     render(<Home />)
-    const ctaLinks = screen.getAllByRole('link', { name: /C'est parti/ })
-    fireEvent.click(ctaLinks[0])
-    expect(track).toHaveBeenCalledWith('Offers Section CTA Clicked', { offer: 'free' })
+    const chambreLink = screen.getByRole('link', { name: 'Chambre' })
+    fireEvent.click(chambreLink)
+    expect(track).toHaveBeenCalledWith('Clic pièce home', { piece: 'chambre' })
   })
 
-  it('déclenche le tracking au clic sur le CTA carte analyse', () => {
+  it('déclenche "Clic offre 49" au clic sur le CTA Analyser ma pièce', () => {
     const { track } = require('@/lib/plausible')
     render(<Home />)
-    const ctaLinks = screen.getAllByRole('link', { name: /C'est parti/ })
-    fireEvent.click(ctaLinks[1])
-    expect(track).toHaveBeenCalledWith('Offers Section CTA Clicked', { offer: 'analysis' })
+    const analyseLink = screen.getByRole('link', { name: /Analyser ma pièce/ })
+    fireEvent.click(analyseLink)
+    expect(track).toHaveBeenCalledWith('Clic offre 49')
   })
 
-  it('déclenche le tracking au clic sur le CTA carte sur-mesure', () => {
+  it('déclenche "Clic offre gratuite" au clic sur le CTA quiz', () => {
     const { track } = require('@/lib/plausible')
     render(<Home />)
-    const ctaLinks = screen.getAllByRole('link', { name: /C'est parti/ })
-    fireEvent.click(ctaLinks[2])
-    expect(track).toHaveBeenCalledWith('Offers Section CTA Clicked', { offer: 'premium' })
+    const quizLink = screen.getByRole('link', { name: /Faire le quiz →/ })
+    fireEvent.click(quizLink)
+    expect(track).toHaveBeenCalledWith('Clic offre gratuite')
   })
 
-  it('déclenche le tracking au clic sur le CTA final', () => {
+  it('déclenche "Clic offre 299" au clic sur Démarrer mon projet', () => {
     const { track } = require('@/lib/plausible')
     render(<Home />)
-    const styleLinks = screen.getAllByRole('link', { name: /Je trouve mon style →/ })
-    fireEvent.click(styleLinks[styleLinks.length - 1])
-    expect(track).toHaveBeenCalledWith('Final CTA Clicked', { offer: 'free' })
+    const surmesureLink = screen.getByRole('link', { name: /Démarrer mon projet/ })
+    fireEvent.click(surmesureLink)
+    expect(track).toHaveBeenCalledWith('Clic offre 299')
+  })
+
+  it('déclenche "Clic blog header" au clic sur le lien Blog', () => {
+    const { track } = require('@/lib/plausible')
+    render(<Home />)
+    const blogLinks = screen.getAllByRole('link', { name: 'Blog' })
+    fireEvent.click(blogLinks[0])
+    expect(track).toHaveBeenCalledWith('Clic blog header')
   })
 })
