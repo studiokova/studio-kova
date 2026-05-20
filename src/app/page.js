@@ -60,7 +60,8 @@ export default function Home() {
           ))}
         </div>
         <div className="kova-pieces__quiz-cta">
-          <KovaButton variant="dark" href="/quiz" onClick={() => track("Clic offre gratuite")}>
+          <p className="kova-pieces__quiz-tagline">Pas sûre de votre style&nbsp;?</p>
+          <KovaButton variant="light" href="/quiz" onClick={() => track("Clic offre gratuite")}>
             Faire le quiz de style (3 min)
           </KovaButton>
         </div>
@@ -159,7 +160,7 @@ export default function Home() {
         </div>
       </section>
 
-      <KovaFooter full />
+      <KovaFooter />
     </>
   );
 }
