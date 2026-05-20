@@ -1685,7 +1685,7 @@ body {
    SÉLECTEUR DE PIÈCE
    ═══════════════════════════════════════ */
 .kova-pieces {
-  padding: 40px 20px 56px;
+  padding: 40px 20px 40px;
   background: var(--sauge-dk);
 }
 .kova-pieces__header { text-align: center; margin-bottom: 32px; }
@@ -1824,7 +1824,7 @@ body {
    LES 3 OFFRES
    ═══════════════════════════════════════ */
 .kova-offres {
-  padding: 64px 20px 56px;
+  padding: 56px 20px 40px;
   background: var(--craie);
 }
 .kova-offres__header { text-align: center; margin-bottom: 36px; }
@@ -1860,7 +1860,7 @@ body {
    ═══════════════════════════════════════ */
 .kova-how {
   background: var(--sauge-dk);
-  padding: 64px 24px 56px;
+  padding: 56px 24px 40px;
 }
 .kova-how__header { margin-bottom: 36px; }
 .kova-how__steps { display: flex; flex-direction: column; }
@@ -1924,7 +1924,7 @@ body {
 /* ═══════════════════════════════════════
    RÉASSURANCE
    ═══════════════════════════════════════ */
-.kova-reassurance { background: var(--craie); padding: 64px 24px 24px; }
+.kova-reassurance { background: var(--craie); padding: 56px 24px 24px; }
 .kova-reassurance__header { margin-bottom: 32px; }
 .kova-reassurance__list { display: flex; flex-direction: column; gap: 16px; max-width: 640px; }
 .kova-reassurance__item {
@@ -1942,7 +1942,7 @@ body {
 /* ═══════════════════════════════════════
    FAQ ACCORDION
    ═══════════════════════════════════════ */
-.kova-faq { background: var(--craie); padding: 32px 24px 56px; }
+.kova-faq { background: var(--craie); padding: 32px 24px 48px; }
 .kova-faq__header { margin-bottom: 32px; }
 .kova-faq__list { max-width: 720px; }
 .kova-faq details { border-bottom: 1px solid var(--gris-clair); }
@@ -1984,7 +1984,7 @@ body {
    ═══════════════════════════════════════ */
 .kova-cta-final {
   background: var(--sauge-dk);
-  padding: 72px 24px 64px;
+  padding: 56px 24px 56px;
   text-align: center;
 }
 .kova-cta-final__inner { max-width: 540px; margin: 0 auto; }
@@ -2004,3 +2004,16 @@ body {
   transition: opacity 0.2s;
 }
 .kova-cta-final__secondary:hover { opacity: 1; }
+
+
+/* ═══════════════════════════════════════
+   AÉRATION SECTIONS — DESKTOP
+   ═══════════════════════════════════════ */
+@media (min-width: 768px) {
+  .kova-offres      { padding-top: 72px; padding-bottom: 48px; }
+  .kova-how         { padding-top: 72px; padding-bottom: 48px; }
+  .kova-reassurance { padding-top: 72px; }
+  .kova-faq         { padding-bottom: 64px; }
+  .kova-cta-final   { padding-top: 72px; padding-bottom: 72px; }
+  .kova-pieces      { padding-bottom: 48px; }
+}

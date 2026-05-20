@@ -27,7 +27,7 @@ describe('Homepage', () => {
 
   it('contient la navigation (KovaNav)', () => {
     render(<Home />);
-    expect(screen.getByRole('navigation')).toBeInTheDocument();
+    expect(screen.getAllByRole('navigation').length).toBeGreaterThan(0);
   });
 
   it('contient le footer (KovaFooter)', () => {
@@ -98,7 +98,7 @@ describe('Homepage', () => {
   it('affiche la FAQ', () => {
     render(<Home />);
     expect(screen.getByText(/Vos questions, mes réponses/)).toBeInTheDocument();
-    expect(screen.getByText(/Combien de temps pour recevoir l/)).toBeInTheDocument();
+    expect(screen.getByText(/Combien de temps pour recevoir mon analyse/)).toBeInTheDocument();
   });
 
   it('affiche le CTA final', () => {

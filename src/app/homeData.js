@@ -44,11 +44,11 @@ export const HOW_STEPS = [
 ];
 
 export const FAQ_ITEMS = [
-  { q: "Combien de temps pour recevoir l'analyse ?", a: "48h maximum après réception de vos photos et du paiement." },
-  { q: "Est-ce que ça marche si je suis locataire ?", a: "Oui, c'est même notre cœur de cible. Nos recommandations privilégient les transformations réversibles : peinture, textiles, mobilier, éclairage." },
-  { q: "L'IA, c'est fiable pour de la déco ?", a: "L'IA analyse les photos et propose. Un humain (moi) supervise chaque livrable avant envoi. C'est cette combinaison qui rend l'analyse fiable et personnalisée." },
-  { q: "Quelle différence avec un décorateur d'intérieur ?", a: "Un décorateur facture 500 à 2 000€ par pièce et travaille sur plusieurs semaines. Studio Kova livre en 48h pour 69€ : c'est complémentaire, pas le même usage." },
-  { q: "Et si je ne suis pas satisfaite ?", a: "Vous m'écrivez. On ajuste. Si l'analyse ne correspond vraiment pas à votre pièce, je rembourse." },
+  { q: "Combien de temps pour recevoir mon analyse ?", a: "48h maximum après réception de vos photos et du paiement." },
+  { q: "À qui s'adresse l'analyse ?", a: "À toute personne qui veut transformer sa pièce sans payer un décorateur d'intérieur. Locataires comme propriétaires, petit budget comme budget confortable. L'analyse s'adapte à votre situation, votre mode de vie et ce que vous voulez garder dans la pièce." },
+  { q: "L'IA, c'est vraiment fiable pour de la déco ?", a: "L'IA analyse vos photos et propose. Je supervise chaque livrable avant envoi. C'est cette combinaison qui rend l'analyse précise et personnalisée." },
+  { q: "Quelle différence avec un décorateur d'intérieur ?", a: "Un décorateur d'intérieur facture 500 à 2000€ par pièce et travaille sur plusieurs semaines. L'analyse Studio Kova livre un plan exécutable en 48h pour 69€. C'est complémentaire, pas le même usage." },
+  { q: "Et si l'analyse ne me plaît pas ?", a: "Vous m'écrivez, on ajuste. Si l'analyse ne correspond vraiment pas à votre pièce, je rembourse." },
 ];
 
 export const REASSURANCE_ITEMS = [
