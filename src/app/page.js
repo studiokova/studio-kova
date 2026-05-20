@@ -31,6 +31,8 @@ export default function Home() {
 
       {/* ── 1. HERO ── */}
       <section className="kova-hero-pf">
+        <div className="kova-hero-pf__bg" style={{ backgroundImage: "url('/hero.webp')" }} />
+        <div className="kova-hero-pf__bg-overlay" />
         <div className="kova-hero-pf__inner">
           <h1 className="kova-hero-pf__title">
             Transformez votre pièce en 48h.<br />
@@ -60,7 +62,7 @@ export default function Home() {
               style={{ transitionDelay: `${i * 0.07}s` }}
               onClick={() => track("Clic pièce home", { piece: p.slug })}
             >
-              <div className="kova-piece-card__bg" style={{ background: p.bg }} />
+              <div className="kova-piece-card__bg" style={{ backgroundImage: `url(${p.img})` }} />
               <div className="kova-piece-card__overlay" />
               <span className="kova-piece-card__name">{p.label}</span>
             </a>
@@ -99,7 +101,7 @@ export default function Home() {
         <div className="kova-offres__grid">
           {OFFRES.map((o, i) => (
             <div key={i} className={`kova-card${o.featured ? " kova-card--featured" : ""} reveal`} ref={ref} style={{ transitionDelay: `${(i + 1) * 0.1}s` }}>
-              <div className="kova-card__img" style={{ background: o.bg }}>
+              <div className="kova-card__img" style={{ backgroundImage: `url(${o.img})` }}>
                 <div className="kova-card__img-overlay" />
                 <div className="kova-card__badge"><span className={`kova-badge ${o.badgeClass}`}>{o.badgeText}</span></div>
                 <div className="kova-card__price">
@@ -118,6 +120,9 @@ export default function Home() {
           ))}
         </div>
       </section>
+
+      {/* ── SÉPARATEUR PHOTO ── */}
+      <div className="kova-photo-sep" style={{ backgroundImage: "url('/section.webp')" }} />
 
       {/* ── 5. COMMENT FONCTIONNE L'ANALYSE IA ── */}
       <section className="kova-how">
@@ -172,8 +177,9 @@ export default function Home() {
       </section>
 
       {/* ── 8. CTA FINAL ── */}
-      <section className="kova-cta-final">
-        <div className="kova-cta-final__inner">
+      <section className="kova-cta-final" style={{ position: "relative", overflow: "hidden" }}>
+        <div style={{ position: "absolute", inset: "-40px", backgroundImage: "url('/bath.webp')", backgroundSize: "cover", backgroundPosition: "center", opacity: 0.08 }} />
+        <div className="kova-cta-final__inner" style={{ position: "relative", zIndex: 1 }}>
           <KovaHeading level="h2" light>Par quelle pièce on commence&nbsp;?</KovaHeading>
           <div className="kova-cta-final__buttons">
             <KovaButton variant="light" href="#pieces" fullWidth>Choisir ma pièce →</KovaButton>

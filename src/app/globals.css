@@ -1003,7 +1003,20 @@ body {
    PAGES BLOG
    ═══════════════════════════════════════ */
 .kova-blog-header { max-width: 800px; margin: 0 auto; padding: 56px 24px 40px; border-bottom: 1px solid var(--gris-clair); }
-.kova-blog-list   { max-width: 800px; margin: 0 auto; padding: 0 24px 80px; }
+.kova-blog-list {
+  max-width: 1140px;
+  margin: 0 auto;
+  padding: 32px 24px 80px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+@media (min-width: 640px) {
+  .kova-blog-list { grid-template-columns: repeat(2, 1fr); gap: 24px; }
+}
+@media (min-width: 860px) {
+  .kova-blog-list { grid-template-columns: repeat(3, 1fr); gap: 32px; }
+}
 .kova-post-card {
   display: block; text-decoration: none;
   padding: 32px 0; border-bottom: 1px solid var(--gris-clair);
@@ -1066,10 +1079,12 @@ body {
    ═══════════════════════════════════════ */
 @media (max-width: 640px) {
   .kova-blog-header    { padding: 40px 20px 32px; }
-  .kova-blog-list      { padding: 0 20px 60px; }
+  .kova-blog-list      { padding: 16px 16px 60px; gap: 16px; }
   .kova-article-wrap   { padding: 0 20px 80px; }
   .kova-article-header { padding: 36px 0 28px; margin-bottom: 32px; }
+  .kova-article-layout { padding: 32px 20px 80px; }
   .kova-article-footer { flex-direction: column; align-items: flex-start; }
+  .kova-article-cta    { padding: 24px 20px; }
   .kova-legal          { padding: 36px 20px 64px; }
   .kova-legal__table   { display: block; overflow-x: auto; -webkit-overflow-scrolling: touch; }
 }
@@ -1253,26 +1268,41 @@ body {
    KOVA ARTICLE CARD
    ═══════════════════════════════════════ */
 .kova-article-card {
-  display: block;
+  display: flex;
+  flex-direction: column;
   text-decoration: none;
-  padding: 32px 0;
-  border-bottom: 1px solid var(--gris-clair);
-  transition: opacity 0.2s;
+  border-radius: 14px;
+  border: 1px solid var(--gris-clair);
+  overflow: hidden;
+  background: #fff;
+  transition: border-color 0.2s, transform 0.2s;
 }
-.kova-article-card:first-child { padding-top: 36px; }
-.kova-article-card:hover { opacity: 0.75; }
+.kova-article-card:hover {
+  border-color: var(--cuivre);
+  transform: translateY(-2px);
+}
 .kova-article-card:hover .kova-article-card__title { color: var(--cuivre); }
+.kova-article-card__thumb {
+  height: 160px;
+  flex-shrink: 0;
+}
+.kova-article-card__body {
+  padding: 22px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+}
 .kova-article-card__meta {
   font-size: 11px;
   font-weight: 400;
   color: var(--gris);
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin-bottom: 8px;
 }
 .kova-article-card__title {
   font-family: var(--font-playfair, "Playfair Display"), serif;
-  font-size: clamp(18px, 2.5vw, 22px);
+  font-size: clamp(16px, 2vw, 19px);
   font-weight: 400;
   line-height: 1.3;
   color: var(--sauge-fonce);
@@ -1280,11 +1310,11 @@ body {
   transition: color 0.2s;
 }
 .kova-article-card__excerpt {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 300;
   color: var(--gris);
   line-height: 1.65;
-  max-width: 580px;
+  flex: 1;
   margin-bottom: 16px;
 }
 .kova-article-card__cta {
@@ -1298,9 +1328,103 @@ body {
 
 
 /* ═══════════════════════════════════════
-   ARTICLE BODY WRAP
+   ARTICLE LAYOUT (body + TOC)
    ═══════════════════════════════════════ */
-.kova-article-body-wrap { max-width: 700px; margin: 0 auto; padding: 44px 24px 100px; }
+.kova-article-layout {
+  max-width: 1060px;
+  margin: 0 auto;
+  padding: 44px 24px 100px;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  align-items: start;
+}
+@media (min-width: 860px) {
+  .kova-article-layout {
+    grid-template-columns: 1fr 220px;
+    gap: 64px;
+  }
+}
+.kova-article-main { min-width: 0; }
+
+/* ═══════════════════════════════════════
+   TABLE OF CONTENTS
+   ═══════════════════════════════════════ */
+.kova-toc {
+  display: none;
+}
+@media (min-width: 860px) {
+  .kova-toc {
+    display: block;
+    position: sticky;
+    top: 76px;
+  }
+}
+.kova-toc__label {
+  font-size: 10px;
+  font-weight: 500;
+  color: var(--gris);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+.kova-toc__list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  border-left: 1px solid var(--gris-clair);
+}
+.kova-toc__link {
+  display: block;
+  padding: 6px 0 6px 14px;
+  font-size: 13px;
+  font-weight: 300;
+  line-height: 1.45;
+  color: var(--gris);
+  text-decoration: none;
+  transition: color 0.15s;
+}
+.kova-toc__link:hover { color: var(--sauge-dk); }
+.kova-toc__link--active {
+  color: var(--cuivre);
+  font-weight: 400;
+  border-left: 2px solid var(--cuivre);
+  margin-left: -1px;
+}
+
+/* ═══════════════════════════════════════
+   ARTICLE CTA BLOCK
+   ═══════════════════════════════════════ */
+.kova-article-cta {
+  margin-top: 56px;
+  padding: 32px 28px;
+  background: var(--sauge-fonce);
+  border-radius: 14px;
+  color: var(--craie);
+}
+.kova-article-cta__eyebrow {
+  font-size: 10px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--sauge-text);
+  margin-bottom: 10px;
+}
+.kova-article-cta__label {
+  font-family: var(--font-playfair, "Playfair Display"), serif;
+  font-size: clamp(18px, 2.5vw, 22px);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--craie);
+  margin-bottom: 10px;
+}
+.kova-article-cta__desc {
+  font-size: 14px;
+  font-weight: 300;
+  line-height: 1.65;
+  color: rgba(245,239,228,0.75);
+  margin-bottom: 24px;
+}
 
 
 /* ═══════════════════════════════════════
@@ -1409,11 +1533,25 @@ body {
    HERO PIÈCE-FIRST
    ═══════════════════════════════════════ */
 .kova-hero-pf {
+  position: relative;
+  overflow: hidden;
   background: var(--sauge-dk);
   padding: 72px 24px 64px;
   text-align: center;
 }
-.kova-hero-pf__inner { max-width: 720px; margin: 0 auto; }
+.kova-hero-pf__bg {
+  position: absolute;
+  inset: 0;
+  background-size: cover;
+  background-position: center 40%;
+  animation: zoomIn 14s ease-out both;
+}
+.kova-hero-pf__bg-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(170deg, rgba(46,74,58,0.72) 0%, rgba(46,74,58,0.88) 100%);
+}
+.kova-hero-pf__inner { position: relative; z-index: 2; max-width: 720px; margin: 0 auto; }
 .kova-hero-pf__title {
   font-family: var(--font-playfair, "Playfair Display"), serif;
   font-size: clamp(28px, 7.5vw, 46px);
