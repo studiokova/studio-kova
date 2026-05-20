@@ -151,7 +151,7 @@ describe('POST /api/webhook', () => {
     })
   })
 
-  describe('Analyse 49€', () => {
+  describe('Analyse 69€', () => {
     it('retourne 400 si room_context est du JSON invalide', async () => {
       mockConstructEvent.mockReturnValue({
         type: 'checkout.session.completed',
@@ -224,7 +224,7 @@ describe('POST /api/webhook', () => {
         expect.objectContaining({ method: 'POST' })
       )
       expect(mockSendMetaEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ eventName: 'Purchase', value: 49 })
+        expect.objectContaining({ eventName: 'Purchase', value: 69 })
       )
     })
 

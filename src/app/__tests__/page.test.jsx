@@ -59,12 +59,7 @@ describe('Homepage', () => {
 
   it('affiche le titre hero pièce-first', () => {
     render(<Home />);
-    expect(screen.getByText(/Transformez votre pièce en 48h/)).toBeInTheDocument();
-  });
-
-  it('affiche le CTA hero vers le sélecteur de pièce', () => {
-    render(<Home />);
-    expect(screen.getByRole('link', { name: /Quelle pièce transformer/ })).toBeInTheDocument();
+    expect(screen.getByText(/Par où on commence/)).toBeInTheDocument();
   });
 
   it('affiche les 6 pièces', () => {
@@ -119,7 +114,7 @@ describe('Homepage', () => {
 
   it('affiche le CTA nav Analyse IA', () => {
     render(<Home />);
-    const ctaLinks = screen.getAllByRole('link', { name: /Analyse IA — 49€/ });
+    const ctaLinks = screen.getAllByRole('link', { name: /Analyse IA — 69€/ });
     expect(ctaLinks.length).toBeGreaterThan(0);
   });
 });
@@ -158,14 +153,6 @@ describe('Homepage — IntersectionObserver', () => {
 })
 
 describe('Homepage — CTA clicks', () => {
-  it('déclenche "Clic ancre piece" au clic sur le CTA hero', () => {
-    const { track } = require('@/lib/plausible')
-    render(<Home />)
-    const anchor = screen.getByRole('link', { name: /Quelle pièce transformer/ })
-    fireEvent.click(anchor)
-    expect(track).toHaveBeenCalledWith('Clic ancre piece')
-  })
-
   it('déclenche "Clic pièce home" avec la pièce au clic sur une carte', () => {
     const { track } = require('@/lib/plausible')
     render(<Home />)
@@ -177,8 +164,8 @@ describe('Homepage — CTA clicks', () => {
   it('déclenche "Clic offre 49" au clic sur le CTA Analyser ma pièce', () => {
     const { track } = require('@/lib/plausible')
     render(<Home />)
-    const analyseLink = screen.getByRole('link', { name: /Analyser ma pièce/ })
-    fireEvent.click(analyseLink)
+    const analyseLinks = screen.getAllByRole('link', { name: /Analyser ma pièce/ })
+    fireEvent.click(analyseLinks[0])
     expect(track).toHaveBeenCalledWith('Clic offre 49')
   })
 

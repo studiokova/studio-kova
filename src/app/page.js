@@ -34,16 +34,13 @@ export default function Home() {
         <div className="kova-hero-pf__bg" style={{ backgroundImage: "url('/hero.webp')" }} />
         <div className="kova-hero-pf__bg-overlay" />
         <div className="kova-hero-pf__inner">
-          <h1 className="kova-hero-pf__title">
-            Transformez votre pièce en 48h.<br />
-            <em>Sans décorateur à 2000€,<br />sans Pinterest infini.</em>
-          </h1>
+          <h1 className="kova-hero-pf__title">Par où on commence&nbsp;?</h1>
           <p className="kova-hero-pf__sub">
-            Analyse IA personnalisée + plan d&apos;action concret. Livré en 48h. À partir de 49€.
+            Une analyse personnalisée et un plan d&apos;action concret pour transformer votre pièce, livré en 48h.
           </p>
           <div className="kova-hero-pf__ctas">
-            <KovaButton variant="light" href="#pieces" onClick={() => track("Clic ancre piece")}>
-              Quelle pièce transformer&nbsp;? ↓
+            <KovaButton variant="light" href="/analyse" onClick={() => track("Clic offre 49")}>
+              Analyser ma pièce →
             </KovaButton>
             <KovaButton variant="ghost" href="#offres">Voir les offres</KovaButton>
           </div>
@@ -52,9 +49,6 @@ export default function Home() {
 
       {/* ── 2. SÉLECTEUR DE PIÈCE ── */}
       <section className="kova-pieces" id="pieces">
-        <div className="kova-pieces__header reveal" ref={ref}>
-          <KovaHeading level="h2">Quelle pièce voulez-vous transformer&nbsp;?</KovaHeading>
-        </div>
         <div className="kova-pieces__grid">
           {PIECES.map((p, i) => (
             <a
@@ -77,26 +71,7 @@ export default function Home() {
         </p>
       </section>
 
-      {/* ── 3. ANCRAGE PRIX ── */}
-      <section className="kova-price-anchor">
-        <div className="kova-price-anchor__header reveal" ref={ref}>
-          <KovaHeading level="h2">Combien coûte un intérieur qui vous ressemble&nbsp;?</KovaHeading>
-        </div>
-        <div className="kova-price-anchor__grid">
-          {[
-            { opt: "Décorateur d'intérieur", price: "500 à 2 000€/pièce", featured: false },
-            { opt: "Pinterest",              price: "Gratuit mais infini",  featured: false },
-            { opt: "Studio Kova",            price: "49€ — livré en 48h",  featured: true  },
-          ].map((r, i) => (
-            <div key={i} className={`kova-price-row${r.featured ? " kova-price-row--featured" : ""} reveal`} ref={ref} style={{ transitionDelay: `${i * 0.1}s` }}>
-              <span className="kova-price-row__option">{r.opt}</span>
-              <span className="kova-price-row__price">{r.price}</span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* ── 4. LES 3 OFFRES ── */}
+      {/* ── 3. LES 3 OFFRES ── */}
       <section className="kova-offres" id="offres">
         <div className="kova-offres__header reveal" ref={ref}>
           <KovaHeading level="h2">Choisissez votre niveau d&apos;accompagnement</KovaHeading>
