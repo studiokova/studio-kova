@@ -27,13 +27,13 @@ const INCLUDED = [
 export default function SurmesurePage() {
   return (
     <>
-      <KovaNav showBack backLabel="Accueil" backHref="/" />
+      <KovaNav full />
 
       <div className="kova-product-page">
 
         <div
           className="kova-product-page__img"
-          style={{ backgroundImage: "url('/lamp.webp')" }}
+          style={{ backgroundImage: "url('/ok/lamp.webp')" }}
         >
           <div className="kova-product-page__img-overlay" />
           <span className="kova-product-page__badge">

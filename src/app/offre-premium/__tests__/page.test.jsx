@@ -48,9 +48,9 @@ describe('Page Offre Premium', () => {
     expect(screen.getByText(/Démarrer mon projet/)).toBeInTheDocument();
   });
 
-  it('le bouton retour pointe vers "/"', () => {
+  it('le logo nav pointe vers "/"', () => {
     render(<OffrePremiumPage />);
-    const backLink = screen.getByRole('link', { name: /Accueil/ });
-    expect(backLink).toHaveAttribute('href', '/');
+    const homeLinks = screen.getAllByRole('link').filter(l => l.getAttribute('href') === '/');
+    expect(homeLinks.length).toBeGreaterThan(0);
   });
 });

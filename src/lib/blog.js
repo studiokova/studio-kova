@@ -24,6 +24,12 @@ export function getPostBySlug(slug) {
   return { frontmatter: data, content };
 }
 
+export function getPostsByPiece(piece) {
+  return getAllPosts()
+    .filter((post) => Array.isArray(post.pieces) && post.pieces.includes(piece))
+    .slice(0, 3);
+}
+
 export function formatDate(dateStr) {
   return new Intl.DateTimeFormat("fr-FR", {
     year: "numeric",

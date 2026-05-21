@@ -59,16 +59,21 @@ describe('Homepage', () => {
 
   it('affiche le titre hero', () => {
     render(<Home />);
-    expect(screen.getByText(/Une pièce qui vous ressemble/)).toBeInTheDocument();
+    expect(screen.getByText(/La déco personnalisée/)).toBeInTheDocument();
   });
 
   it('affiche les 6 pièces', () => {
     render(<Home />);
-    expect(screen.getByRole('link', { name: 'Chambre' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Salon' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Cuisine' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Bureau' })).toBeInTheDocument();
-    expect(screen.getByRole('link', { name: 'Entrée' })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /chambre/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /salon/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /cuisine/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /bureau/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /entr[eé]e/i })).toBeInTheDocument();
+  });
+
+  it('affiche le texte d\'instruction au-dessus de la grille', () => {
+    render(<Home />);
+    expect(screen.getByText('Choisissez la pièce à transformer')).toBeInTheDocument();
   });
 
   it('affiche les trois offres avec les nouveaux noms', () => {
@@ -89,15 +94,9 @@ describe('Homepage', () => {
     expect(screen.getByText('Vous recevez en 48h')).toBeInTheDocument();
   });
 
-  it('affiche la section réassurance', () => {
-    render(<Home />);
-    expect(screen.getByText(/Pourquoi Studio Kova/)).toBeInTheDocument();
-    expect(screen.getByText(/Livré en 48h chrono/)).toBeInTheDocument();
-  });
-
   it('affiche la FAQ', () => {
     render(<Home />);
-    expect(screen.getByText(/Vos questions, mes réponses/)).toBeInTheDocument();
+    expect(screen.getByText(/Les questions que vous me posez/)).toBeInTheDocument();
     expect(screen.getByText(/Combien de temps pour recevoir mon analyse/)).toBeInTheDocument();
   });
 
@@ -156,7 +155,7 @@ describe('Homepage — CTA clicks', () => {
   it('déclenche "Clic pièce home" avec la pièce au clic sur une carte', () => {
     const { track } = require('@/lib/plausible')
     render(<Home />)
-    const chambreLink = screen.getByRole('link', { name: 'Chambre' })
+    const chambreLink = screen.getByRole('link', { name: /chambre/i })
     fireEvent.click(chambreLink)
     expect(track).toHaveBeenCalledWith('Clic pièce home', { piece: 'chambre' })
   })

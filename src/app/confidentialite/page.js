@@ -8,7 +8,7 @@ export const metadata = {
 export default function Confidentialite() {
   return (
     <>
-      <KovaNav showBack backLabel="Accueil" backHref="/" />
+      <KovaNav full />
 
       <div className="kova-legal">
         <h1>Politique de confidentialité</h1>

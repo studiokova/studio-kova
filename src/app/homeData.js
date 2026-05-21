@@ -1,15 +1,15 @@
 export const PIECES = [
-  { slug: "chambre",      label: "Chambre",      img: "/A.webp" },
-  { slug: "salon",        label: "Salon",         img: "/B.webp" },
-  { slug: "salle-de-bain",label: "Salle de bain", img: "/C.webp" },
-  { slug: "cuisine",      label: "Cuisine",       img: "/D.webp" },
-  { slug: "bureau",       label: "Bureau",        img: "/E.webp" },
-  { slug: "entree",       label: "Entrée",        img: "/F.webp" },
+  { slug: "chambre",      label: "Chambre",      img: "/ok/A.webp", aria: "Transformer ma chambre" },
+  { slug: "salon",        label: "Salon",         img: "/ok/B.webp", aria: "Transformer mon salon" },
+  { slug: "salle-de-bain",label: "Salle de bain", img: "/ok/C.webp", aria: "Transformer ma salle de bain" },
+  { slug: "cuisine",      label: "Cuisine",       img: "/ok/D.webp", aria: "Transformer ma cuisine" },
+  { slug: "bureau",       label: "Bureau",        img: "/ok/E.webp", aria: "Transformer mon bureau" },
+  { slug: "entree",       label: "Entrée",        img: "/ok/F.webp", aria: "Transformer mon entrée" },
 ];
 
 export const OFFRES = [
   {
-    img: "/window.webp",
+    img: "/ok/window.webp",
     badgeText: "Gratuit", badgeClass: "kova-badge--gold",
     price: "Gratuit",
     title: "Quiz de style",
@@ -18,7 +18,7 @@ export const OFFRES = [
     event: "Clic offre gratuite", featured: false,
   },
   {
-    img: "/shelves.webp",
+    img: "/ok/shelves.webp",
     badgeText: "Recommandé", badgeClass: "kova-badge--copper",
     price: "69€",
     title: "Analyse IA + plan d'action en 48h",
@@ -27,7 +27,7 @@ export const OFFRES = [
     event: "Clic offre 49", featured: true,
   },
   {
-    img: "/lamp.webp",
+    img: "/ok/lamp.webp",
     badgeText: "CLÉ EN MAIN", badgeClass: "kova-badge--dark",
     priceFrom: "à partir de", price: "299€", priceUnit: "/pièce",
     title: "Aménagement clé en main",

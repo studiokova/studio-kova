@@ -77,7 +77,7 @@ export default function ConfirmationContent() {
     return (
       <>
         <style>{CSS}</style>
-        <KovaNav showBack backLabel="Accueil" backHref="/" />
+        <KovaNav full />
         <div className="an-success">
           <div className="an-success-icon">✦</div>
           <KovaHeading level="h1">Votre commande<br /><em>est confirmée.</em></KovaHeading>

@@ -15,11 +15,11 @@ export default function BlogPage() {
 
   return (
     <>
-      <KovaNav showBack backLabel="Accueil" backHref="/" />
+      <KovaNav full />
 
       <KovaPageHeader
         eyebrow="Journal"
-        title="Conseils & inspirations déco"
+        title="Conseils déco intérieur : la méthode Studio Kova"
         sub="Des méthodes concrètes, des règles utiles et des perspectives pour transformer votre intérieur avec justesse."
       />
 
@@ -34,6 +34,7 @@ export default function BlogPage() {
               date={formatDate(post.date)}
               title={post.title}
               excerpt={post.excerpt}
+              image={post.image || null}
             />
           ))
         )}

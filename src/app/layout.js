@@ -35,7 +35,7 @@ export const metadata = {
     type: 'website',
     images: [
       {
-        url: '/og-image.webp',
+        url: '/ok/og-image.webp',
         width: 1200,
         height: 630,
         alt: 'Studio Kova — Transformez votre pièce en 48h',
@@ -46,7 +46,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: "Studio Kova — Transformez votre pièce en 48h",
     description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 49€.",
-    images: ['/og-image.webp'],
+    images: ['/ok/og-image.webp'],
   },
   other: {
     'p:domain_verify': 'f96331ede63e06b65df7db56e147db91',

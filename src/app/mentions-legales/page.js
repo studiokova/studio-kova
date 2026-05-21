@@ -8,7 +8,7 @@ export const metadata = {
 export default function MentionsLegales() {
   return (
     <>
-      <KovaNav showBack backLabel="Accueil" backHref="/" />
+      <KovaNav full />
 
       <div className="kova-legal">
         <h1>Mentions légales</h1>

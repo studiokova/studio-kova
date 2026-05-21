@@ -2,10 +2,45 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllPosts, getPostBySlug, formatDate } from "@/lib/blog";
+import rehypeFrenchTypo from "@/lib/rehypeFrenchTypo";
 import KovaNav        from "@/components/kova/KovaNav";
 import KovaPageHeader from "@/components/kova/KovaPageHeader";
 import KovaButton     from "@/components/kova/KovaButton";
 import KovaFooter     from "@/components/kova/KovaFooter";
+
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://studiokova.fr";
+
+function buildArticleSchema(frontmatter, slug) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: frontmatter.title,
+    description: frontmatter.excerpt || "",
+    datePublished: frontmatter.date,
+    dateModified: frontmatter.date,
+    url: `${SITE_URL}/blog/${slug}`,
+    ...(frontmatter.image && { image: `${SITE_URL}${frontmatter.image}` }),
+    author: { "@type": "Organization", name: "Studio Kova", url: SITE_URL },
+    publisher: {
+      "@type": "Organization",
+      name: "Studio Kova",
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/logo-email.png` },
+    },
+  };
+}
+
+function buildFaqSchema(faq) {
+  if (!Array.isArray(faq) || faq.length === 0) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map(({ question, answer }) => ({
+      "@type": "Question",
+      name: question,
+      acceptedAnswer: { "@type": "Answer", text: answer },
+    })),
+  };
+}
 
 export async function generateStaticParams() {
   const posts = getAllPosts();
@@ -16,9 +51,28 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   try {
     const { frontmatter } = getPostBySlug(slug);
+    const title = `${frontmatter.title} — Studio Kova`;
+    const description = frontmatter.excerpt || "";
+    const ogImage = frontmatter.image
+      ? { url: `${SITE_URL}${frontmatter.image}`, width: 1200, height: 630, alt: title }
+      : { url: `${SITE_URL}/og-image.webp` };
     return {
-      title: `${frontmatter.title} — Studio Kova`,
-      description: frontmatter.excerpt || "",
+      title,
+      description,
+      openGraph: {
+        title,
+        description,
+        url: `${SITE_URL}/blog/${slug}`,
+        type: "article",
+        publishedTime: frontmatter.date,
+        images: [ogImage],
+      },
+      twitter: {
+        card: "summary_large_image",
+        title,
+        description,
+        images: [ogImage.url],
+      },
     };
   } catch {
     return {};
@@ -36,10 +90,16 @@ export default async function BlogPostPage({ params }) {
   }
 
   const { frontmatter, content } = post;
+  const articleSchema = buildArticleSchema(frontmatter, slug);
+  const faqSchema = buildFaqSchema(frontmatter.faq);
 
   return (
     <>
-      <KovaNav showBack backLabel="Journal" backHref="/blog" />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleSchema) }} />
+      {faqSchema && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      )}
+      <KovaNav full />
 
       <KovaPageHeader
         eyebrow={formatDate(frontmatter.date)}
@@ -48,9 +108,12 @@ export default async function BlogPostPage({ params }) {
         narrow
       />
 
-      <div className="kova-article-body-wrap">
+      <div className="kova-article-wrap">
         <div className="kova-article-body">
-          <MDXRemote source={content} />
+          <MDXRemote
+            source={content}
+            options={{ mdxOptions: { rehypePlugins: [rehypeFrenchTypo] } }}
+          />
         </div>
 
         <footer className="kova-article-footer">

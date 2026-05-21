@@ -15,13 +15,13 @@ export const metadata = {
 export default function JeTransformeMaPiecePage() {
   return (
     <>
-      <KovaNav showBack backLabel="Accueil" backHref="/" />
+      <KovaNav full />
 
       <div className="kova-product-page">
 
         <div
           className="kova-product-page__img"
-          style={{ backgroundImage: "url('/shelves.webp')" }}
+          style={{ backgroundImage: "url('/ok/shelves.webp')" }}
         >
           <div className="kova-product-page__img-overlay" />
           <span className="kova-product-page__badge">

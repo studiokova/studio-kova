@@ -126,7 +126,7 @@ export default function ComingSoon({ offre, titre, description, couleur }) {
 
       <div className="cs-wrap">
 
-        <KovaNav showBack backLabel="Accueil" backHref="/" />
+        <KovaNav full />
 
         <main className="cs-main">
 

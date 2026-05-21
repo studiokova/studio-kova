@@ -87,9 +87,9 @@ describe('Quiz — navigation et questions', () => {
     expect(doneAfter).toBeGreaterThan(doneBefore);
   });
 
-  it('le bouton retour est présent sur le quiz', () => {
+  it('le label de l\'offre est présent sur le quiz', () => {
     render(<Quiz />);
-    expect(screen.getByText(/Accueil/)).toBeInTheDocument();
+    expect(screen.getByText(/JE TROUVE MON STYLE/i)).toBeInTheDocument();
   });
 
   it('toutes les options Q1 sont présentes', () => {

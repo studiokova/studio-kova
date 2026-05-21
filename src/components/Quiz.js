@@ -748,7 +748,7 @@ export default function Quiz() {
       {/* ─── GATE ─── */}
       {phase === "gate" && profile && (
         <>
-          <KovaNav showBack backLabel="Accueil" backHref="/" />
+          <KovaNav full />
           <div className="qz-gate">
             <div className="qz-gate-inner">
               {/* Aperçu du profil — nom + axes visibles, reste flouté */}
@@ -956,7 +956,7 @@ export default function Quiz() {
       {/* ─── RESULT ─── */}
       {phase === "result" && profile && (
         <>
-          <KovaNav showBack backLabel="Accueil" backHref="/" />
+          <KovaNav full />
           <div className="qz-result">
             <div className="qz-result-inner">
               <h1 className="qz-result-name">{profile.name}</h1>
