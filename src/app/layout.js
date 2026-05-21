@@ -1,6 +1,7 @@
 import { DM_Sans, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import MetaPixel from "./components/MetaPixel";
+import PinterestPixel from "./components/PinterestPixel";
 import UtmCapture from "./components/UtmCapture";
 import { ConsentProvider } from "./components/ConsentContext";
 import ConsentBanner from "./components/ConsentBanner";
@@ -74,6 +75,7 @@ export default function RootLayout({ children }) {
         }} />
         <ConsentProvider>
           <MetaPixel />
+          <PinterestPixel />
           <UtmCapture />
           {children}
           <ConsentBanner />
