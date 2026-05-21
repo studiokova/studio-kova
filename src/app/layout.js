@@ -47,6 +47,9 @@ export const metadata = {
     description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 49€.",
     images: ['/og-image.webp'],
   },
+  other: {
+    'p:domain_verify': 'f96331ede63e06b65df7db56e147db91',
+  },
 };
 
 export default function RootLayout({ children }) {
