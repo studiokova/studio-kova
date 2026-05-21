@@ -10,7 +10,7 @@ export const chambreData = {
   hero: {
     h1: 'Décorer votre chambre',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre chambre.",
-    image: '/ok/A.webp',
+    image: '/ok/bedroom.webp',
     ctaPrimary: { label: 'Analyser ma chambre — 69€', href: '/analyse?piece=chambre' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },

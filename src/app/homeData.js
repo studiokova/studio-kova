@@ -1,10 +1,10 @@
 export const PIECES = [
-  { slug: "chambre",      label: "Chambre",      img: "/ok/A.webp", aria: "Transformer ma chambre" },
-  { slug: "salon",        label: "Salon",         img: "/ok/B.webp", aria: "Transformer mon salon" },
-  { slug: "salle-de-bain",label: "Salle de bain", img: "/ok/C.webp", aria: "Transformer ma salle de bain" },
-  { slug: "cuisine",      label: "Cuisine",       img: "/ok/D.webp", aria: "Transformer ma cuisine" },
-  { slug: "bureau",       label: "Bureau",        img: "/ok/E.webp", aria: "Transformer mon bureau" },
-  { slug: "entree",       label: "Entrée",        img: "/ok/F.webp", aria: "Transformer mon entrée" },
+  { slug: "chambre",      label: "Chambre",      img: "/ok/bedroom.webp",     aria: "Transformer ma chambre" },
+  { slug: "salon",        label: "Salon",         img: "/ok/living-room.webp", aria: "Transformer mon salon" },
+  { slug: "salle-de-bain",label: "Salle de bain", img: "/ok/bath.webp",        aria: "Transformer ma salle de bain" },
+  { slug: "cuisine",      label: "Cuisine",       img: "/ok/window.webp",      aria: "Transformer ma cuisine" },
+  { slug: "bureau",       label: "Bureau",        img: "/ok/office.webp",      aria: "Transformer mon bureau" },
+  { slug: "entree",       label: "Entrée",        img: "/ok/entryway.webp",    aria: "Transformer mon entrée" },
 ];
 
 export const OFFRES = [

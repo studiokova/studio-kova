@@ -10,7 +10,7 @@ export const salleDeBainData = {
   hero: {
     h1: 'Décorer votre salle de bain',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre salle de bain.",
-    image: '/ok/C.webp',
+    image: '/ok/bath.webp',
     ctaPrimary: { label: 'Analyser ma salle de bain — 69€', href: '/analyse?piece=salle-de-bain' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },

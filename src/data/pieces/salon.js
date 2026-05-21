@@ -10,7 +10,7 @@ export const salonData = {
   hero: {
     h1: 'Décorer votre salon',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre salon.",
-    image: '/ok/B.webp',
+    image: '/ok/living-room.webp',
     ctaPrimary: { label: 'Analyser mon salon — 69€', href: '/analyse?piece=salon' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },
