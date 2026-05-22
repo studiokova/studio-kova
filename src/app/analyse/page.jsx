@@ -185,15 +185,6 @@ export default function AnalysePage() {
       const data = await res.json();
       const profile = data.profile || null;
       setStyleProfile(profile);
-      if (profile) {
-        setStyleContext({
-          ambiance: profile.ambiance_cible?.slice(0, 2) || [],
-          couleur_aimee: profile.couleurs_aimees?.[0] || '',
-          couleur_evitee: profile.couleurs_evitees?.[0] || '',
-          matieres: profile.matieres_preferees || [],
-        });
-        styleModifiedRef.current = false;
-      }
     } catch {
       setStyleProfile(null);
     }
@@ -250,7 +241,7 @@ export default function AnalysePage() {
       const res = await fetch('/api/checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, photoUrls, roomContext, styleContext, utms }),
+        body: JSON.stringify({ email, photoUrls, roomContext, styleContext, styleProfile, utms }),
       });
       const { url, error } = await res.json();
       if (error) throw new Error(error);

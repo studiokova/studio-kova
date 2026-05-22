@@ -12,7 +12,7 @@ export async function POST(request) {
     return Response.json({ error: 'Corps invalide' }, { status: 400 })
   }
 
-  const { email, photoUrls, roomContext, styleContext, utms } = body
+  const { email, photoUrls, roomContext, styleContext, styleProfile, utms } = body
 
   if (!email || !photoUrls?.length || !roomContext || !styleContext) {
     return Response.json({ error: 'email, photoUrls, roomContext et styleContext sont requis' }, { status: 400 })
@@ -36,6 +36,13 @@ export async function POST(request) {
         photo_urls: JSON.stringify(photoUrls),
         room_context: JSON.stringify(roomContext),
         style_context: JSON.stringify(styleContext),
+        style_profile: styleProfile ? JSON.stringify({
+          style_name: styleProfile.style_name,
+          couleurs_aimees: styleProfile.couleurs_aimees,
+          couleurs_evitees: styleProfile.couleurs_evitees,
+          ambiance_cible: styleProfile.ambiance_cible,
+          matieres_preferees: styleProfile.matieres_preferees,
+        }) : '',
         meta_event_id: metaEventId,
         utm_source: u.utm_source || '',
         utm_medium: u.utm_medium || '',
