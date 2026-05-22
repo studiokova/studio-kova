@@ -136,7 +136,7 @@ describe('PieceTemplate', () => {
 
   it('affiche les titres des articles fournis', () => {
     render(<PieceTemplate data={mockData} relatedPosts={mockRelatedPosts} />);
-    expect(screen.getByText("Décorer son appartement : le guide complet")).toBeInTheDocument();
+    expect(screen.getByText("Décorer son appartement : la méthode sans Pinterest")).toBeInTheDocument();
     expect(screen.getByText("Comment choisir sa palette de couleurs pour une pièce ?")).toBeInTheDocument();
   });
 

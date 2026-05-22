@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 import { piecesData } from '@/data/pieces';
-import generateStaticParams, { generateMetadata, default as PiecePage } from '../page';
+import PiecePage, { generateStaticParams, generateMetadata } from '../page';
 
 jest.mock('next/navigation', () => ({
   notFound: jest.fn(() => { throw new Error('NOT_FOUND'); }),
