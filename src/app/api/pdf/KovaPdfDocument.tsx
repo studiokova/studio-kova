@@ -294,28 +294,11 @@ export interface AiResult {
 export interface KovaPdfDocumentProps {
   aiResult: AiResult
   logoBase64: string
-  photoUrl: string | null
+  photoUrls: string[]
   roomContext?: Record<string, unknown>
 }
 
-export function KovaPdfDocument({ aiResult, logoBase64, photoUrl, roomContext }: KovaPdfDocumentProps) {
-  let firstPhotoUrl: string | null = null
-  if (photoUrl) {
-    if (Array.isArray(photoUrl)) {
-      firstPhotoUrl = (photoUrl as string[])[0] ?? null
-    } else if (typeof photoUrl === 'string') {
-      if (photoUrl.startsWith('[')) {
-        try {
-          const parsed = JSON.parse(photoUrl)
-          firstPhotoUrl = Array.isArray(parsed) ? parsed[0] : parsed
-        } catch {
-          firstPhotoUrl = photoUrl
-        }
-      } else {
-        firstPhotoUrl = photoUrl
-      }
-    }
-  }
+export function KovaPdfDocument({ aiResult, logoBase64, photoUrls, roomContext }: KovaPdfDocumentProps) {
 
   const palette   = (aiResult.palette   ?? []).slice(0, 5)
   const priorites = (aiResult.priorites ?? []).slice(0, 4)
@@ -328,8 +311,14 @@ export function KovaPdfDocument({ aiResult, logoBase64, photoUrl, roomContext }:
       <Page size="A4" style={s.page}>
         <PageHeader logoBase64={logoBase64} />
 
-        {firstPhotoUrl
-          ? <Image src={firstPhotoUrl} style={{ width: '100%', height: 220, objectFit: 'cover' }} />
+        {photoUrls.length > 0
+          ? (
+            <View style={{ flexDirection: 'row', width: '100%', height: 220 }}>
+              {photoUrls.map((url, i) => (
+                <Image key={i} src={url} style={{ flex: 1, height: 220, objectFit: 'cover' }} />
+              ))}
+            </View>
+          )
           : <View style={s.photoFallback}><Text style={s.photoFallbackText}>Votre pièce</Text></View>
         }
 
@@ -377,7 +366,7 @@ export function KovaPdfDocument({ aiResult, logoBase64, photoUrl, roomContext }:
       <Page size="A4" style={s.page}>
         <PageHeader logoBase64={logoBase64} />
 
-        <View wrap={false} style={s.contentPage2}>
+        <View style={s.contentPage2}>
           <Text style={s.sectionLabel}>Vos priorités</Text>
           {priorites.map((p, i) => (
             <View

@@ -9,12 +9,15 @@ import { KovaPdfDocument } from './KovaPdfDocument'
 const logoPath = path.join(process.cwd(), 'public/images/logo-transparent-blanc.png')
 const logoBase64 = `data:image/png;base64,${fs.readFileSync(logoPath).toString('base64')}`
 
-function parsePhotoUrl(raw) {
-  if (!raw) return null
+function parsePhotoUrls(raw) {
+  if (!raw) return []
   if (raw.startsWith('[')) {
-    try { return JSON.parse(raw)[0] ?? null } catch {}
+    try {
+      const parsed = JSON.parse(raw)
+      return Array.isArray(parsed) ? parsed : [raw]
+    } catch {}
   }
-  return raw
+  return [raw]
 }
 
 export async function POST(request) {
@@ -39,21 +42,25 @@ export async function POST(request) {
     ? JSON.parse(analysis.room_context)
     : analysis.room_context
 
-  // Vérifie que la photo est accessible avant de la passer au composant
-  let photoUrl = parsePhotoUrl(analysis.photo_url)
-  if (photoUrl) {
-    try {
-      const test = await fetch(photoUrl, { method: 'HEAD' })
-      if (!test.ok) photoUrl = null
-    } catch { photoUrl = null }
-  }
+  // Vérifie que chaque photo est accessible avant de la passer au composant
+  const rawUrls = parsePhotoUrls(analysis.photo_url)
+  const photoUrls = (
+    await Promise.all(
+      rawUrls.map(async (url) => {
+        try {
+          const test = await fetch(url, { method: 'HEAD' })
+          return test.ok ? url : null
+        } catch { return null }
+      })
+    )
+  ).filter(Boolean)
 
   try {
     const pdfBuffer = await renderToBuffer(
       React.createElement(KovaPdfDocument, {
         aiResult: analysis.ai_result,
         logoBase64,
-        photoUrl,
+        photoUrls,
         roomContext: rc,
       })
     )

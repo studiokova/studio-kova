@@ -120,9 +120,9 @@ export async function POST(request) {
     addContactToList(customer_email, process.env.BREVO_LIST_ANALYSIS_MARKETING, { OFFRE: 'analysis' })
   }
 
-  // Déclenche l'analyse IA en fire-and-forget
+  // Déclenche l'analyse IA (awaité pour éviter que Vercel tue la fonction avant l'appel)
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL
-  fetch(`${baseUrl}/api/analyze`, {
+  await fetch(`${baseUrl}/api/analyze`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ analysisId: analysis.id }),
