@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 
-export default function KovaArticleCard({ href, date, title, excerpt, image }) {
+export default function KovaArticleCard({ href, date, title, excerpt, image, priority = false }) {
   return (
     <Link href={href} className="kova-article-card">
       {image && (
@@ -12,6 +12,7 @@ export default function KovaArticleCard({ href, date, title, excerpt, image }) {
             fill
             sizes="(min-width: 860px) 33vw, (min-width: 640px) 50vw, 100vw"
             style={{ objectFit: "cover" }}
+            priority={priority}
           />
         </div>
       )}

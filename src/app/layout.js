@@ -55,7 +55,7 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="fr">
+    <html lang="fr" data-scroll-behavior="smooth">
       <head>
         {/* Privacy-friendly analytics by Plausible */}
         <script defer data-domain="studiokova.fr" src="https://plausible.io/js/script.manual.revenue.tagged-events.js" />

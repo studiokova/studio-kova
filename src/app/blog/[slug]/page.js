@@ -60,6 +60,7 @@ export async function generateMetadata({ params }) {
     return {
       title,
       description,
+      ...(frontmatter.keywords?.length && { keywords: frontmatter.keywords }),
       openGraph: {
         title,
         description,

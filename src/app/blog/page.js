@@ -4,10 +4,26 @@ import KovaPageHeader  from "@/components/kova/KovaPageHeader";
 import KovaArticleCard from "@/components/kova/KovaArticleCard";
 import KovaFooter      from "@/components/kova/KovaFooter";
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://studiokova.fr";
+
 export const metadata = {
   title: "Journal - Studio Kova",
   description:
     "Conseils décoration, méthodes et inspirations pour transformer votre intérieur avec justesse.",
+  openGraph: {
+    title: "Journal Studio Kova — Conseils et méthodes décoration",
+    description:
+      "Guides pratiques pour décorer votre intérieur avec méthode : couleurs, textiles, pièce par pièce.",
+    url: `${SITE_URL}/blog`,
+    type: "website",
+    images: [{ url: `${SITE_URL}/og-image.webp` }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Journal Studio Kova — Conseils décoration",
+    description:
+      "Guides pratiques pour décorer votre intérieur avec méthode : couleurs, textiles, pièce par pièce.",
+  },
 };
 
 export default function BlogPage() {
@@ -27,7 +43,7 @@ export default function BlogPage() {
         {posts.length === 0 ? (
           <div className="kova-blog-empty">Aucun article pour le moment. Revenez bientôt.</div>
         ) : (
-          posts.map((post) => (
+          posts.map((post, i) => (
             <KovaArticleCard
               key={post.slug}
               href={`/blog/${post.slug}`}
@@ -35,6 +51,7 @@ export default function BlogPage() {
               title={post.title}
               excerpt={post.excerpt}
               image={post.image || null}
+              priority={i === 0}
             />
           ))
         )}
