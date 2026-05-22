@@ -53,7 +53,7 @@ export default function StepQuestions({ styleProfile, onSubmit }) {
         <div style={gap}>
           <KovaAlert
             type="info"
-            message={`Votre profil style "${styleProfile.style_name}" a été retrouvé — vos préférences sont déjà prises en compte.`}
+            message={`Votre profil style "${styleProfile.style_name}" a été retrouvé - vos préférences sont déjà prises en compte.`}
           />
         </div>
       )}
@@ -62,7 +62,7 @@ export default function StepQuestions({ styleProfile, onSubmit }) {
         <div style={gap}>
           <KovaAlert
             type="info"
-            message="Vous n'avez pas encore fait le quiz gratuit — répondez à ces quelques questions pour personnaliser votre analyse."
+            message="Vous n'avez pas encore fait le quiz gratuit - répondez à ces quelques questions pour personnaliser votre analyse."
           />
         </div>
       )}

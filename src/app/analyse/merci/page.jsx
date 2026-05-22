@@ -4,7 +4,7 @@ import { ANALYSE_LIVRABLES } from '@/lib/config'
 import MerciTracker from './MerciTracker'
 
 export const metadata = {
-  title: 'Analyse lancée — Studio Kova',
+  title: 'Analyse lancée - Studio Kova',
   robots: { index: false, follow: false },
 }
 

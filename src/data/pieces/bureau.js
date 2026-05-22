@@ -11,7 +11,7 @@ export const bureauData = {
     h1: 'Aménager votre bureau à la maison',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre espace de travail.",
     image: '/ok/office.webp',
-    ctaPrimary: { label: 'Analyser mon bureau — 69€', href: '/analyse?piece=bureau' },
+    ctaPrimary: { label: 'Analyser mon bureau - 69€', href: '/analyse?piece=bureau' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },
 
@@ -66,7 +66,7 @@ Et si possible, gardez en tête que ce bureau doit aussi pouvoir disparaître. L
 
   ctaFinal: {
     title: 'Prête à transformer votre bureau ?',
-    ctaPrimary: { label: 'Analyser mon bureau — 69€', href: '/analyse?piece=bureau' },
+    ctaPrimary: { label: 'Analyser mon bureau - 69€', href: '/analyse?piece=bureau' },
     ctaSecondary: { label: "Voir l'aménagement clé en main", href: '/surmesure' },
   },
 };

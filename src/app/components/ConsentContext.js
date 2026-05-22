@@ -7,7 +7,7 @@ const STORAGE_KEY = 'studiokova_consent';
 
 export function ConsentProvider({ children }) {
   const [consent, setConsent] = useState(null);
-  // Distinguishes "not yet read" from "no stored choice" — both are null for consent
+  // Distinguishes "not yet read" from "no stored choice" - both are null for consent
   const [isLoaded, setIsLoaded] = useState(false);
   const [isPreferencesOpen, setIsPreferencesOpen] = useState(false);
 

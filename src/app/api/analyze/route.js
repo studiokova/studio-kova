@@ -13,14 +13,14 @@ Tu ne fais jamais de généralités. Chaque recommandation doit être liée à q
 
 function buildPrompt(roomContext, styleContext, styleProfile) {
   const sc = styleContext || {}
-  const profileBlock = styleProfile ? `# Son profil style général — contexte de fond uniquement
+  const profileBlock = styleProfile ? `# Son profil style général - contexte de fond uniquement
 Profil : ${styleProfile.style_name}
 Tendances générales : ${styleProfile.ambiance_cible?.join(', ')}, ${styleProfile.couleurs_aimees?.join(', ')}, ${styleProfile.matieres_preferees?.join(', ')}
 Note : ce profil reflète ses goûts généraux. Les préférences exprimées ci-dessus pour cette pièce précise priment toujours sur ce profil.
 
 ` : ''
 
-  return `# Cette pièce — priorité absolue
+  return `# Cette pièce - priorité absolue
 Type de pièce : ${roomContext.type_piece}
 Approche souhaitée : ${roomContext.approche}
 Ce que la cliente veut garder : ${roomContext.garder || 'non précisé'}
@@ -28,7 +28,7 @@ Ce qui la dérange le plus : "${roomContext.probleme || 'non précisé'}"
 Budget : ${roomContext.budget}
 Pourquoi elle fait cette analyse maintenant : ${roomContext.motivation || 'non précisé'}
 
-# Ses préférences pour cette pièce — priorité haute
+# Ses préférences pour cette pièce - priorité haute
 Ambiance souhaitée : ${sc.ambiance?.join(', ') || 'non précisé'}
 Couleur qu'elle aime : ${sc.couleur_aimee || 'non précisé'}
 Couleur qu'elle veut absolument éviter : ${sc.couleur_evitee || 'non précisé'}
@@ -100,7 +100,7 @@ async function sendAlertEmail(analysisId, clientEmail, errorMsg) {
     body: JSON.stringify({
       sender: { name: 'Studio Kova', email: 'hello@studiokova.fr' },
       to: [{ email: 'hello@studiokova.fr' }],
-      subject: `Analyse échouée — ${analysisId}`,
+      subject: `Analyse échouée - ${analysisId}`,
       textContent: `Cliente : ${clientEmail}\n\nErreur : ${errorMsg}`,
     }),
   }).catch((err) => console.error('[analyze] alert email:', err?.message))
@@ -177,7 +177,7 @@ export async function POST(request) {
 
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL
 
-  // 1. Génération PDF — attendue avant suppression des photos
+  // 1. Génération PDF - attendue avant suppression des photos
   let pdfUrl = null
   try {
     const pdfRes = await fetch(`${baseUrl}/api/pdf`, {
@@ -205,14 +205,14 @@ export async function POST(request) {
   //   )
   // }
 
-  // 2. Notification interne — PDF à envoyer manuellement à la cliente
+  // 2. Notification interne - PDF à envoyer manuellement à la cliente
   await fetch('https://api.brevo.com/v3/smtp/email', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json', 'api-key': process.env.BREVO_API_KEY },
     body: JSON.stringify({
       sender: { name: 'Studio Kova', email: 'hello@studiokova.fr' },
       to: [{ email: 'hello@studiokova.fr' }],
-      subject: `Nouvelle analyse prête — ${analysis.email}`,
+      subject: `Nouvelle analyse prête - ${analysis.email}`,
       textContent: [`Cliente : ${analysis.email}`, `PDF : ${pdfUrl ?? 'ERREUR GÉNÉRATION PDF'}`, `Diagnostic : ${aiResult.diagnostic}`].join('\n\n'),
     }),
   }).catch((err) => console.error('[analyze] notification interne:', err?.message))

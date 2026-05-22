@@ -110,7 +110,7 @@ export default function EnvoyerAnalysePage() {
                 <div>
                   <p style={S.email}>{a.email}</p>
                   <p style={S.muted}>
-                    {a.type_piece && `${a.type_piece} — `}
+                    {a.type_piece && `${a.type_piece} - `}
                     {new Date(a.created_at).toLocaleDateString('fr-FR', { day: 'numeric', month: 'long', year: 'numeric' })}
                   </p>
                 </div>

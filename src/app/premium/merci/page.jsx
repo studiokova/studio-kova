@@ -1,7 +1,7 @@
 import KovaFooter from '@/components/kova/KovaFooter'
 
 export const metadata = {
-  title: 'Brief envoyé — Studio Kova',
+  title: 'Brief envoyé - Studio Kova',
   robots: { index: false, follow: false },
 }
 

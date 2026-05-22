@@ -11,8 +11,8 @@ export const OFFERS = {
     stripeId: null as null,
   },
   analyse: {
-    amount: 49,
-    display: "49€",
+    amount: 69,
+    display: "69€",
     stripeId: process.env.STRIPE_PRICE_ID_ANALYSIS,
   },
   surmesure: {

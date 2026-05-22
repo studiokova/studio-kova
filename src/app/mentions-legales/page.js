@@ -2,7 +2,7 @@ import KovaNav    from "@/components/kova/KovaNav";
 import KovaFooter from "@/components/kova/KovaFooter";
 
 export const metadata = {
-  title: "Mentions légales — Studio Kova",
+  title: "Mentions légales - Studio Kova",
 };
 
 export default function MentionsLegales() {

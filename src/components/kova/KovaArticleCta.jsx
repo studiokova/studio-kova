@@ -11,7 +11,7 @@ const CTA_MAP = {
   analyse: {
     eyebrow: "Passez à l'action",
     label: "Une pièce qui ne fonctionne pas ?",
-    desc: "Envoyez des photos. Recevez un diagnostic complet avec palette, priorités et PDF — en 48h.",
+    desc: "Envoyez des photos. Recevez un diagnostic complet avec palette, priorités et PDF - en 48h.",
     href: "/analyse",
     cta: "Découvrir l'Analyse déco →",
   },

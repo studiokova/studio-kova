@@ -3,7 +3,7 @@ import { useState } from "react";
 import KovaLogo from "./KovaLogo";
 import { track } from "@/lib/plausible";
 
-// full: variante homepage — logo + liens nav + CTA
+// full: variante homepage - logo + liens nav + CTA
 // showBack: bouton retour (pages intérieures)
 // dark: fond --sauge-dk
 export default function KovaNav({ showBack = false, backLabel = "Retour", backHref, dark, full }) {
@@ -38,7 +38,7 @@ export default function KovaNav({ showBack = false, backLabel = "Retour", backHr
           </ul>
 
           <div className="kova-nav__right">
-            <a href="/analyse" className="kova-nav__cta">Analyse IA</a>
+            <a href="/je-transforme-ma-piece" className="kova-nav__cta">Analyse IA</a>
             <button
               className="kova-nav__burger"
               aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
@@ -64,7 +64,7 @@ export default function KovaNav({ showBack = false, backLabel = "Retour", backHr
           </a>
           <a href="/quiz" className="kova-nav__drawer-link" onClick={closeMenu}>Quiz</a>
           <div className="kova-nav__drawer-cta">
-            <a href="/analyse" className="kova-nav__cta" style={{ width: "100%", justifyContent: "center" }} onClick={closeMenu}>
+            <a href="/je-transforme-ma-piece" className="kova-nav__cta" style={{ width: "100%", justifyContent: "center" }} onClick={closeMenu}>
               Analyse IA
             </a>
           </div>

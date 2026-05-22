@@ -6,7 +6,7 @@ import KovaFooter      from "@/components/kova/KovaFooter";
 import { OFFERS }      from "@/lib/config";
 
 export const metadata = {
-  title: "Je vous confie mon intérieur — Studio Kova",
+  title: "Je vous confie mon intérieur - Studio Kova",
   description:
     `Sélection meuble personnalisée, planche produits et liens d'achat. Livrée en 5 jours ouvrés. ${OFFERS.surmesure.display}/pièce.`,
 };

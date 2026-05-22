@@ -57,22 +57,22 @@ export function buildInternalEmail({ nom, email, montant, sessionId, pieces, pho
       <table width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;">
 
         <tr><td style="padding:0 0 24px;">
-          <span style="font-size:13px;font-weight:600;letter-spacing:0.12em;color:#2E4A3A;">STUDIO KOVA — NOUVEAU BRIEF</span>
+          <span style="font-size:13px;font-weight:600;letter-spacing:0.12em;color:#2E4A3A;">STUDIO KOVA - NOUVEAU BRIEF</span>
         </td></tr>
 
         <tr><td style="background:white;border-radius:12px;padding:28px;">
           <table width="100%" cellpadding="0" cellspacing="0">
             <tr><td style="padding:0 0 16px;border-bottom:1px solid #D3D1C7;">
               <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#888780;">Client</p>
-              <p style="margin:0;font-size:15px;font-weight:500;">${nom || '—'} · ${email || '—'}</p>
+              <p style="margin:0;font-size:15px;font-weight:500;">${nom || '-'} · ${email || '-'}</p>
             </td></tr>
             <tr><td style="padding:16px 0;border-bottom:1px solid #D3D1C7;">
               <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#888780;">Montant</p>
-              <p style="margin:0;font-size:15px;">${montant ? `${montant}€` : '—'}</p>
+              <p style="margin:0;font-size:15px;">${montant ? `${montant}€` : '-'}</p>
             </td></tr>
             <tr><td style="padding:16px 0;border-bottom:1px solid #D3D1C7;">
               <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#888780;">Session Stripe</p>
-              <p style="margin:0;font-size:14px;">${stripeLink ? `<a href="${stripeLink}" style="color:#B8612A;">${sessionId}</a>` : (sessionId || '—')}</p>
+              <p style="margin:0;font-size:14px;">${stripeLink ? `<a href="${stripeLink}" style="color:#B8612A;">${sessionId}</a>` : (sessionId || '-')}</p>
             </td></tr>
             <tr><td style="padding:16px 0;border-bottom:1px solid #D3D1C7;">
               <p style="margin:0 0 4px;font-size:11px;letter-spacing:0.1em;text-transform:uppercase;color:#888780;">Pièce(s) concernée(s)</p>

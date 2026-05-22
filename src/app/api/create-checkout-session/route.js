@@ -26,7 +26,7 @@ export async function POST(request) {
   // Référence produit : product ID si défini, sinon product_data inline
   const productRef = process.env.STRIPE_PRODUCT_PREMIUM
     ? { product: process.env.STRIPE_PRODUCT_PREMIUM }
-    : { product_data: { name: `Je vous confie mon intérieur — ${rooms} pièce${rooms > 1 ? "s" : ""}` } };
+    : { product_data: { name: `Je vous confie mon intérieur - ${rooms} pièce${rooms > 1 ? "s" : ""}` } };
 
   try {
     const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);

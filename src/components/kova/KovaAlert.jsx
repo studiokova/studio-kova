@@ -32,7 +32,7 @@ const ICONS = {
 
 // type: 'error' | 'success' | 'info'
 // message: string
-// onDismiss: fonction optionnelle — affiche une croix si fournie
+// onDismiss: fonction optionnelle - affiche une croix si fournie
 export default function KovaAlert({ type = 'error', message, onDismiss }) {
   const s = STYLES[type]
   return (

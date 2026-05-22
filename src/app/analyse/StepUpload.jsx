@@ -16,11 +16,11 @@ export default function StepUpload({ onSuccess }) {
   async function handleFile(file) {
     if (!file) return
     if (!file.type.startsWith('image/')) {
-      setError('Fichier non valide — choisissez une image.')
+      setError('Fichier non valide - choisissez une image.')
       return
     }
     if (file.size > MAX_SIZE) {
-      setError('Image trop lourde — maximum 5 Mo.')
+      setError('Image trop lourde - maximum 5 Mo.')
       return
     }
     setError('')
@@ -80,7 +80,7 @@ export default function StepUpload({ onSuccess }) {
           <>
             <KovaText>Glissez une photo ici</KovaText>
             <KovaText size="sm" muted>
-              ou cliquez pour sélectionner — JPG, PNG, WebP · max 5 Mo
+              ou cliquez pour sélectionner - JPG, PNG, WebP · max 5 Mo
             </KovaText>
           </>
         )}
@@ -88,7 +88,7 @@ export default function StepUpload({ onSuccess }) {
 
       {uploaded && (
         <div style={{ marginTop: 12 }}>
-          <KovaAlert type="success" message="Photo chargée — passage à l'étape suivante…" />
+          <KovaAlert type="success" message="Photo chargée - passage à l'étape suivante…" />
         </div>
       )}
 

@@ -62,7 +62,7 @@ export async function POST(request) {
     const emailTasks = [
       sendBrevoEmail({
         to: process.env.NOTIFICATION_EMAIL,
-        subject: `Nouveau brief — ${pieces} — ${budget}`,
+        subject: `Nouveau brief - ${pieces} - ${budget}`,
         htmlContent: buildInternalEmail({ nom: stripeNom, email: stripeEmail, montant, sessionId, pieces, photosLink, style, budget }),
       }),
     ];

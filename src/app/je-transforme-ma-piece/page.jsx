@@ -7,7 +7,7 @@ import KovaFooter from "@/components/kova/KovaFooter";
 import { OFFERS, ANALYSE_LIVRABLES } from "@/lib/config";
 
 export const metadata = {
-  title: "Je transforme ma pièce — Studio Kova",
+  title: "Je transforme ma pièce - Studio Kova",
   description:
     `Analyse personnalisée de votre pièce avec palette de couleurs, priorités d'action et moodboard visuel. PDF livré en 48h. ${OFFERS.analyse.display}.`,
 };
@@ -50,7 +50,7 @@ export default function JeTransformeMaPiecePage() {
             <div className="kova-product-page__preview">
               <Image
                 src="/email-apercu-pdf.png"
-                alt="Exemple de livrable PDF Studio Kova — analyse déco et moodboard"
+                alt="Exemple de livrable PDF Studio Kova - analyse déco et moodboard"
                 width={600}
                 height={424}
                 className="kova-product-page__preview-img"

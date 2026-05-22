@@ -6,11 +6,11 @@ import KovaFooter      from "@/components/kova/KovaFooter";
 import { OFFERS }      from "@/lib/config";
 
 export const metadata = {
-  title: "Décoration sur mesure en ligne — Sélection meubles",
+  title: "Décoration sur mesure en ligne - Sélection meubles",
   description: "Confiez votre intérieur à Studio Kova : sélection meubles, planche produits et liens d'achat livrés en 5 jours. À partir de 299€/pièce.",
   alternates: { canonical: "https://www.studiokova.fr/surmesure" },
   openGraph: {
-    title: "Décoration sur mesure en ligne — Studio Kova",
+    title: "Décoration sur mesure en ligne - Studio Kova",
     description: "Sélection meubles, planche produits et liens d'achat. À partir de 299€/pièce.",
     url: "https://www.studiokova.fr/surmesure",
     type: "website",

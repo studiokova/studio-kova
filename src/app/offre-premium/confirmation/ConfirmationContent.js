@@ -120,7 +120,7 @@ export default function ConfirmationContent() {
         {step === 2 && (
           <div className="an-wrap">
             <h1 className="an-title">Votre style en une phrase</h1>
-            <p className="an-sub">Pas de bonne ou mauvaise réponse — juste ce que vous ressentez quand vous imaginez votre pièce idéale.</p>
+            <p className="an-sub">Pas de bonne ou mauvaise réponse - juste ce que vous ressentez quand vous imaginez votre pièce idéale.</p>
             <div className="an-field">
               <label className="an-label" htmlFor="style">Décrivez votre style</label>
               <textarea id="style" className="an-textarea" placeholder="ex : épuré et naturel, avec quelques touches de cuivre" value={style} onChange={e => setStyle(e.target.value)} />

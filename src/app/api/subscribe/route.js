@@ -108,7 +108,7 @@ export async function POST(request) {
         },
       }).catch(err => console.error('[Meta CAPI Lead]', err));
     } else {
-      console.warn('[Meta CAPI] meta_event_id absent — événement Lead non envoyé');
+      console.warn('[Meta CAPI] meta_event_id absent - événement Lead non envoyé');
     }
 
     return Response.json({ success: true });

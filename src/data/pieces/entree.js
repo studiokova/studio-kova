@@ -11,7 +11,7 @@ export const entreeData = {
     h1: 'Décorer votre entrée',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre entrée.",
     image: '/ok/entryway.webp',
-    ctaPrimary: { label: 'Analyser mon entrée — 69€', href: '/analyse?piece=entree' },
+    ctaPrimary: { label: 'Analyser mon entrée - 69€', href: '/analyse?piece=entree' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },
 
@@ -66,7 +66,7 @@ Et c'est probablement la pièce où on a le meilleur retour sur investissement :
 
   ctaFinal: {
     title: 'Prête à transformer votre entrée ?',
-    ctaPrimary: { label: 'Analyser mon entrée — 69€', href: '/analyse?piece=entree' },
+    ctaPrimary: { label: 'Analyser mon entrée - 69€', href: '/analyse?piece=entree' },
     ctaSecondary: { label: "Voir l'aménagement clé en main", href: '/surmesure' },
   },
 };

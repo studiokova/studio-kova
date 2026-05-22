@@ -133,7 +133,7 @@ export async function POST(request) {
       body: JSON.stringify({
         sender: { name: 'Studio Kova Brief', email: 'noreply@studiokova.fr' },
         to: [{ email: 'hello@studiokova.fr', name: 'Clémence' }],
-        subject: `Nouveau brief premium — ${brief.prenom} · ${brief.rooms_count} pièce${brief.rooms_count > 1 ? 's' : ''}`,
+        subject: `Nouveau brief premium - ${brief.prenom} · ${brief.rooms_count} pièce${brief.rooms_count > 1 ? 's' : ''}`,
         htmlContent: html,
       }),
     })
@@ -149,8 +149,8 @@ function buildStyleSummary(brief) {
     const profile = brief.style_profile_snap
     const validation = brief.style_validation === 'confirmed'
       ? 'confirmé tel quel'
-      : `partiel — corrections : ${brief.style_corrections}`
-    return `Quiz fait — Profil ${profile.style_name} (${validation})`
+      : `partiel - corrections : ${brief.style_corrections}`
+    return `Quiz fait - Profil ${profile.style_name} (${validation})`
   }
   const s = brief.style_inputs || {}
   const inspirations = s.inspirations_url
@@ -167,7 +167,7 @@ function buildRoomsSummary(rooms) {
     const garder = r.approche === 'ameliorer' && r.garder
       ? ` (garde : ${r.garder})`
       : ''
-    return `Pièce ${i + 1} — ${r.type_piece}
+    return `Pièce ${i + 1} - ${r.type_piece}
 Approche : ${r.approche}${garder}
 Dérange : ${r.probleme}
 Sentir : ${r.sentiment}

@@ -561,7 +561,7 @@ export default function Quiz() {
       return;
     }
     setGateError("");
-    setPhase("result"); // profil déjà calculé au gate — pas besoin du loader
+    setPhase("result"); // profil déjà calculé au gate - pas besoin du loader
     submitEmail();
   };
 
@@ -751,7 +751,7 @@ export default function Quiz() {
           <KovaNav full />
           <div className="qz-gate">
             <div className="qz-gate-inner">
-              {/* Aperçu du profil — nom + axes visibles, reste flouté */}
+              {/* Aperçu du profil - nom + axes visibles, reste flouté */}
               <div className="qz-gate-preview">
                 <h1 className="qz-result-name">{profile.name}</h1>
                 <p className="qz-result-axes" style={{ marginBottom: "24px" }}>{profile.axes}</p>
@@ -862,7 +862,7 @@ export default function Quiz() {
                       { v: "F", label: "Pop & éclectique" },
                     ].map(({ v, label }) => (
                       <div key={v} className={`qz-photo${(answers[2] || []).includes(v) ? " sel" : ""}`} onClick={() => togglePhoto(v)}>
-                        <img src={`/${v}.webp`} alt={label} loading="lazy" />
+                        <img src={`/ok/${v}.webp`} alt={label} loading="lazy" />
                         <div className="qz-photo-lbl">{label}</div>
                         <div className="qz-photo-chk"><CheckIcon /></div>
                       </div>

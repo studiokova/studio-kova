@@ -160,12 +160,12 @@ describe('Homepage — CTA clicks', () => {
     expect(track).toHaveBeenCalledWith('Clic pièce home', { piece: 'chambre' })
   })
 
-  it('déclenche "Clic offre 49" au clic sur le CTA Analyser ma pièce', () => {
+  it('déclenche "Clic offre 69" au clic sur le CTA Analyser ma pièce', () => {
     const { track } = require('@/lib/plausible')
     render(<Home />)
     const analyseLink = screen.getByRole('link', { name: /Analyser ma pièce/ })
     fireEvent.click(analyseLink)
-    expect(track).toHaveBeenCalledWith('Clic offre 49')
+    expect(track).toHaveBeenCalledWith('Clic offre 69')
   })
 
   it('déclenche "Clic offre gratuite" au clic sur le CTA quiz', () => {

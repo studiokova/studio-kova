@@ -11,7 +11,7 @@ export const salleDeBainData = {
     h1: 'Décorer votre salle de bain',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre salle de bain.",
     image: '/ok/bath.webp',
-    ctaPrimary: { label: 'Analyser ma salle de bain — 69€', href: '/analyse?piece=salle-de-bain' },
+    ctaPrimary: { label: 'Analyser ma salle de bain - 69€', href: '/analyse?piece=salle-de-bain' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },
 
@@ -66,7 +66,7 @@ Bonne nouvelle : c'est aussi la pièce où une transformation à petit budget se
 
   ctaFinal: {
     title: 'Prête à transformer votre salle de bain ?',
-    ctaPrimary: { label: 'Analyser ma salle de bain — 69€', href: '/analyse?piece=salle-de-bain' },
+    ctaPrimary: { label: 'Analyser ma salle de bain - 69€', href: '/analyse?piece=salle-de-bain' },
     ctaSecondary: { label: "Voir l'aménagement clé en main", href: '/surmesure' },
   },
 };

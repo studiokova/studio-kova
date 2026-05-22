@@ -11,7 +11,7 @@ export const chambreData = {
     h1: 'Décorer votre chambre',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre chambre.",
     image: '/ok/bedroom.webp',
-    ctaPrimary: { label: 'Analyser ma chambre — 69€', href: '/analyse?piece=chambre' },
+    ctaPrimary: { label: 'Analyser ma chambre - 69€', href: '/analyse?piece=chambre' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },
 
@@ -23,7 +23,7 @@ Trois enjeux s'y croisent en permanence. D'abord les couleurs : trop saturées, 
 
 Ensuite l'agencement : la position du lit, l'accès au rangement, la circulation autour, la place laissée pour respirer. Une chambre de 12m² bien pensée fait mieux qu'une chambre de 18m² mal organisée.
 
-Enfin l'ambiance : cocoon, minimal, romantique, contemporain — c'est ce qui transforme une pièce fonctionnelle en lieu où on a vraiment envie d'être. Et c'est rarement une question de budget, plutôt de cohérence.`,
+Enfin l'ambiance : cocoon, minimal, romantique, contemporain - c'est ce qui transforme une pièce fonctionnelle en lieu où on a vraiment envie d'être. Et c'est rarement une question de budget, plutôt de cohérence.`,
   },
 
   analyse: {
@@ -64,7 +64,7 @@ Enfin l'ambiance : cocoon, minimal, romantique, contemporain — c'est ce qui tr
 
   ctaFinal: {
     title: 'Prête à transformer votre chambre ?',
-    ctaPrimary: { label: 'Analyser ma chambre — 69€', href: '/analyse?piece=chambre' },
+    ctaPrimary: { label: 'Analyser ma chambre - 69€', href: '/analyse?piece=chambre' },
     ctaSecondary: { label: "Voir l'aménagement clé en main", href: '/surmesure' },
   },
 };

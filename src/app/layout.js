@@ -22,13 +22,13 @@ const playfair = Playfair_Display({
 });
 
 export const metadata = {
-  title: "Studio Kova — Transformez votre pièce en 48h | Analyse IA déco 49€",
-  description: "Conseil déco en ligne : analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 49€. Pour locataires et primo-accédantes.",
+  title: "Studio Kova - Transformez votre pièce en 48h | Analyse IA déco 69€",
+  description: "Conseil déco en ligne : analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 69€. Pour locataires et primo-accédantes.",
   metadataBase: new URL('https://www.studiokova.fr'),
   alternates: { canonical: 'https://www.studiokova.fr' },
   openGraph: {
-    title: "Studio Kova — Transformez votre pièce en 48h",
-    description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 49€.",
+    title: "Studio Kova - Transformez votre pièce en 48h",
+    description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 69€.",
     url: 'https://www.studiokova.fr',
     siteName: 'Studio Kova',
     locale: 'fr_FR',
@@ -38,14 +38,14 @@ export const metadata = {
         url: '/ok/og-image.webp',
         width: 1200,
         height: 630,
-        alt: 'Studio Kova — Transformez votre pièce en 48h',
+        alt: 'Studio Kova - Transformez votre pièce en 48h',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: "Studio Kova — Transformez votre pièce en 48h",
-    description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 49€.",
+    title: "Studio Kova - Transformez votre pièce en 48h",
+    description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 69€.",
     images: ['/ok/og-image.webp'],
   },
   other: {
@@ -69,7 +69,7 @@ export default function RootLayout({ children }) {
           "url": "https://www.studiokova.fr",
           "logo": "https://www.studiokova.fr/logo-fond-vert.svg",
           "email": "hello@studiokova.fr",
-          "description": "Conseil en décoration intérieure personnalisé et accessible en ligne. Quiz gratuit, analyse photo 49€, sur-mesure dès 299€/pièce.",
+          "description": "Conseil en décoration intérieure personnalisé et accessible en ligne. Quiz gratuit, analyse photo 69€, sur-mesure dès 299€/pièce.",
           "serviceArea": { "@type": "Country", "name": "France" },
           "sameAs": ["https://instagram.com/studiokova.fr"],
         }} />

@@ -8,7 +8,7 @@ import KovaButton from "./KovaButton";
 // subtitle: string
 // price / priceUnit / priceFrom: affiche KovaPriceTag si défini
 // cta: { label, href, onClick }
-// ctaSecondary: { label, href } — bouton ghost optionnel
+// ctaSecondary: { label, href } - bouton ghost optionnel
 export default function KovaHero({
   image,
   badge,

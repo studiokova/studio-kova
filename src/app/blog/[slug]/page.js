@@ -51,7 +51,7 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   try {
     const { frontmatter } = getPostBySlug(slug);
-    const title = `${frontmatter.title} — Studio Kova`;
+    const title = `${frontmatter.title} - Studio Kova`;
     const description = frontmatter.excerpt || "";
     const ogImage = frontmatter.image
       ? { url: `${SITE_URL}${frontmatter.image}`, width: 1200, height: 630, alt: title }

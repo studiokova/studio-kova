@@ -125,7 +125,7 @@ export default function ConsentPreferences() {
   return (
     <>
       <style>{CSS}</style>
-      {/* Backdrop — click to cancel */}
+      {/* Backdrop - click to cancel */}
       <div className="cp-overlay" onClick={closePreferences} aria-hidden="true" />
 
       <div

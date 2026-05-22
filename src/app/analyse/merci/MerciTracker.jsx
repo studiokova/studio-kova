@@ -12,7 +12,7 @@ export default function MerciTracker() {
   const { consent } = useConsent();
   const [metaEventId, setMetaEventId] = useState(null);
 
-  // Plausible — no consent needed
+  // Plausible - no consent needed
   useEffect(() => {
     const sessionId = searchParams.get('session_id');
     if (!sessionId) return;
@@ -42,11 +42,11 @@ export default function MerciTracker() {
     if (typeof window.fbq !== 'function') return;
     pixelFired.current = true;
     window.fbq('track', 'Purchase', {
-      value: 49,
+      value: 69,
       currency: 'EUR',
-      content_name: 'Analyse photo 49€',
+      content_name: 'Analyse photo 69€',
       content_category: 'analyse',
-      content_ids: ['analyse_49'],
+      content_ids: ['analyse_69'],
       ...getStoredUtms(),
     }, { eventID: metaEventId });
   }, [metaEventId, consent]);

@@ -275,7 +275,7 @@ function PageFooter() {
 
 function d(text: string): string {
   return text
-    .replace(/—/g, ' - ')
+    .replace(/-/g, ' - ')
     .replace(/–/g, '-')
 }
 
@@ -324,7 +324,7 @@ export function KovaPdfDocument({ aiResult, logoBase64, photoUrl, roomContext }:
 
   return (
     <Document>
-      {/* PAGE 1 — PHOTO + TITRE + DIAGNOSTIC + PALETTE */}
+      {/* PAGE 1 - PHOTO + TITRE + DIAGNOSTIC + PALETTE */}
       <Page size="A4" style={s.page}>
         <PageHeader logoBase64={logoBase64} />
 
@@ -373,7 +373,7 @@ export function KovaPdfDocument({ aiResult, logoBase64, photoUrl, roomContext }:
         <PageFooter />
       </Page>
 
-      {/* PAGE 2 — PRIORITÉS + MATIÈRES + À ÉVITER + PHRASE CLÉ */}
+      {/* PAGE 2 - PRIORITÉS + MATIÈRES + À ÉVITER + PHRASE CLÉ */}
       <Page size="A4" style={s.page}>
         <PageHeader logoBase64={logoBase64} />
 

@@ -224,7 +224,7 @@ describe('POST /api/webhook', () => {
         expect.objectContaining({ method: 'POST' })
       )
       expect(mockSendMetaEvent).toHaveBeenCalledWith(
-        expect.objectContaining({ eventName: 'Purchase', value: 49 })
+        expect.objectContaining({ eventName: 'Purchase', value: 69 })
       )
     })
 

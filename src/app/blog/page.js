@@ -5,7 +5,7 @@ import KovaArticleCard from "@/components/kova/KovaArticleCard";
 import KovaFooter      from "@/components/kova/KovaFooter";
 
 export const metadata = {
-  title: "Journal — Studio Kova",
+  title: "Journal - Studio Kova",
   description:
     "Conseils décoration, méthodes et inspirations pour transformer votre intérieur avec justesse.",
 };

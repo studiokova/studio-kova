@@ -567,7 +567,7 @@ function BriefForm() {
                     {roomFiles.length === 0
                       ? 'Ajouter des photos'
                       : roomFiles.length < 3
-                        ? `${roomFiles.length} photo${roomFiles.length > 1 ? 's' : ''} — encore ${3 - roomFiles.length} minimum`
+                        ? `${roomFiles.length} photo${roomFiles.length > 1 ? 's' : ''} - encore ${3 - roomFiles.length} minimum`
                         : 'Ajouter une autre photo'}
                   </div>
                   <div className="pb-upload-hint">3 à 6 photos · JPG, PNG ou WebP · 5 Mo max</div>

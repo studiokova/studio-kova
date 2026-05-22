@@ -11,7 +11,7 @@ export const cuisineData = {
     h1: 'Décorer votre cuisine',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre cuisine.",
     image: '/ok/window.webp',
-    ctaPrimary: { label: 'Analyser ma cuisine — 69€', href: '/analyse?piece=cuisine' },
+    ctaPrimary: { label: 'Analyser ma cuisine - 69€', href: '/analyse?piece=cuisine' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },
 
@@ -64,7 +64,7 @@ Et si vous êtes en location avec une cuisine équipée qui ne vous plaît pas, 
 
   ctaFinal: {
     title: 'Prête à transformer votre cuisine ?',
-    ctaPrimary: { label: 'Analyser ma cuisine — 69€', href: '/analyse?piece=cuisine' },
+    ctaPrimary: { label: 'Analyser ma cuisine - 69€', href: '/analyse?piece=cuisine' },
     ctaSecondary: { label: "Voir l'aménagement clé en main", href: '/surmesure' },
   },
 };

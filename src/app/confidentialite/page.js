@@ -2,7 +2,7 @@ import KovaNav    from "@/components/kova/KovaNav";
 import KovaFooter from "@/components/kova/KovaFooter";
 
 export const metadata = {
-  title: "Politique de confidentialité — Studio Kova",
+  title: "Politique de confidentialité - Studio Kova",
 };
 
 export default function Confidentialite() {
@@ -53,7 +53,7 @@ export default function Confidentialite() {
             <li><strong>Livraison du quiz</strong> : envoyer par email votre palette personnalisée et votre profil de style</li>
             <li><strong>Livraison de l&rsquo;analyse</strong> : générer le PDF de recommandations et vous l&rsquo;envoyer par email</li>
             <li><strong>Paiement</strong> : traitement sécurisé de l&rsquo;offre analyse 69&nbsp;€ via Stripe</li>
-            <li><strong>Emails marketing</strong> : conseils déco et informations sur les offres — uniquement si vous avez coché la case de consentement</li>
+            <li><strong>Emails marketing</strong> : conseils déco et informations sur les offres - uniquement si vous avez coché la case de consentement</li>
             <li><strong>Amélioration du service</strong> : analyse agrégée et anonymisée des profils et retours clients</li>
           </ul>
         </div>
@@ -172,7 +172,7 @@ export default function Confidentialite() {
               dans les minutes qui suivent
             </li>
             <li>
-              Elle n&rsquo;est jamais réutilisée pour entraîner des modèles d&rsquo;IA —
+              Elle n&rsquo;est jamais réutilisée pour entraîner des modèles d&rsquo;IA -
               l&rsquo;API Anthropic n&rsquo;utilise pas les données clients pour l&rsquo;entraînement
             </li>
             <li>Elle n&rsquo;est jamais partagée avec d&rsquo;autres tiers en dehors de ce flux</li>
@@ -186,7 +186,7 @@ export default function Confidentialite() {
           <ul>
             <li>
               Le consentement à recevoir des emails de conseil déco est libre, éclairé et
-              explicite — il est recueilli via une case à cocher non pré-cochée
+              explicite - il est recueilli via une case à cocher non pré-cochée
             </li>
             <li>
               Vous pouvez retirer votre consentement à tout moment via le lien de

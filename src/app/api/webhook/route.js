@@ -64,7 +64,7 @@ export async function POST(request) {
     return Response.json({ received: true })
   }
 
-  // ─── Analyse 49€ ─────────────────────────────────────────────────────────
+  // ─── Analyse 69€ ─────────────────────────────────────────────────────────
   let roomContext
   try {
     roomContext = JSON.parse(metadata.room_context)
@@ -136,18 +136,18 @@ export async function POST(request) {
       eventId: metaEventId,
       email: session.customer_details?.email || session.customer_email,
       externalId: session.customer_details?.email || session.customer_email,
-      value: 49,
+      value: 69,
       currency: 'EUR',
       eventSourceUrl: 'https://studiokova.fr/analyse',
       customData: {
-        content_name: 'Analyse photo 49€',
+        content_name: 'Analyse photo 69€',
         content_category: 'analyse',
-        content_ids: ['analyse_49'],
+        content_ids: ['analyse_69'],
         ...utmsAnalyse,
       },
-    }).catch(err => console.error('[Meta CAPI Purchase 49]', err))
+    }).catch(err => console.error('[Meta CAPI Purchase 69]', err))
   } else {
-    console.warn('[Meta CAPI Purchase 49] meta_event_id absent du metadata Stripe')
+    console.warn('[Meta CAPI Purchase 69] meta_event_id absent du metadata Stripe')
   }
 
   return Response.json({ received: true })
