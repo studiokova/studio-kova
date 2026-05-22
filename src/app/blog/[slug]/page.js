@@ -1,3 +1,4 @@
+import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { MDXRemote } from "next-mdx-remote/rsc";
@@ -107,6 +108,19 @@ export default async function BlogPostPage({ params }) {
         sub={frontmatter.excerpt || undefined}
         narrow
       />
+
+      {frontmatter.image && (
+        <div className="kova-article-hero">
+          <Image
+            src={frontmatter.image}
+            alt={frontmatter.title}
+            fill
+            priority
+            sizes="(max-width: 860px) 100vw, 860px"
+            style={{ objectFit: "cover" }}
+          />
+        </div>
+      )}
 
       <div className="kova-article-wrap">
         <div className="kova-article-body">

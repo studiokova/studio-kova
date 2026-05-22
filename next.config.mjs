@@ -1,5 +1,14 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/blog/decorer-appartement-guide-complet',
+        destination: '/blog/decorer-appartement',
+        permanent: true,
+      },
+    ]
+  },
   turbopack: {},
   images: {
     remotePatterns: [

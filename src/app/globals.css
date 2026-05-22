@@ -1097,6 +1097,7 @@ body {
 .kova-post-cta     { font-size: 13px; color: var(--cuivre); font-weight: 500; display: inline-flex; align-items: center; gap: 6px; }
 .kova-blog-empty   { padding: 80px 24px; text-align: center; color: var(--gris); font-size: 15px; }
 
+.kova-article-hero { position: relative; max-width: 860px; width: calc(100% - 48px); margin: 0 auto 56px; aspect-ratio: 16 / 9; border-radius: 14px; overflow: hidden; }
 .kova-article-wrap { max-width: 700px; margin: 0 auto; padding: 0 24px 100px; }
 .kova-article-header { padding: 52px 0 36px; border-bottom: 1px solid var(--gris-clair); margin-bottom: 44px; }
 .kova-article-meta  { font-size: 11px; color: var(--gris); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 16px; }
@@ -1171,6 +1172,7 @@ body {
   .kova-blog-filters   { padding: 0 16px 24px; }
   .kova-blog-list      { padding: 16px 16px 60px; gap: 16px; }
   .kova-blog-bottom-cta { padding: 48px 20px; margin-top: 48px; }
+  .kova-article-hero   { width: calc(100% - 32px); margin-bottom: 40px; border-radius: 10px; }
   .kova-article-wrap   { padding: 0 20px 80px; }
   .kova-article-header { padding: 36px 0 28px; margin-bottom: 32px; }
   .kova-article-layout { padding: 32px 20px 80px; }

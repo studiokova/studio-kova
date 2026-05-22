@@ -95,4 +95,13 @@ describe('ConsentContext', () => {
     expect(screen.getByTestId('consent')).toHaveTextContent('null')
     expect(screen.getByTestId('loaded')).toHaveTextContent('false')
   })
+
+  it('les fonctions fallback sont appelables sans lever d\'erreur', () => {
+    render(<TestConsumer />)
+    fireEvent.click(screen.getByRole('button', { name: 'Accept' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Reject' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Reset' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Open' }))
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }))
+  })
 })

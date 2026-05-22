@@ -34,10 +34,10 @@ const mockData = {
 
 const mockRelatedPosts = [
   {
-    slug: 'decorer-appartement-guide-complet',
-    title: "Décorer son appartement : le guide complet",
+    slug: 'decorer-appartement',
+    title: "Décorer son appartement : la méthode sans Pinterest",
     excerpt: "Par où commencer quand on veut décorer son appartement.",
-    date: '20 mai 2026',
+    date: '6 mai 2026',
   },
   {
     slug: 'comment-choisir-sa-palette-de-couleurs',
@@ -143,7 +143,7 @@ describe('PieceTemplate', () => {
   it('les liens des articles pointent vers les vrais slugs', () => {
     render(<PieceTemplate data={mockData} relatedPosts={mockRelatedPosts} />);
     const link = screen.getByRole('link', { name: /Décorer son appartement/i });
-    expect(link).toHaveAttribute('href', '/blog/decorer-appartement-guide-complet');
+    expect(link).toHaveAttribute('href', '/blog/decorer-appartement');
   });
 
   it('affiche "À lire sur ce sujet" quand un seul article est fourni', () => {

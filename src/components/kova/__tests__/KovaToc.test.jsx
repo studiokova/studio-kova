@@ -1,10 +1,22 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, act } from '@testing-library/react';
 import KovaToc from '../KovaToc';
 
 const headings = [
   { id: 'etape-1', text: 'Étape 1' },
   { id: 'etape-2', text: 'Étape 2' },
 ];
+
+let capturedObserverCallback;
+
+beforeEach(() => {
+  capturedObserverCallback = null;
+  global.IntersectionObserver = jest.fn((cb) => {
+    capturedObserverCallback = cb;
+    return { observe: jest.fn(), disconnect: jest.fn() };
+  });
+});
+
+afterEach(() => jest.clearAllMocks());
 
 describe('KovaToc', () => {
   it('ne rend rien si headings est vide', () => {
@@ -28,5 +40,23 @@ describe('KovaToc', () => {
   it('affiche le label Sommaire', () => {
     render(<KovaToc headings={headings} />);
     expect(screen.getByText('Sommaire')).toBeInTheDocument();
+  });
+
+  it('marque le lien actif quand une heading entre dans la vue', () => {
+    document.body.innerHTML = '<h2 id="etape-1">h</h2><h2 id="etape-2">h</h2>';
+    render(<KovaToc headings={headings} />);
+    act(() => {
+      capturedObserverCallback([{ isIntersecting: true, target: { id: 'etape-1' } }]);
+    });
+    expect(screen.getByRole('link', { name: 'Étape 1' })).toHaveClass('kova-toc__link--active');
+    document.body.innerHTML = '';
+  });
+
+  it('ne marque pas le lien actif si isIntersecting est false', () => {
+    render(<KovaToc headings={headings} />);
+    act(() => {
+      capturedObserverCallback([{ isIntersecting: false, target: { id: 'etape-1' } }]);
+    });
+    expect(screen.getByRole('link', { name: 'Étape 1' })).not.toHaveClass('kova-toc__link--active');
   });
 });

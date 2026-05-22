@@ -72,3 +72,39 @@ describe('KovaNav', () => {
     expect(screen.getByText('Kova')).toBeInTheDocument();
   });
 });
+
+describe('KovaNav — variante full', () => {
+  it('affiche les liens de navigation principaux', () => {
+    render(<KovaNav full />);
+    expect(screen.getAllByRole('link', { name: 'Pièces' }).length).toBeGreaterThan(0);
+    expect(screen.getAllByRole('link', { name: 'Quiz' }).length).toBeGreaterThan(0);
+  });
+
+  it('affiche le CTA Analyse IA pointant vers /je-transforme-ma-piece', () => {
+    render(<KovaNav full />);
+    const ctaLinks = screen.getAllByRole('link', { name: 'Analyse IA' });
+    expect(ctaLinks.length).toBeGreaterThan(0);
+    ctaLinks.forEach((link) => expect(link).toHaveAttribute('href', '/je-transforme-ma-piece'));
+  });
+
+  it('ouvre le drawer au clic sur le burger', () => {
+    render(<KovaNav full />);
+    const burger = screen.getByRole('button', { name: /ouvrir le menu/i });
+    fireEvent.click(burger);
+    expect(burger).toHaveAttribute('aria-expanded', 'true');
+  });
+
+  it('ferme le drawer via un lien du drawer (closeMenu)', () => {
+    render(<KovaNav full />);
+    const burger = screen.getByRole('button', { name: /ouvrir le menu/i });
+    fireEvent.click(burger);
+    const drawerLinks = screen.getAllByRole('link', { name: 'Quiz' });
+    fireEvent.click(drawerLinks[drawerLinks.length - 1]);
+    expect(burger).toHaveAttribute('aria-expanded', 'false');
+  });
+
+  it('contient le logo Studio Kova', () => {
+    render(<KovaNav full />);
+    expect(screen.getAllByText('Studio').length).toBeGreaterThan(0);
+  });
+});
