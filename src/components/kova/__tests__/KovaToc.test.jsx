@@ -43,13 +43,21 @@ describe('KovaToc', () => {
   });
 
   it('marque le lien actif quand une heading entre dans la vue', () => {
-    document.body.innerHTML = '<h2 id="etape-1">h</h2><h2 id="etape-2">h</h2>';
+    const el1 = document.createElement('h2');
+    el1.id = 'etape-1';
+    const el2 = document.createElement('h2');
+    el2.id = 'etape-2';
+    document.body.appendChild(el1);
+    document.body.appendChild(el2);
+
     render(<KovaToc headings={headings} />);
     act(() => {
       capturedObserverCallback([{ isIntersecting: true, target: { id: 'etape-1' } }]);
     });
     expect(screen.getByRole('link', { name: 'Étape 1' })).toHaveClass('kova-toc__link--active');
-    document.body.innerHTML = '';
+
+    document.body.removeChild(el1);
+    document.body.removeChild(el2);
   });
 
   it('ne marque pas le lien actif si isIntersecting est false', () => {
