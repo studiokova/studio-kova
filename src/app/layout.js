@@ -23,7 +23,7 @@ const playfair = Playfair_Display({
 
 export const metadata = {
   title: "Studio Kova, l'analyse IA qui transforme votre pièce en 48h",
-  description: "Une pièce qui ne vous ressemble pas encore ? Mon analyse IA vous livre un plan déco concret en 48h, pour 69€. Couleurs, aménagement, matières.",
+  description: "Vous venez d'emménager ? Mon analyse IA transforme votre pièce avec un plan déco concret en 48h, pour 69€. Couleurs, aménagement, matières.",
   metadataBase: new URL('https://www.studiokova.fr'),
   alternates: { canonical: 'https://www.studiokova.fr' },
   openGraph: {
