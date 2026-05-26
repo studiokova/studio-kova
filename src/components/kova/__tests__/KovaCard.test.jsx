@@ -41,8 +41,8 @@ describe('KovaCard — badge', () => {
 
 describe('KovaCard — prix', () => {
   it('affiche le prix si fourni', () => {
-    render(<KovaCard title="Test" price="49€" ctaHref="/quiz" />)
-    expect(screen.getByText('49€')).toBeInTheDocument()
+    render(<KovaCard title="Test" price="69€" ctaHref="/quiz" />)
+    expect(screen.getByText('69€')).toBeInTheDocument()
   })
 
   it('affiche le priceLabel si fourni', () => {

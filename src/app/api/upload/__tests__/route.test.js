@@ -2,22 +2,20 @@
  * @jest-environment node
  */
 
-const mockPut = jest.fn()
+const mockHandleUpload = jest.fn()
 
-jest.mock('@vercel/blob', () => ({
-  put: (...args) => mockPut(...args),
+jest.mock('@vercel/blob/client', () => ({
+  handleUpload: (...args) => mockHandleUpload(...args),
 }))
 
 const { POST } = require('../route')
 
-function makeFileRequest(files) {
-  const formData = new FormData()
-  files.forEach(f => formData.append('files', f))
-  return new Request('http://localhost/api/upload', { method: 'POST', body: formData })
-}
-
-function makeBlob(name, content = 'data') {
-  return new File([content], name, { type: 'image/webp' })
+function makeJsonRequest(body) {
+  return new Request('http://localhost/api/upload', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  })
 }
 
 describe('POST /api/upload', () => {
@@ -25,56 +23,61 @@ describe('POST /api/upload', () => {
     jest.clearAllMocks()
   })
 
-  it('uploade les fichiers et retourne les URLs', async () => {
-    mockPut.mockResolvedValueOnce({ url: 'https://blob.example.com/photo-abc.webp' })
+  it('génère un token client pour un upload', async () => {
+    mockHandleUpload.mockResolvedValueOnce({
+      type: 'blob.generate-client-token',
+      clientToken: 'fake-token',
+    })
 
-    const file = makeBlob('photo.webp')
-    const res = await POST(makeFileRequest([file]))
+    const res = await POST(makeJsonRequest({
+      type: 'blob.generate-client-token',
+      payload: { pathname: 'photo.webp', multipart: false, clientPayload: null },
+    }))
 
     expect(res.status).toBe(200)
     const data = await res.json()
-    expect(data.urls).toEqual(['https://blob.example.com/photo-abc.webp'])
-    expect(mockPut).toHaveBeenCalledWith(
-      'photo.webp',
-      expect.anything(),
-      { access: 'public', addRandomSuffix: true }
-    )
+    expect(data.clientToken).toBe('fake-token')
+    expect(mockHandleUpload).toHaveBeenCalledTimes(1)
   })
 
-  it('uploade plusieurs fichiers', async () => {
-    mockPut
-      .mockResolvedValueOnce({ url: 'https://blob.example.com/photo1.webp' })
-      .mockResolvedValueOnce({ url: 'https://blob.example.com/photo2.webp' })
+  it('confirme la complétion d\'un upload', async () => {
+    mockHandleUpload.mockResolvedValueOnce({
+      type: 'blob.upload-completed',
+      response: 'ok',
+    })
 
-    const res = await POST(makeFileRequest([makeBlob('photo1.webp'), makeBlob('photo2.webp')]))
+    const res = await POST(makeJsonRequest({
+      type: 'blob.upload-completed',
+      payload: { blob: { url: 'https://blob.example.com/photo.webp' }, tokenPayload: null },
+    }))
+
     expect(res.status).toBe(200)
     const data = await res.json()
-    expect(data.urls).toHaveLength(2)
+    expect(data.response).toBe('ok')
   })
 
-  it('retourne 400 si aucun fichier envoyé', async () => {
-    const formData = new FormData()
-    const req = new Request('http://localhost/api/upload', { method: 'POST', body: formData })
-    const res = await POST(req)
+  it('retourne 400 si handleUpload lève une erreur', async () => {
+    mockHandleUpload.mockRejectedValueOnce(new Error('Bad request'))
+
+    const res = await POST(makeJsonRequest({}))
+
     expect(res.status).toBe(400)
-    const data = await res.json()
-    expect(data.error).toMatch(/manquant/)
-  })
-
-  it('retourne 400 si files contient uniquement des strings', async () => {
-    const formData = new FormData()
-    formData.append('files', 'just-a-string')
-    const req = new Request('http://localhost/api/upload', { method: 'POST', body: formData })
-    const res = await POST(req)
-    expect(res.status).toBe(400)
-  })
-
-  it('retourne 500 si put() lève une erreur', async () => {
-    mockPut.mockRejectedValueOnce(new Error('Blob service unavailable'))
-
-    const res = await POST(makeFileRequest([makeBlob('photo.webp')]))
-    expect(res.status).toBe(500)
     const data = await res.json()
     expect(data.error).toMatch(/upload/)
+  })
+
+  it('passe onBeforeGenerateToken avec les bons types et la bonne taille', async () => {
+    mockHandleUpload.mockImplementationOnce(async ({ onBeforeGenerateToken }) => {
+      const tokenConfig = await onBeforeGenerateToken('photo.webp', null, false)
+      expect(tokenConfig.allowedContentTypes).toContain('image/jpeg')
+      expect(tokenConfig.allowedContentTypes).toContain('image/png')
+      expect(tokenConfig.allowedContentTypes).toContain('image/webp')
+      expect(tokenConfig.maximumSizeInBytes).toBe(5 * 1024 * 1024)
+      expect(tokenConfig.addRandomSuffix).toBe(true)
+      return { type: 'blob.generate-client-token', clientToken: 'ok' }
+    })
+
+    const res = await POST(makeJsonRequest({ type: 'blob.generate-client-token' }))
+    expect(res.status).toBe(200)
   })
 })

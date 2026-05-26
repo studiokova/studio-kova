@@ -57,6 +57,8 @@ export default function KovaFooter({ full = false }) {
         <span>
           <a href="/mentions-legales">Mentions légales</a>
           {" · "}
+          <a href="/cgv">CGV</a>
+          {" · "}
           <a href="/confidentialite">Politique de confidentialité</a>
           {" · "}
           <CookieManageButton />

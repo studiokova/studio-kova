@@ -1,5 +1,6 @@
 'use client';
 import { useState, useRef, useEffect } from 'react';
+import { upload } from '@vercel/blob/client';
 import { track, getSource } from '@/lib/plausible';
 import KovaStepShell from '@/components/kova/KovaStepShell';
 import KovaFooter from '@/components/kova/KovaFooter';
@@ -109,6 +110,12 @@ const CSS = `
 
   .an-error { font-size: 13px; color: #c0392b; margin-top: 8px; }
 
+  .an-consent { display: flex; flex-direction: column; gap: 12px; margin: 20px 0 8px; }
+  .an-consent-row { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
+  .an-consent-row input[type="checkbox"] { flex-shrink: 0; margin-top: 3px; width: 18px; height: 18px; accent-color: #3D6B52; cursor: pointer; }
+  .an-consent-label { font-size: 13px; color: #2E4A3A; line-height: 1.5; }
+  .an-consent-label a { color: #B8612A; text-decoration: underline; }
+
   @media (max-width: 480px) {
     .an-cards { grid-template-columns: 1fr; }
   }
@@ -130,6 +137,7 @@ export default function AnalysePage() {
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
   const [paying, setPaying] = useState(false);
+  const [acceptLegal, setAcceptLegal] = useState(false);
   const fileInputRef = useRef(null);
   const styleModifiedRef = useRef(false);
 
@@ -195,12 +203,10 @@ export default function AnalysePage() {
     setUploading(true);
     setUploadError('');
     try {
-      const formData = new FormData();
-      files.forEach(f => formData.append('files', f));
-      const res = await fetch('/api/upload', { method: 'POST', body: formData });
-      const { urls, error } = await res.json();
-      if (error || !urls) throw new Error(error || 'Upload échoué');
-      setPhotoUrls(urls);
+      const blobs = await Promise.all(
+        files.map(f => upload(f.name, f, { access: 'public', handleUploadUrl: '/api/upload' }))
+      );
+      setPhotoUrls(blobs.map(b => b.url));
       track('Analysis Step 1 Completed', { photo_count: files.length, has_quiz_profile: hasProfile });
       window.scrollTo({ top: 0, behavior: 'instant' });
       setStep(2);
@@ -255,6 +261,7 @@ export default function AnalysePage() {
   const step1Ready = files.length >= 1 && email.includes('@') && !uploading;
   const step2Ready = !!roomContext.type_piece && !!roomContext.budget;
   const step3Ready = styleContext.ambiance.length >= 1;
+  const step4Ready = acceptLegal;
   const hasProfile = !!(styleProfile && styleProfile.style_name);
   const swatches = hasProfile ? (PROFILE_PALETTES[styleProfile.style_name] || []) : [];
 
@@ -477,6 +484,22 @@ export default function AnalysePage() {
 
             <p className="an-delai">Livraison sous 48h par email</p>
             <div className="an-price">{OFFERS.analyse.display}</div>
+
+            <div className="an-consent">
+              <label className="an-consent-row">
+                <input
+                  type="checkbox"
+                  checked={acceptLegal}
+                  onChange={e => setAcceptLegal(e.target.checked)}
+                />
+                <span className="an-consent-label">
+                  J&rsquo;accepte les{" "}
+                  <a href="/cgv" target="_blank" rel="noopener noreferrer">conditions générales de vente</a>
+                  {" "}et je demande que la prestation commence dès maintenant, en reconnaissant
+                  qu&rsquo;une fois l&rsquo;analyse réalisée je perds mon droit de rétractation de 14 jours.
+                </span>
+              </label>
+            </div>
           </div>
         )}
 
@@ -492,7 +515,7 @@ export default function AnalysePage() {
             {step === 2 && <button className="an-cta" disabled={!step2Ready} onClick={goNext}>Continuer →</button>}
             {step === 3 && <button className="an-cta" disabled={!step3Ready} onClick={goNext}>Continuer →</button>}
             {step === 4 && (
-              <button className="an-cta" disabled={paying} onClick={handlePay}>
+              <button className="an-cta" disabled={paying || !step4Ready} onClick={handlePay}>
                 {paying ? 'Redirection…' : 'Payer et recevoir mon analyse →'}
               </button>
             )}

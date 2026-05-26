@@ -77,6 +77,7 @@ describe('PriceCalculator', () => {
 
     render(<PriceCalculator />);
     fireEvent.click(screen.getByText('3'));
+    fireEvent.click(screen.getByRole('checkbox'));
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /Démarrer mon projet/ }));
     });
@@ -94,6 +95,7 @@ describe('PriceCalculator', () => {
     global.fetch.mockImplementation(() => new Promise(() => {}));
 
     render(<PriceCalculator />);
+    fireEvent.click(screen.getByRole('checkbox'));
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /Démarrer mon projet/ }));
     });
@@ -108,6 +110,7 @@ describe('PriceCalculator', () => {
     });
 
     render(<PriceCalculator />);
+    fireEvent.click(screen.getByRole('checkbox'));
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /Démarrer mon projet/ }));
     });
@@ -124,6 +127,7 @@ describe('PriceCalculator', () => {
     });
 
     render(<PriceCalculator />);
+    fireEvent.click(screen.getByRole('checkbox'));
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /Démarrer mon projet/ }));
     });
@@ -137,6 +141,7 @@ describe('PriceCalculator', () => {
     global.fetch.mockRejectedValueOnce(new Error('Network error'));
 
     render(<PriceCalculator />);
+    fireEvent.click(screen.getByRole('checkbox'));
     await act(async () => {
       fireEvent.click(screen.getByRole('button', { name: /Démarrer mon projet/ }));
     });

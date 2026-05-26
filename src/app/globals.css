@@ -742,6 +742,31 @@ body {
   line-height: 1.5;
 }
 .kova-price-calc__error a { color: rgba(232,201,122,0.8); text-decoration: underline; }
+.kova-price-calc__consent {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  cursor: pointer;
+}
+.kova-price-calc__consent input[type="checkbox"] {
+  flex-shrink: 0;
+  margin-top: 3px;
+  width: 18px;
+  height: 18px;
+  accent-color: var(--ocre);
+  cursor: pointer;
+}
+.kova-price-calc__consent-label {
+  font-size: 13px;
+  color: var(--craie);
+  opacity: 0.85;
+  line-height: 1.5;
+}
+.kova-price-calc__consent-label a {
+  color: var(--ocre);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
 
 
 /* ═══════════════════════════════════════

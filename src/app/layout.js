@@ -22,8 +22,8 @@ const playfair = Playfair_Display({
 });
 
 export const metadata = {
-  title: "Studio Kova - Transformez votre pièce en 48h | Analyse IA déco 69€",
-  description: "Conseil déco en ligne : analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 69€. Pour locataires et primo-accédantes.",
+  title: "Studio Kova, l'analyse IA qui transforme votre pièce en 48h",
+  description: "Une pièce qui ne vous ressemble pas encore ? Mon analyse IA vous livre un plan déco concret en 48h, pour 69€. Couleurs, aménagement, matières.",
   metadataBase: new URL('https://www.studiokova.fr'),
   alternates: { canonical: 'https://www.studiokova.fr' },
   openGraph: {

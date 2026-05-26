@@ -16,11 +16,13 @@ export default function MentionsLegales() {
         <div className="kova-legal__section">
           <h2>Éditeur du site</h2>
           <address>
-            Clémence Laurent<br />
+            Clémence Laurent, entrepreneur individuelle exerçant sous le nom commercial « Studio Kova »<br />
+            SIRET : 10523019700011<br />
             41500 Mer, France<br />
             Email : hello@studiokova.fr<br />
             Site : studiokova.fr
           </address>
+          <p>Directrice de la publication : Clémence Laurent</p>
         </div>
 
         <div className="kova-legal__divider" />
@@ -28,6 +30,7 @@ export default function MentionsLegales() {
         <div className="kova-legal__section">
           <h2>Activité</h2>
           <p>Studio Kova est une activité de conseil en décoration d&rsquo;intérieur exercée à titre individuel.</p>
+          <p>TVA non applicable, article 293 B du CGI.</p>
         </div>
 
         <div className="kova-legal__divider" />
@@ -36,8 +39,8 @@ export default function MentionsLegales() {
           <h2>Hébergement</h2>
           <address>
             Vercel Inc.<br />
-            440 N Barranca Ave #4133<br />
-            Covina, CA 91723, États-Unis<br />
+            340 S Lemon Ave #4133<br />
+            Walnut, CA 91789, États-Unis<br />
             vercel.com
           </address>
         </div>
@@ -49,6 +52,23 @@ export default function MentionsLegales() {
           <p>
             L&rsquo;ensemble du contenu de ce site (textes, visuels, logo) est la propriété exclusive
             de Studio Kova. Toute reproduction, même partielle, est interdite sans autorisation préalable.
+          </p>
+        </div>
+
+        <div className="kova-legal__divider" />
+
+        <div className="kova-legal__section">
+          <h2>Médiation de la consommation</h2>
+          <p>
+            Conformément aux dispositions du Code de la consommation concernant le processus de
+            médiation des litiges de la consommation, après m&rsquo;avoir sollicitée et à défaut
+            de réponse vous satisfaisant, vous avez la possibilité de recourir gratuitement à une
+            procédure de médiation de la consommation auprès de : CM2C, 49 rue de Ponthieu,
+            75008 Paris. Téléphone : 01 89 47 00 14.{" "}
+            Site internet :{" "}
+            <a href="https://www.cm2c.net/declarer-un-litige.php" target="_blank" rel="noopener noreferrer">
+              cm2c.net
+            </a>. Mail : litiges@cm2c.net
           </p>
         </div>
 

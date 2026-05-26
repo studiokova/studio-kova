@@ -37,7 +37,7 @@ Classées par impact × faisabilité à court terme :
 | **Difficulté SEO** | Difficile (Côté Maison, IKEA, Maisons du Monde) |
 | **Mots-clés secondaires** | "décorateur d'intérieur en ligne", "conseil déco personnalisé", "studio déco en ligne", "coach décoration intérieur" |
 | **Title** | `Studio Kova — Conseil déco personnalisé en ligne` (49 chars) |
-| **Meta description** | `Trouvez votre style déco et transformez vos pièces depuis chez vous. Quiz gratuit, analyse photo 49€ ou accompagnement sur-mesure. Sans rendez-vous.` (149 chars) |
+| **Meta description** | `Trouvez votre style déco et transformez vos pièces depuis chez vous. Quiz gratuit, analyse photo 69€ ou accompagnement sur-mesure. Sans rendez-vous.` (149 chars) |
 | **H1 recommandé** | "La déco personnalisée, enfin accessible." _(actuel — à conserver)_ |
 | **Slug** | `/` — inchangé |
 | **Statut indexation** | Indexable |
@@ -69,7 +69,7 @@ Classées par impact × faisabilité à court terme :
 
 ---
 
-### `/analyse` — Analyse photo 49€
+### `/analyse` — Analyse photo 69€
 
 | Paramètre | Valeur |
 |-----------|--------|
@@ -78,15 +78,15 @@ Classées par impact × faisabilité à court terme :
 | **Intention** | Transactionnelle |
 | **Difficulté SEO** | Faible (offre quasiment unique en France) |
 | **Mots-clés secondaires** | "conseil déco photo pièce", "transformer sa pièce décoration", "bilan déco appartement", "décoration intérieur pas cher" |
-| **Title** | `Analyse déco de votre pièce — 49€, livré en 48h` (49 chars) |
-| **Meta description** | `Uploadez une photo de votre pièce. Recevez un PDF complet : palette, aménagement et liens d'achat. Réponse personnalisée en 48h. 49€ seulement.` (144 chars) |
-| **H1 recommandé** | "Transformez votre pièce — analyse photo personnalisée, 49€" |
+| **Title** | `Analyse déco de votre pièce — 69€, livré en 48h` (49 chars) |
+| **Meta description** | `Uploadez une photo de votre pièce. Recevez un PDF complet : palette, aménagement et liens d'achat. Réponse personnalisée en 48h. 69€ seulement.` (144 chars) |
+| **H1 recommandé** | "Transformez votre pièce — analyse photo personnalisée, 69€" |
 | **Slug** | `/analyse` — inchangé |
 | **Statut indexation** | Indexable |
-| **Schema.org** | `Product` (name, price: 49, priceCurrency: EUR, description, offers), `Service`, `BreadcrumbList` |
+| **Schema.org** | `Product` (name, price: 69, priceCurrency: EUR, description, offers), `Service`, `BreadcrumbList` |
 | **Maillage sortant** | → `/quiz` (si pas encore de profil), → `/surmesure` (upsell), → `/blog/` (articles associés sur transformation de pièce) |
 
-**Objectif de conversion :** Achat direct 49€.
+**Objectif de conversion :** Achat direct 69€.
 
 ---
 
@@ -418,7 +418,7 @@ Ces pages interceptent les requêtes haut du tunnel, des utilisatrices encore en
 | **Intention** | Informationnelle + transactionnelle |
 | **Difficulté** | Moyen |
 | **Title** | `Conseil déco en ligne — Comment ça marche chez Studio Kova` (59 chars) |
-| **Meta** | `Quiz gratuit, analyse photo 49€ ou accompagnement sur-mesure : découvrez comment Studio Kova rend le conseil déco accessible.` (125 chars) |
+| **Meta** | `Quiz gratuit, analyse photo 69€ ou accompagnement sur-mesure : découvrez comment Studio Kova rend le conseil déco accessible.` (125 chars) |
 | **Contenu** | Explication du service, comparaison des 3 offres, FAQ (délai, qualité, remboursement), témoignages |
 | **CTA** | → `/quiz` (début gratuit), → `/analyse` |
 | **Maillage** | → `/quiz`, → `/analyse`, → `/surmesure`, → `/alternative-decorateur-interieur` |
@@ -434,7 +434,7 @@ Ces pages interceptent les requêtes haut du tunnel, des utilisatrices encore en
 | **Intention** | Transactionnelle |
 | **Difficulté** | Faible |
 | **Title** | `Alternative au décorateur d'intérieur — Studio Kova` (52 chars) |
-| **Meta** | `Pas 500€/h de décorateur. Studio Kova propose un conseil déco personnalisé en ligne dès 49€. Palette, meubles et PDF livré en 48h.` (131 chars) |
+| **Meta** | `Pas 500€/h de décorateur. Studio Kova propose un conseil déco personnalisé en ligne dès 69€. Palette, meubles et PDF livré en 48h.` (131 chars) |
 | **Contenu** | Tableau comparatif (décorateur classique vs Studio Kova), prix, délai, qualité, cas d'usage |
 | **CTA** | → `/analyse`, → `/surmesure` |
 | **Maillage** | → `/analyse`, → `/surmesure`, → `/conseil-decoration-en-ligne`, → `/blog/faire-appel-decorateur-interieur` |
@@ -466,7 +466,7 @@ Ces pages interceptent les requêtes haut du tunnel, des utilisatrices encore en
 | **Intention** | Informationnelle / transactionnelle |
 | **Difficulté** | Faible |
 | **Title** | `Décorer son appartement sans architecte` (39 chars) |
-| **Meta** | `Vous n'avez pas besoin d'un architecte pour avoir un bel intérieur. Découvrez comment Studio Kova rend ça possible, dès 49€.` (124 chars) |
+| **Meta** | `Vous n'avez pas besoin d'un architecte pour avoir un bel intérieur. Découvrez comment Studio Kova rend ça possible, dès 69€.` (124 chars) |
 | **Maillage** | → `/quiz`, → `/analyse`, → `/alternative-decorateur-interieur` |
 
 ---
@@ -573,7 +573,7 @@ Le blog `/blog/` existe dans le code. L'architecture recommandée : 4 piliers + 
 - H2 : Les 5 changements qui transforment le plus une pièce de location
 - H2 : Les achats à éviter (ce que vous n'emporterez pas)
 - H2 : Comment créer une identité cohérente malgré les contraintes
-- CTA : Quiz gratuit + Analyse photo 49€
+- CTA : Quiz gratuit + Analyse photo 69€
 
 **Satellites rattachés (7) :**
 
@@ -653,7 +653,7 @@ Le blog `/blog/` existe dans le code. L'architecture recommandée : 4 piliers + 
 - H2 : Comment agrandir visuellement une pièce (couleurs, miroirs, lumière)
 - H2 : Créer des zones dans un espace unique
 - H2 : Petit budget vs grand budget : les bons arbitrages
-- CTA : Analyse photo 49€ (pour votre pièce spécifique)
+- CTA : Analyse photo 69€ (pour votre pièce spécifique)
 
 **Satellites rattachés (8) :**
 
@@ -721,7 +721,7 @@ Haut du tunnel (blog / pages style / pages idées)
         ↓
 /quiz (capture email + profil)
         ↓
-/analyse (49€ — si budget pièce <1500€)
+/analyse (69€ — si budget pièce <1500€)
         ↓ (upsell ou parcours direct)
 /surmesure (299€+)
         ↓
@@ -781,7 +781,7 @@ Le `layout.js` référence `/og-image.webp` qui n'existe pas encore. Priorité :
   "description": "Analyse personnalisée de votre pièce par une décoratrice, livrée en 48h en PDF.",
   "offers": {
     "@type": "Offer",
-    "price": "49",
+    "price": "69",
     "priceCurrency": "EUR",
     "availability": "https://schema.org/InStock"
   }

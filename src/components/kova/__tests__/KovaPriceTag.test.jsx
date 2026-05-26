@@ -3,8 +3,8 @@ import KovaPriceTag from '../KovaPriceTag'
 
 describe('KovaPriceTag', () => {
   it('affiche le montant', () => {
-    render(<KovaPriceTag amount={49} />)
-    expect(screen.getByText('49€')).toBeInTheDocument()
+    render(<KovaPriceTag amount={69} />)
+    expect(screen.getByText('69€')).toBeInTheDocument()
   })
 
   it('affiche "à partir de" quand from est true', () => {
@@ -13,7 +13,7 @@ describe('KovaPriceTag', () => {
   })
 
   it('n\'affiche pas "à partir de" sans la prop from', () => {
-    render(<KovaPriceTag amount={49} />)
+    render(<KovaPriceTag amount={69} />)
     expect(screen.queryByText('à partir de')).not.toBeInTheDocument()
   })
 
@@ -23,7 +23,7 @@ describe('KovaPriceTag', () => {
   })
 
   it('n\'affiche pas l\'unité si non fournie', () => {
-    render(<KovaPriceTag amount={49} />)
+    render(<KovaPriceTag amount={69} />)
     expect(screen.queryByText(/^\//)).not.toBeInTheDocument()
   })
 

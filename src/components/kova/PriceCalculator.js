@@ -13,9 +13,10 @@ function calcSaving(n) { return (n - 1) * (BASE - EXTRA); }
 function calcDetail(n) { return n === 1 ? "" : `${BASE}€ + ${n - 1}×${EXTRA}€`; }
 
 export default function PriceCalculator({ email = "hello@studiokova.fr" }) {
-  const [count, setCount]     = useState(1);
-  const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState(null);
+  const [count, setCount]       = useState(1);
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState(null);
+  const [acceptLegal, setAcceptLegal] = useState(false);
   const isFirstRender = useRef(true);
   const sliderDebounce = useRef(null);
 
@@ -95,10 +96,23 @@ export default function PriceCalculator({ email = "hello@studiokova.fr" }) {
       </div>
 
       <div className="kova-price-calc__cta">
+        <label className="kova-price-calc__consent">
+          <input
+            type="checkbox"
+            checked={acceptLegal}
+            onChange={e => setAcceptLegal(e.target.checked)}
+          />
+          <span className="kova-price-calc__consent-label">
+            J&rsquo;accepte les{" "}
+            <a href="/cgv" target="_blank" rel="noopener noreferrer">conditions générales de vente</a>
+            {" "}et je demande que la prestation commence dès maintenant, en reconnaissant
+            qu&rsquo;une fois le projet lancé je perds mon droit de rétractation de 14 jours.
+          </span>
+        </label>
         <KovaButton
           variant="primary"
           onClick={handleCheckout}
-          disabled={loading}
+          disabled={loading || !acceptLegal}
           fullWidth
         >
           {loading ? "Redirection..." : `Démarrer mon projet - ${count} pièce${count > 1 ? "s" : ""} →`}

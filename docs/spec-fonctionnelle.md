@@ -2,7 +2,32 @@
 
 ## Vue d'ensemble
 
-Studio Kova est une plateforme de conseil en décoration intérieure avec 3 offres étagées, construite en Next.js (App Router). Les intégrations principales : **Stripe** (paiements), **Supabase** (base de données), **Brevo** (emails), **Claude AI** (analyse design), **Vercel Blob** (stockage fichiers), **Notion** (suivi admin).
+Studio Kova est une plateforme de conseil en décoration intérieure avec 3 offres étagées, construite en Next.js 16 (App Router). Les intégrations principales : **Stripe** (paiements), **Supabase** (base de données), **Brevo** (emails), **Claude AI** (analyse design), **Vercel Blob** (stockage fichiers), **Notion** (suivi admin).
+
+**Stack technique :** Next.js 16.2.6, React 19, Tailwind CSS 4, déployé sur Vercel. Domaine : `www.studiokova.fr`.
+
+---
+
+## Carte des routes
+
+| Route | Description | Indexable |
+|-------|-------------|-----------|
+| `/` | Homepage | ✅ |
+| `/quiz` | Quiz gratuit style déco | ✅ |
+| `/analyse` | Formulaire analyse photo 69€ | ✅ |
+| `/analyse/merci` | Confirmation analyse | ❌ noindex |
+| `/je-transforme-ma-piece` | Point d'entrée → redirige vers `/analyse` | — |
+| `/offre-premium` | Offre sur-mesure 299€+ | ✅ (alias `/surmesure`) |
+| `/offre-premium/confirmation` | Confirmation sur-mesure | ❌ noindex |
+| `/premium/brief` | Formulaire brief post-achat | ❌ noindex |
+| `/premium/merci` | Confirmation brief envoyé | ❌ noindex |
+| `/blog` | Index du blog | ✅ |
+| `/blog/[slug]` | Article individuel | ✅ |
+| `/piece/[type]` | Pages pièce (salon, chambre…) | ✅ |
+| `/confidentialite` | Politique de confidentialité | ✅ |
+| `/mentions-legales` | Mentions légales | ✅ |
+| `/admin/envoyer-analyse` | Admin livraison analyses | ❌ noindex (layout admin) |
+| `/api/*` | Routes API | ❌ disallow robots |
 
 ---
 
@@ -47,19 +72,21 @@ Page `/` → CTA "Je trouve mon style" → `/quiz`
   - Crée contact Brevo (liste 5)
   - Envoie email transactionnel (template 2) avec profil, palette, actions
   - `POST /api/profile` → upsert `style_profiles` Supabase (non-bloquant)
-- CTA final route vers `/analyse` (si Q6 < 1500€) ou `/surmesure`
+- CTA final route vers `/analyse` (si Q6 < 1500€) ou `/offre-premium`
 
 ---
 
-## Flow 2 — Analyse photo 49€ « Je transforme ma pièce »
+## Flow 2 — Analyse photo 69€ « Je transforme ma pièce »
 
 ### Entrée
 Page `/` → CTA "Je transforme ma pièce" **ou** CTA quiz (budget < 1500€) → `/analyse`
 
+**Prix : 69€** (affiché partout : title, description, récap paiement, metadata SEO).
+
 ### Step 1 — Upload & email
 
 - Upload 1–3 photos (JPG/PNG/WebP, max 5 Mo chacune), drag-drop ou clic
-- Saisie email → `GET /api/profile?email=X` : si profil quiz existant, pré-remplit les préférences style à l'étape 3
+- Saisie email → `GET /api/profile?email=X` : vérifie si un profil quiz existe (utilisé en step 3 uniquement pour affichage, sans pré-remplissage automatique des champs)
 - Fichiers uploadés via `POST /api/upload` → Vercel Blob
 - Bouton "Suivant" désactivé tant que : aucune photo **ou** email invalide
 
@@ -75,10 +102,10 @@ Page `/` → CTA "Je transforme ma pièce" **ou** CTA quiz (budget < 1500€) �
 ### Step 3 — Préférences style
 
 **Si profil quiz trouvé :**
-- Affiche nom, axes, palette
-- Options : "Oui, garder ce profil" | "Non, ajuster" → textarea corrections
+- Affiche nom, axes, palette (informatif seulement)
+- Formulaire standard proposé sans pré-remplissage
 
-**Si pas de profil :**
+**Dans tous les cas :**
 - Ambiances (chips, max 2) : Cosy | Lumineux | Élégant | Vivant | Zen
 - Couleur préférée (texte)
 - Couleur à éviter (texte)
@@ -88,7 +115,7 @@ Page `/` → CTA "Je transforme ma pièce" **ou** CTA quiz (budget < 1500€) �
 
 - Récap pièce : type, budget, motivation
 - Liste des livrables : analyse photo, recommandations couleurs/aménagement, PDF complet
-- Prix : **49€**
+- Prix : **69€**
 - CTA "Passer la commande" → `POST /api/checkout` → session Stripe → redirect Stripe Checkout
   - URL succès : `/analyse/merci?session_id={CHECKOUT_SESSION_ID}`
   - URL annulation : retour `/analyse`
@@ -117,6 +144,7 @@ Page `/` → CTA "Je transforme ma pièce" **ou** CTA quiz (budget < 1500€) �
 
 ### Page confirmation (`/analyse/merci`)
 
+- Metadata noindex/nofollow
 - Message de confirmation
 - Délai annoncé : 48h
 - Instructions : surveiller l'email
@@ -126,13 +154,13 @@ Page `/` → CTA "Je transforme ma pièce" **ou** CTA quiz (budget < 1500€) �
 ## Flow 3 — Sur-mesure 299€+ « Je vous confie mon intérieur »
 
 ### Entrée
-Page `/` → CTA "Je vous confie mon intérieur" **ou** CTA quiz (budget ≥ 1500€) → `/surmesure`
+Page `/` → CTA "Je vous confie mon intérieur" **ou** CTA quiz (budget ≥ 1500€) → `/offre-premium`
 
-### Page produit (`/surmesure`)
+### Page produit (`/offre-premium`)
 
 - Présentation de l'offre : sélection de meubles, liens d'achat, planche complète, délai 5 jours, 1 révision
-- **Calculateur de prix :**
-  - Slider nombre de pièces (1–10)
+- **Calculateur de prix (`PriceCalculator.js`) :**
+  - Sélection nombre de pièces (1–10)
   - Formule : 299€ + (n−1) × 230€
   - Prix recalculé en temps réel
 - CTA "Commander" → `POST /api/create-checkout-session` avec `{ rooms: N }` → redirect Stripe
@@ -177,12 +205,14 @@ Page `/` → CTA "Je vous confie mon intérieur" **ou** CTA quiz (budget ≥ 150
 4. Sauvegarde non-bloquante dans Notion
 5. Redirect → `/premium/merci`
 
+Pages `/premium/brief` et `/premium/merci` : metadata noindex/nofollow.
+
 ---
 
 ## Flow 4 — Admin : livraison analyse
 
 ### Accès
-`/admin/envoyer-analyse` — protégé par mot de passe (`ADMIN_SECRET`), stocké en localStorage
+`/admin/envoyer-analyse` — protégé par mot de passe (`ADMIN_SECRET`), stocké en localStorage. Le layout admin (`/admin/layout.jsx`) porte le noindex pour couvrir toutes les sous-pages.
 
 ### Fonctionnement
 
@@ -194,6 +224,168 @@ Page `/` → CTA "Je vous confie mon intérieur" **ou** CTA quiz (budget ≥ 150
      - Envoie email Brevo (template 7) avec lien PDF
      - Met à jour `delivered_at` en DB
      - Retire de la liste avec notification toast (5s)
+
+---
+
+## Flow 5 — Blog (`/blog` et `/blog/[slug]`)
+
+### Fonctionnement
+
+- Articles stockés en MDX dans `src/content/blog/`
+- Frontmatter : `title`, `excerpt`, `date`, `image`, `pieces` (array de slugs de pièces associées)
+- Parsing : `gray-matter` + `next-mdx-remote`
+- Typographie française : plugin `rehypeFrenchTypo` (espaces insécables avant ponctuation)
+
+### Page index (`/blog`)
+
+- Liste toutes les publications triées par date (décroissant)
+- Composant `KovaArticleCard` par article
+
+### Page article (`/blog/[slug]`)
+
+- Rendu MDX complet
+- Table des matières (`KovaToc`)
+- CTA en bas d'article (`KovaArticleCta`)
+- Schema.org `Article` injecté via `<JsonLd />` (auteur, dates, image)
+- Articles générés en statique (`generateStaticParams`)
+
+### Redirect actif
+`/blog/decorer-appartement-guide-complet` → `/blog/decorer-appartement` (301)
+
+---
+
+## Flow 6 — Pages pièces (`/piece/[type]`)
+
+Pages de destination SEO pour chaque type de pièce :
+
+| Slug | Pièce |
+|------|-------|
+| `salon` | Salon / Séjour |
+| `chambre` | Chambre |
+| `salle-de-bain` | Salle de bain |
+| `cuisine` | Cuisine |
+| `bureau` | Bureau |
+| `entree` | Entrée |
+
+- Données dans `src/data/pieces/[type].js` : title, description, OG image, FAQ, CTA
+- Composant `PieceTemplate.js` partagé
+- Articles de blog liés affichés si `pieces` frontmatter correspond
+- Générées en statique (`generateStaticParams`)
+
+---
+
+## Infrastructure SEO
+
+### Sitemap dynamique (`/sitemap.xml`)
+
+Généré par `src/app/sitemap.js` — mécanisme natif Next.js App Router.
+
+| URL | Priorité | Fréquence |
+|-----|----------|-----------|
+| `/` | 1.0 | monthly |
+| `/quiz`, `/analyse`, `/offre-premium` | 0.9 | monthly |
+| `/blog` | 0.8 | weekly |
+| `/piece/[type]` | 0.7 | monthly |
+| `/blog/[slug]` | 0.7 | monthly |
+| `/confidentialite`, `/mentions-legales` | 0.3 | yearly |
+
+**Exclues :** `/admin/*`, `/api/*`, `/analyse/merci`, `/offre-premium/confirmation`, `/premium/*`
+
+### Robots.txt (`/robots.txt`)
+
+Généré par `src/app/robots.js`.
+
+```
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Disallow: /analyse/merci
+Disallow: /offre-premium/confirmation
+Disallow: /premium/
+
+Sitemap: https://www.studiokova.fr/sitemap.xml
+```
+
+### Schema.org
+
+**Organization** (global, injecté dans `app/layout.js`) :
+```json
+{
+  "@type": "Organization",
+  "name": "Studio Kova",
+  "url": "https://www.studiokova.fr",
+  "logo": "https://www.studiokova.fr/logo-fond-vert.svg",
+  "email": "hello@studiokova.fr",
+  "description": "Conseil en décoration intérieure personnalisé et accessible en ligne. Quiz gratuit, analyse photo 69€, sur-mesure dès 230€/pièce.",
+  "serviceArea": { "@type": "Country", "name": "France" },
+  "sameAs": ["https://instagram.com/studiokova.fr"]
+}
+```
+
+**Article** (par article de blog, via `<JsonLd />` dans `/blog/[slug]`).
+
+Composant réutilisable : `src/components/seo/JsonLd.jsx` — accepte un objet JSON-LD et le rend via `<script type="application/ld+json" dangerouslySetInnerHTML>`.
+
+### Canonical & metadata pages d'offre
+
+| Page | Canonical |
+|------|-----------|
+| `/` | `https://www.studiokova.fr` |
+| `/quiz` | `https://www.studiokova.fr/quiz` |
+| `/analyse` | `https://www.studiokova.fr/analyse` |
+| `/offre-premium` | `https://www.studiokova.fr/offre-premium` |
+
+Chaque page d'offre a title, description et openGraph définis dans son fichier de page.
+
+---
+
+## RGPD & consentement (`ConsentContext.js`)
+
+### Architecture
+
+- `ConsentProvider` wrappé dans `app/layout.js` — expose `useConsent()`
+- État stocké en `localStorage` (clé `kova_consent`)
+- Valeurs : `accepted` | `rejected` | `null` (non-décidé)
+
+### Composants
+
+| Composant | Rôle |
+|-----------|------|
+| `ConsentBanner.js` | Bandeau affiché si consentement non décidé |
+| `ConsentPreferences.js` | Modal de gestion fine des cookies |
+| `CookieManageButton.js` | Bouton dans le footer pour rouvrir la modale |
+
+### Pixels (conditionnels au consentement)
+
+- **Meta Pixel** (`MetaPixel.js`) — chargé uniquement si consentement accepté
+- **Pinterest Pixel** (`PinterestPixel.js`) — même condition
+
+### Tracking UTM
+
+`UtmCapture.js` — lit les paramètres UTM à l'arrivée et les stocke en `localStorage`. Inclus dans les métadonnées Stripe et Brevo pour attribution marketing.
+
+---
+
+## Analytics
+
+### Plausible (privacy-first, toujours actif)
+
+| Événement | Déclencheur |
+|-----------|-------------|
+| "Clic offre gratuite" | CTA quiz sur homepage |
+| "Clic offre 69" | CTA analyse sur homepage |
+| "Clic offre 299" | CTA sur-mesure sur homepage |
+
+Intégration : `src/lib/plausible.js` — `track(event, props)` + `getSource()` pour détection referrer.
+
+### Meta Pixel (soumis au consentement)
+
+Suivi des conversions Facebook via `metaCapi.js` (Conversions API côté serveur) + `MetaPixel.js` (pixel côté client).
+
+### Pinterest Pixel (soumis au consentement)
+
+`PinterestPixel.js` — chargé conditionnellement après acceptation.
 
 ---
 
@@ -272,16 +464,6 @@ Page `/` → CTA "Je vous confie mon intérieur" **ou** CTA quiz (budget ≥ 150
 
 ---
 
-## Analytics (Plausible)
-
-| Événement | Déclencheur |
-|-----------|-------------|
-| "Clic offre gratuite" | CTA quiz sur homepage |
-| "Clic offre 69" | CTA analyse sur homepage |
-| "Clic offre 299" | CTA sur-mesure sur homepage |
-
----
-
 ## Variables d'environnement requises
 
 ```env
@@ -293,7 +475,8 @@ SUPABASE_SERVICE_KEY
 # Stripe
 STRIPE_SECRET_KEY
 STRIPE_WEBHOOK_SECRET
-STRIPE_PRICE_ID_ANALYSIS       # 49€ analyse
+STRIPE_PRICE_ID_ANALYSIS       # 69€ analyse
+STRIPE_PRICE_ID_SURMESURE      # Sur-mesure (premier tarif 299€)
 STRIPE_PRODUCT_PREMIUM         # ID produit sur-mesure (optionnel)
 
 # Anthropic
@@ -318,6 +501,8 @@ ADMIN_SECRET
 NOTIFICATION_EMAIL             # hello@studiokova.fr
 
 # App
+NEXT_PUBLIC_SITE_URL           # https://www.studiokova.fr
 NEXT_PUBLIC_BASE_URL
+NEXT_PUBLIC_APP_URL
 NODE_ENV
 ```

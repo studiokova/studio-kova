@@ -100,7 +100,7 @@ Ajouter un JSON-LD `Organization` dans le `<head>` du `layout.js`. Ne pas utilis
   "url": "https://www.studiokova.fr",
   "logo": "https://www.studiokova.fr/logo-fond-vert.svg",
   "email": "hello@studiokova.fr",
-  "description": "Conseil en décoration intérieure personnalisé et accessible en ligne. Quiz gratuit, analyse photo 49€, sur-mesure dès 230€/pièce.",
+  "description": "Conseil en décoration intérieure personnalisé et accessible en ligne. Quiz gratuit, analyse photo 69€, sur-mesure dès 230€/pièce.",
   "serviceArea": {
     "@type": "Country",
     "name": "France"
@@ -138,7 +138,7 @@ export const metadata = {
 ```js
 // /analyse/page.jsx
 export const metadata = {
-  title: "Analyse déco de votre pièce — 49€, livré en 48h",
+  title: "Analyse déco de votre pièce — 69€, livré en 48h",
   description: "Uploadez une photo de votre pièce. Recevez un PDF complet : palette, aménagement et liens d'achat. Réponse personnalisée en 48h.",
   openGraph: { /* ... */ }
 }
@@ -173,7 +173,7 @@ Ajouter un JSON-LD `Product` sur les deux pages produit pour être éligible aux
   "brand": { "@type": "Brand", "name": "Studio Kova" },
   "offers": {
     "@type": "Offer",
-    "price": "49",
+    "price": "69",
     "priceCurrency": "EUR",
     "availability": "https://schema.org/InStock",
     "url": "https://www.studiokova.fr/analyse"
@@ -211,7 +211,7 @@ Ajouter un JSON-LD `Product` sur les deux pages produit pour être éligible aux
 **À créer (1200×630px, format WebP, <200ko chacune) :**
 - `og-home.webp` — pour la homepage et le fallback global
 - `og-quiz.webp` — avec tagline "Quel est votre style déco ?"
-- `og-analyse.webp` — avec prix 49€ visible
+- `og-analyse.webp` — avec prix 69€ visible
 - `og-surmesure.webp` — avec "Sur-mesure dès 230€/pièce"
 
 **À mettre à jour dans chaque page :**

@@ -129,8 +129,25 @@ export default function Confidentialite() {
                 <td>Envoi d&rsquo;emails</td>
                 <td>France</td>
               </tr>
+              <tr>
+                <td>Meta (Facebook)</td>
+                <td>Navigation, conversions (avec consentement)</td>
+                <td>Mesure publicitaire</td>
+                <td>USA / Irlande</td>
+              </tr>
+              <tr>
+                <td>Pinterest</td>
+                <td>Navigation, conversions (avec consentement)</td>
+                <td>Mesure publicitaire</td>
+                <td>USA</td>
+              </tr>
             </tbody>
           </table>
+          <p>
+            Meta et Pinterest agissent en tant que responsables de traitement indépendants pour
+            les données qu&rsquo;ils collectent via leurs pixels. Leurs politiques de confidentialité
+            respectives s&rsquo;appliquent à ces traitements.
+          </p>
         </div>
 
         <div className="kova-legal__divider" />
@@ -250,12 +267,26 @@ export default function Confidentialite() {
         <div className="kova-legal__divider" />
 
         <div className="kova-legal__section">
-          <h2>Cookies</h2>
+          <h2>Cookies et traceurs</h2>
+          <ul>
+            <li>
+              <strong>Cookies techniques</strong>&nbsp;: strictement nécessaires au fonctionnement
+              du site (session, sécurité). Aucun consentement requis.
+            </li>
+            <li>
+              <strong>Meta Pixel</strong>&nbsp;: pixel publicitaire de Meta (Facebook/Instagram).
+              Chargé uniquement avec votre consentement explicite. Permet de mesurer l&rsquo;efficacité
+              des campagnes et de vous proposer des publicités pertinentes sur les plateformes Meta.
+            </li>
+            <li>
+              <strong>Pinterest Tag</strong>&nbsp;: pixel de suivi de Pinterest. Chargé uniquement
+              avec votre consentement explicite. Permet de mesurer les conversions issues de Pinterest.
+            </li>
+          </ul>
           <p>
-            Ce site n&rsquo;utilise pas de cookies de traçage, d&rsquo;analytics tiers ni de
-            publicité. Les seuls cookies déposés sont techniques et strictement nécessaires
-            au fonctionnement du site (session, sécurité). Ils ne nécessitent pas votre
-            consentement.
+            Les pixels Meta et Pinterest ne sont jamais chargés sans votre accord préalable. Vous
+            pouvez gérer vos préférences à tout moment via le lien « Gérer mes cookies » en pied
+            de page.
           </p>
         </div>
 
