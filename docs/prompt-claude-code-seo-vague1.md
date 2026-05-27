@@ -8,7 +8,7 @@ En attendant cette validation, on attaque les **chantiers techniques** qui ne d�
 
 **Stack** : Next.js 16 (App Router), déployé sur Vercel, domaine `www.studiokova.fr`.
 
-**Prix offre analyse : 49€** (et non 69€ comme indiqué par erreur dans `CONTEXTE-SEO.md`).
+**Prix offre analyse : 69€** (et non 69€ comme indiqué par erreur dans `CONTEXTE-SEO.md`).
 
 ---
 
@@ -118,7 +118,7 @@ Dans `app/layout.js` (ou `.tsx`), injecter le schema Organization suivant via le
   "url": "https://www.studiokova.fr",
   "logo": "https://www.studiokova.fr/logo-fond-vert.svg",
   "email": "hello@studiokova.fr",
-  "description": "Conseil en décoration intérieure personnalisé et accessible en ligne. Quiz gratuit, analyse photo 49€, sur-mesure dès 230€/pièce.",
+  "description": "Conseil en décoration intérieure personnalisé et accessible en ligne. Quiz gratuit, analyse photo 69€, sur-mesure dès 230€/pièce.",
   "serviceArea": {
     "@type": "Country",
     "name": "France"
@@ -163,11 +163,11 @@ export const metadata = {
 
 ```js
 export const metadata = {
-  title: "Analyse déco de votre pièce — 49€, livré en 48h",
+  title: "Analyse déco de votre pièce — 69€, livré en 48h",
   description: "Uploadez une photo de votre pièce. Recevez un PDF complet : palette, aménagement et liens d'achat. Réponse personnalisée en 48h.",
   alternates: { canonical: "https://www.studiokova.fr/analyse" },
   openGraph: {
-    title: "Analyse déco de votre pièce — 49€, livré en 48h",
+    title: "Analyse déco de votre pièce — 69€, livré en 48h",
     description: "Uploadez une photo. Recevez un PDF complet : palette, aménagement, liens d'achat. 48h.",
     url: "https://www.studiokova.fr/analyse",
     type: "website",
@@ -191,7 +191,7 @@ export const metadata = {
 }
 ```
 
-**Important sur le prix : c'est 49€ pour l'analyse (pas 69€). Vérifier la cohérence partout — title, meta, et contenu de page si du texte affiche un prix erroné.**
+**Important sur le prix : c'est 69€ pour l'analyse (pas 69€). Vérifier la cohérence partout — title, meta, et contenu de page si du texte affiche un prix erroné.**
 
 ---
 

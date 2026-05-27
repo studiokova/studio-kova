@@ -24,10 +24,22 @@ export function getPostBySlug(slug) {
   return { frontmatter: data, content };
 }
 
+const FALLBACK_SLUGS = ['ia-decoration-interieur', 'decorer-appartement'];
+
 export function getPostsByPiece(piece) {
-  return getAllPosts()
+  const allPosts = getAllPosts();
+  const pieceArticles = allPosts
     .filter((post) => Array.isArray(post.pieces) && post.pieces.includes(piece))
     .slice(0, 3);
+
+  if (pieceArticles.length >= 3) return pieceArticles;
+
+  const existingSlugs = new Set(pieceArticles.map((p) => p.slug));
+  const fallbacks = FALLBACK_SLUGS
+    .map((slug) => allPosts.find((p) => p.slug === slug))
+    .filter((p) => p && !existingSlugs.has(p.slug));
+
+  return [...pieceArticles, ...fallbacks].slice(0, 3);
 }
 
 export function formatDate(dateStr) {
