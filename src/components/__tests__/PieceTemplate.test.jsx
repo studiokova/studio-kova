@@ -8,7 +8,7 @@ const mockData = {
   hero: {
     h1: 'Décorer votre chambre',
     subtitle: 'Envoyez 3 photos et recevez votre diagnostic.',
-    image: '/ok/A.webp',
+    image: '/images/quiz/A.webp',
     ctaPrimary: { label: 'Analyser ma chambre — 69€', href: '/analyse?piece=chambre' },
     ctaSecondary: { label: 'Faire le quiz', href: '/quiz' },
   },

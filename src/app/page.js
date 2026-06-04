@@ -31,7 +31,7 @@ export default function Home() {
 
       {/* ── 1. HERO IMMERSIF ── */}
       <section className="kova-hero-imm">
-        <div className="kova-hero-imm__bg" style={{ backgroundImage: "url('/ok/hero.webp')" }} />
+        <div className="kova-hero-imm__bg" style={{ backgroundImage: "url('/images/site/hero.webp')" }} />
         <div className="kova-hero-imm__overlay" />
         <div className="kova-hero-imm__inner">
           <h1 className="kova-hero-imm__title">La déco personnalisée,<br /><em>enfin accessible.</em></h1>
@@ -105,7 +105,7 @@ export default function Home() {
       </section>
 
       {/* ── SÉPARATEUR PHOTO ── */}
-      <div className="kova-photo-sep" style={{ backgroundImage: "url('/ok/section.webp')" }} />
+      <div className="kova-photo-sep" style={{ backgroundImage: "url('/images/site/section.webp')" }} />
 
       {/* ── 5. COMMENT FONCTIONNE L'ANALYSE IA ── */}
       <section className="kova-how">
@@ -144,7 +144,7 @@ export default function Home() {
 
       {/* ── 8. CTA FINAL ── */}
       <section className="kova-cta-final" style={{ position: "relative", overflow: "hidden" }}>
-        <div style={{ position: "absolute", inset: "-40px", backgroundImage: "url('/ok/bath.webp')", backgroundSize: "cover", backgroundPosition: "center", opacity: 0.08 }} />
+        <div style={{ position: "absolute", inset: "-40px", backgroundImage: "url('/images/pieces/bath.webp')", backgroundSize: "cover", backgroundPosition: "center", opacity: 0.08 }} />
         <div className="kova-cta-final__inner" style={{ position: "relative", zIndex: 1 }}>
           <KovaHeading level="h2" light>Prête à transformer votre pièce&nbsp;?</KovaHeading>
           <div className="kova-cta-final__buttons">

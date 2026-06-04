@@ -1,4 +1,5 @@
 import Stripe from 'stripe';
+import { supabaseAdmin } from '@/lib/supabase';
 import { OFFERS } from '@/lib/config';
 import { generateEventId } from '@/lib/metaHelpers';
 
@@ -12,10 +13,31 @@ export async function POST(request) {
     return Response.json({ error: 'Corps invalide' }, { status: 400 })
   }
 
-  const { email, photoUrls, roomContext, styleContext, styleProfile, utms } = body
+  const { email, photoUrls, roomContext, styleContext, utms } = body
 
   if (!email || !photoUrls?.length || !roomContext || !styleContext) {
     return Response.json({ error: 'email, photoUrls, roomContext et styleContext sont requis' }, { status: 400 })
+  }
+
+  // Le contexte volumineuse est écrit en base avant le checkout.
+  // Seul l'id de la ligne transite ensuite par les métadonnées Stripe.
+  // Les lignes 'pending' non converties (abandon sur la page Stripe) sont inertes ;
+  // un nettoyage périodique pourra être ajouté si le volume le justifie.
+  const { data: analysis, error: dbError } = await supabaseAdmin
+    .from('room_analyses')
+    .insert({
+      email,
+      photo_url: JSON.stringify(photoUrls),
+      room_context: roomContext,
+      style_context: styleContext,
+      status: 'pending',
+    })
+    .select('id')
+    .single()
+
+  if (dbError || !analysis) {
+    console.error('[checkout] Erreur pré-insertion room_analyses:', dbError?.message)
+    return Response.json({ error: 'Erreur base de données. Réessayez ou contactez-nous.' }, { status: 500 })
   }
 
   try {
@@ -33,16 +55,7 @@ export async function POST(request) {
         },
       ],
       metadata: {
-        photo_urls: JSON.stringify(photoUrls),
-        room_context: JSON.stringify(roomContext),
-        style_context: JSON.stringify(styleContext),
-        style_profile: styleProfile ? JSON.stringify({
-          style_name: styleProfile.style_name,
-          couleurs_aimees: styleProfile.couleurs_aimees,
-          couleurs_evitees: styleProfile.couleurs_evitees,
-          ambiance_cible: styleProfile.ambiance_cible,
-          matieres_preferees: styleProfile.matieres_preferees,
-        }) : '',
+        room_analysis_id: analysis.id,
         meta_event_id: metaEventId,
         utm_source: u.utm_source || '',
         utm_medium: u.utm_medium || '',

@@ -25,7 +25,7 @@ function buildArticleSchema(frontmatter, slug) {
     publisher: {
       "@type": "Organization",
       name: "Studio Kova",
-      logo: { "@type": "ImageObject", url: `${SITE_URL}/logo-email.png` },
+      logo: { "@type": "ImageObject", url: `${SITE_URL}/logos/logo-email.png` },
     },
   };
 }
@@ -118,7 +118,7 @@ export default async function BlogPostPage({ params }) {
             fill
             priority
             sizes="(max-width: 860px) 100vw, 860px"
-            style={{ objectFit: "cover" }}
+            style={{ objectFit: "cover", objectPosition: frontmatter.imagePosition || "center" }}
           />
         </div>
       )}

@@ -10,6 +10,8 @@ import { useConsent } from '@/app/components/ConsentContext'
 import { getStoredUtms } from '@/lib/utmTracking'
 
 const ROOM_TYPES = ['Salon', 'Chambre', 'Bureau', 'Salle à manger', 'Entrée', 'Cuisine', 'Salle de bain', 'Chambre enfant', 'Autre']
+const MAX_TOTAL_MB = 30;
+const MB = 1024 * 1024;
 const BUDGETS = ['Moins de 500€', '500–1000€', '1000–2000€', '2000–3500€', 'Plus de 3500€']
 const AMBIANCES = ['Cosy', 'Lumineux', 'Apaisant', 'Élégant', 'Vivant', 'Minimaliste', 'Chaleureux', 'Bohème']
 
@@ -54,6 +56,14 @@ const CSS = `
   .pb-cta:disabled { background: #D3D1C7; color: #888780; cursor: not-allowed; box-shadow: none; }
   .pb-cta:not(:disabled):hover { opacity: 0.9; transform: translateY(-1px); }
   .pb-error { font-size: 13px; color: #c0392b; margin-top: 8px; }
+
+  .pb-weight { display: flex; align-items: center; gap: 10px; margin-top: 10px; margin-bottom: 0; }
+  .pb-weight-track { flex: 1; height: 4px; background: #D3D1C7; border-radius: 2px; overflow: hidden; }
+  .pb-weight-fill { height: 100%; border-radius: 2px; background: #3D6B52; transition: width 0.25s; }
+  .pb-weight-fill.warn { background: #E8C97A; }
+  .pb-weight-fill.over { background: #c0392b; }
+  .pb-weight-label { font-size: 12px; color: #888780; white-space: nowrap; }
+  .pb-weight-label.over { color: #c0392b; font-weight: 500; }
   @media (max-width: 480px) { .pb-cards { grid-template-columns: 1fr; } }
 `
 
@@ -116,11 +126,22 @@ function BriefForm() {
   const currentDisplayStep = step < 3 ? step : 2 + roomIndex + 1
   const hasProfile = !!(styleProfile && styleProfile.style_name)
 
+  const inspiTotalSizeMb = inspiFiles.reduce((acc, f) => acc + f.size, 0) / MB;
+  const inspiOverLimit = inspiTotalSizeMb > MAX_TOTAL_MB;
+  const inspiFillPct = Math.min(100, (inspiTotalSizeMb / MAX_TOTAL_MB) * 100);
+  const inspiFillClass = inspiOverLimit ? 'over' : inspiFillPct > 80 ? 'warn' : '';
+
+  const roomTotalSizeMb = roomFiles.reduce((acc, f) => acc + f.size, 0) / MB;
+  const roomOverLimit = roomTotalSizeMb > MAX_TOTAL_MB;
+  const roomFillPct = Math.min(100, (roomTotalSizeMb / MAX_TOTAL_MB) * 100);
+  const roomFillClass = roomOverLimit ? 'over' : roomFillPct > 80 ? 'warn' : '';
+
   const step1OK = prenom.trim().length > 0 && projet.trim().length > 0
-  const step2OK = hasProfile
+  const step2OK = (hasProfile
     ? (styleChoice === 'yes' || (styleChoice === 'no' && styleCorrections.trim().length > 0))
-    : (ambiances.length > 0 && couleurs.trim().length > 0 && (inspiUrl.trim().length > 0 || inspiFiles.length > 0))
-  const roomOK = !!roomType && roomFiles.length >= 3 && !!roomApproache && roomProbleme.trim().length > 0 && roomSentiment.trim().length > 0 && !!roomBudget
+    : (ambiances.length > 0 && couleurs.trim().length > 0 && (inspiUrl.trim().length > 0 || inspiFiles.length > 0)))
+    && !inspiOverLimit
+  const roomOK = !!roomType && roomFiles.length >= 3 && !!roomApproache && roomProbleme.trim().length > 0 && roomSentiment.trim().length > 0 && !!roomBudget && !roomOverLimit
 
   useEffect(() => {
     const sid = searchParams.get('session_id')
@@ -182,7 +203,7 @@ function BriefForm() {
   function scrollTop() { window.scrollTo({ top: 0, behavior: 'instant' }) }
 
   function addRoomFiles(files) {
-    const arr = Array.from(files).slice(0, 6 - roomFiles.length)
+    const arr = Array.from(files)
     if (!arr.length) return
     setRoomFiles(p => [...p, ...arr])
     setRoomPreviews(p => [...p, ...arr.map(f => URL.createObjectURL(f))])
@@ -195,7 +216,7 @@ function BriefForm() {
   }
 
   function addInspiFiles(files) {
-    const arr = Array.from(files).slice(0, 5 - inspiFiles.length)
+    const arr = Array.from(files)
     if (!arr.length) return
     setInspiFiles(p => [...p, ...arr])
     setInspiPreviews(p => [...p, ...arr.map(f => URL.createObjectURL(f))])
@@ -495,27 +516,36 @@ function BriefForm() {
                     </div>
                   )}
 
-                  {inspiFiles.length < 5 && (
-                    <div
-                      className="pb-upload-zone"
-                      onClick={() => inspiFileRef.current?.click()}
-                      onDragOver={e => e.preventDefault()}
-                      onDrop={e => { e.preventDefault(); addInspiFiles(e.dataTransfer.files) }}
-                    >
-                      <div className="pb-upload-text">
-                        {inspiFiles.length > 0 ? 'Ajouter une autre photo' : 'Ajouter des photos'}
+                  <div
+                    className="pb-upload-zone"
+                    onClick={() => inspiFileRef.current?.click()}
+                    onDragOver={e => e.preventDefault()}
+                    onDrop={e => { e.preventDefault(); addInspiFiles(e.dataTransfer.files) }}
+                  >
+                    <div className="pb-upload-text">
+                      {inspiFiles.length > 0 ? 'Ajouter une autre photo' : 'Ajouter des photos'}
+                    </div>
+                    <div className="pb-upload-hint">JPG, PNG ou WebP · 5 Mo max · {MAX_TOTAL_MB} Mo total</div>
+                    <input
+                      ref={inspiFileRef}
+                      type="file"
+                      accept="image/jpeg,image/png,image/webp"
+                      multiple
+                      style={{ display: 'none' }}
+                      onChange={e => e.target.files && addInspiFiles(e.target.files)}
+                    />
+                  </div>
+                  {inspiFiles.length > 0 && (
+                    <div className="pb-weight">
+                      <div className="pb-weight-track">
+                        <div className={`pb-weight-fill${inspiFillClass ? ' ' + inspiFillClass : ''}`} style={{ width: `${inspiFillPct}%` }} />
                       </div>
-                      <div className="pb-upload-hint">JPG, PNG ou WebP · 5 Mo max</div>
-                      <input
-                        ref={inspiFileRef}
-                        type="file"
-                        accept="image/jpeg,image/png,image/webp"
-                        multiple
-                        style={{ display: 'none' }}
-                        onChange={e => e.target.files && addInspiFiles(e.target.files)}
-                      />
+                      <span className={`pb-weight-label${inspiOverLimit ? ' over' : ''}`}>
+                        {inspiTotalSizeMb.toFixed(1).replace('.', ',')} Mo / {MAX_TOTAL_MB} Mo
+                      </span>
                     </div>
                   )}
+                  {inspiOverLimit && <p className="pb-error">Total trop lourd. Supprimez des photos pour continuer.</p>}
                 </div>
 
                 {uploadErr && <p className="pb-error">{uploadErr}</p>}
@@ -556,31 +586,40 @@ function BriefForm() {
                 </div>
               )}
 
-              {roomFiles.length < 6 && (
-                <div
-                  className="pb-upload-zone"
-                  onClick={() => roomFileRef.current?.click()}
-                  onDragOver={e => e.preventDefault()}
-                  onDrop={e => { e.preventDefault(); addRoomFiles(e.dataTransfer.files) }}
-                >
-                  <div className="pb-upload-text">
-                    {roomFiles.length === 0
-                      ? 'Ajouter des photos'
-                      : roomFiles.length < 3
-                        ? `${roomFiles.length} photo${roomFiles.length > 1 ? 's' : ''} - encore ${3 - roomFiles.length} minimum`
-                        : 'Ajouter une autre photo'}
+              <div
+                className="pb-upload-zone"
+                onClick={() => roomFileRef.current?.click()}
+                onDragOver={e => e.preventDefault()}
+                onDrop={e => { e.preventDefault(); addRoomFiles(e.dataTransfer.files) }}
+              >
+                <div className="pb-upload-text">
+                  {roomFiles.length === 0
+                    ? 'Ajouter des photos'
+                    : roomFiles.length < 3
+                      ? `${roomFiles.length} photo${roomFiles.length > 1 ? 's' : ''} - encore ${3 - roomFiles.length} minimum`
+                      : 'Ajouter une autre photo'}
+                </div>
+                <div className="pb-upload-hint">3 photos minimum · JPG, PNG ou WebP · 5 Mo max · {MAX_TOTAL_MB} Mo total</div>
+                <input
+                  ref={roomFileRef}
+                  type="file"
+                  accept="image/jpeg,image/png,image/webp"
+                  multiple
+                  style={{ display: 'none' }}
+                  onChange={e => e.target.files && addRoomFiles(e.target.files)}
+                />
+              </div>
+              {roomFiles.length > 0 && (
+                <div className="pb-weight">
+                  <div className="pb-weight-track">
+                    <div className={`pb-weight-fill${roomFillClass ? ' ' + roomFillClass : ''}`} style={{ width: `${roomFillPct}%` }} />
                   </div>
-                  <div className="pb-upload-hint">3 à 6 photos · JPG, PNG ou WebP · 5 Mo max</div>
-                  <input
-                    ref={roomFileRef}
-                    type="file"
-                    accept="image/jpeg,image/png,image/webp"
-                    multiple
-                    style={{ display: 'none' }}
-                    onChange={e => e.target.files && addRoomFiles(e.target.files)}
-                  />
+                  <span className={`pb-weight-label${roomOverLimit ? ' over' : ''}`}>
+                    {roomTotalSizeMb.toFixed(1).replace('.', ',')} Mo / {MAX_TOTAL_MB} Mo
+                  </span>
                 </div>
               )}
+              {roomOverLimit && <p className="pb-error">Total trop lourd. Supprimez des photos pour continuer.</p>}
             </div>
 
             <div className="pb-field">

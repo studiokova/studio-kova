@@ -16,7 +16,7 @@ export const metadata = {
       "Guides pratiques pour décorer votre intérieur avec méthode : couleurs, textiles, pièce par pièce.",
     url: `${SITE_URL}/blog`,
     type: "website",
-    images: [{ url: `${SITE_URL}/og-image.webp` }],
+    images: [{ url: `${SITE_URL}/og/og-image.webp` }],
   },
   twitter: {
     card: "summary_large_image",

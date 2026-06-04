@@ -10,7 +10,7 @@ export const entreeData = {
   hero: {
     h1: 'Décorer votre entrée',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre entrée.",
-    image: '/ok/entryway.webp',
+    image: '/images/pieces/entryway.webp',
     ctaPrimary: { label: 'Analyser mon entrée - 69€', href: '/analyse?piece=entree' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },

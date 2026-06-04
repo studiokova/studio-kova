@@ -3,12 +3,17 @@
  */
 
 const mockCreate = jest.fn()
+const mockFrom = jest.fn()
 
 jest.mock('stripe', () =>
   jest.fn().mockImplementation(() => ({
     checkout: { sessions: { create: mockCreate } },
   }))
 )
+
+jest.mock('@/lib/supabase', () => ({
+  supabaseAdmin: { from: (...args) => mockFrom(...args) },
+}))
 
 jest.mock('@/lib/config', () => ({
   OFFERS: { analyse: { stripeId: 'price_test_analyse' } },
@@ -28,14 +33,23 @@ function makeRequest(body) {
   })
 }
 
+function buildInsertChain(result = { data: { id: 'analysis-id-123' }, error: null }) {
+  return {
+    insert: jest.fn().mockReturnThis(),
+    select: jest.fn().mockReturnThis(),
+    single: jest.fn().mockResolvedValue(result),
+  }
+}
+
 describe('POST /api/checkout', () => {
   beforeEach(() => {
     jest.clearAllMocks()
     process.env.STRIPE_SECRET_KEY = 'sk_test_mock'
     process.env.NEXT_PUBLIC_APP_URL = 'https://studiokova.fr'
+    mockFrom.mockReturnValue(buildInsertChain())
   })
 
-  it('crée une session Stripe et retourne une URL', async () => {
+  it('pré-insère en base, crée une session Stripe et retourne une URL', async () => {
     mockCreate.mockResolvedValueOnce({ url: 'https://checkout.stripe.com/pay/test' })
 
     const res = await POST(makeRequest({
@@ -48,16 +62,34 @@ describe('POST /api/checkout', () => {
     expect(res.status).toBe(200)
     const data = await res.json()
     expect(data.url).toBe('https://checkout.stripe.com/pay/test')
+    expect(mockFrom).toHaveBeenCalledWith('room_analyses')
     expect(mockCreate).toHaveBeenCalledWith(
       expect.objectContaining({
         mode: 'payment',
         customer_email: 'client@test.fr',
         line_items: [{ price: 'price_test_analyse', quantity: 1 }],
         metadata: expect.objectContaining({
+          room_analysis_id: 'analysis-id-123',
           meta_event_id: 'evt_test_123',
         }),
       })
     )
+  })
+
+  it('ne passe pas room_context ni style_context dans les métadonnées Stripe', async () => {
+    mockCreate.mockResolvedValueOnce({ url: 'https://checkout.stripe.com/pay/test' })
+
+    await POST(makeRequest({
+      email: 'client@test.fr',
+      photoUrls: ['https://blob.example.com/photo.jpg'],
+      roomContext: { type_piece: 'Salon' },
+      styleContext: { style: 'Épuré' },
+    }))
+
+    const callArg = mockCreate.mock.calls[0][0]
+    expect(callArg.metadata).not.toHaveProperty('room_context')
+    expect(callArg.metadata).not.toHaveProperty('style_context')
+    expect(callArg.metadata).not.toHaveProperty('photo_urls')
   })
 
   it('inclut les UTMs dans les metadata si fournis', async () => {
@@ -79,6 +111,20 @@ describe('POST /api/checkout', () => {
         }),
       })
     )
+  })
+
+  it('retourne 500 si Supabase insert échoue (sans appeler Stripe)', async () => {
+    mockFrom.mockReturnValue(buildInsertChain({ data: null, error: { message: 'DB error' } }))
+
+    const res = await POST(makeRequest({
+      email: 'client@test.fr',
+      photoUrls: ['https://blob.example.com/photo.jpg'],
+      roomContext: { type_piece: 'Salon' },
+      styleContext: { style: 'Épuré' },
+    }))
+
+    expect(res.status).toBe(500)
+    expect(mockCreate).not.toHaveBeenCalled()
   })
 
   it('retourne 400 si email manquant', async () => {

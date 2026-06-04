@@ -35,7 +35,7 @@ export const metadata = {
     type: 'website',
     images: [
       {
-        url: '/ok/og-image.webp',
+        url: '/og/og-image.webp',
         width: 1200,
         height: 630,
         alt: 'Studio Kova - Transformez votre pièce en 48h',
@@ -46,7 +46,7 @@ export const metadata = {
     card: 'summary_large_image',
     title: "Studio Kova - Transformez votre pièce en 48h",
     description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 69€.",
-    images: ['/ok/og-image.webp'],
+    images: ['/og/og-image.webp'],
   },
   other: {
     'p:domain_verify': 'f96331ede63e06b65df7db56e147db91',
@@ -67,7 +67,7 @@ export default function RootLayout({ children }) {
           "@type": "Organization",
           "name": "Studio Kova",
           "url": "https://www.studiokova.fr",
-          "logo": "https://www.studiokova.fr/logo-fond-vert.svg",
+          "logo": "https://www.studiokova.fr/logos/logo-fond-vert.svg",
           "email": "hello@studiokova.fr",
           "description": "Conseil en décoration intérieure personnalisé et accessible en ligne. Quiz gratuit, analyse photo 69€, sur-mesure dès 299€/pièce.",
           "serviceArea": { "@type": "Country", "name": "France" },

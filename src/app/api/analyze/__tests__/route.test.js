@@ -23,9 +23,28 @@ jest.mock('@/lib/supabase', () => ({
 const { POST } = require('../route')
 
 const MOCK_AI_RESULT = {
+  cas_usage: 'deco',
   diagnostic: 'Pièce lumineuse.',
-  palette: [{ nom: 'Blanc Craie', hex: '#F5EFE4', usage: 'Murs' }],
-  priorites: [{ action: 'Repeindre', pourquoi: 'Photo montre murs jaunes', cout_estime: '200-400€' }],
+  directions: [
+    {
+      intitule: 'Neutre',
+      description: 'Direction sobre.',
+      palette: [{ nom: 'Blanc Craie', hex: '#F5EFE4', usage: 'Murs', statut: 'a_appliquer' }],
+      actions: [{ action: 'Repeindre les murs', pourquoi: 'Photo montre murs jaunes', cout_estime: '200-400€' }],
+    },
+    {
+      intitule: 'Médian',
+      description: 'Direction équilibrée.',
+      palette: [{ nom: 'Sauge', hex: '#3D6B52', usage: 'Mur accent', statut: 'a_appliquer' }],
+      actions: [{ action: 'Poser un tapis', pourquoi: 'Sol nu visible', cout_estime: '80-150€' }],
+    },
+    {
+      intitule: 'Coloré',
+      description: 'Direction affirmée.',
+      palette: [{ nom: 'Ocre', hex: '#E8C97A', usage: 'Coussins', statut: 'a_appliquer' }],
+      actions: [{ action: 'Ajouter des textiles colorés', pourquoi: 'Manque de chaleur', cout_estime: '50-100€' }],
+    },
+  ],
   matieres: ['Lin', 'Chêne'],
   a_eviter: ['Plastique'],
   phrase_cle: 'Une pièce épurée et chaleureuse.',

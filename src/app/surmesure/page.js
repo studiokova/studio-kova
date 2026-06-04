@@ -33,7 +33,7 @@ export default function SurmesurePage() {
 
         <div
           className="kova-product-page__img"
-          style={{ backgroundImage: "url('/ok/lamp.webp')" }}
+          style={{ backgroundImage: "url('/images/site/lamp.webp')" }}
         >
           <div className="kova-product-page__img-overlay" />
           <span className="kova-product-page__badge">
