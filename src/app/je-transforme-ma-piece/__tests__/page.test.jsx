@@ -3,9 +3,9 @@ import JeTransformeMaPiecePage from '../page'
 
 jest.mock('@/components/kova/KovaNav', () => () => <nav role="navigation" />)
 jest.mock('@/components/kova/KovaBadge', () => ({ children }) => <span>{children}</span>)
-jest.mock('@/components/kova/CheckList', () => () => <ul data-testid="checklist" />)
 jest.mock('@/components/kova/KovaButton', () => ({ children, href }) => <a href={href}>{children}</a>)
 jest.mock('@/components/kova/KovaFooter', () => () => <footer role="contentinfo" />)
+jest.mock('@/components/offre/OffreDetail', () => () => <div data-testid="offre-detail" />)
 jest.mock('next/image', () => function MockImage({ alt, ...props }) {
   return <img alt={alt} {...props} />
 })
@@ -17,7 +17,7 @@ describe('JeTransformeMaPiecePage', () => {
 
   it('affiche le titre principal', () => {
     render(<JeTransformeMaPiecePage />)
-    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Je transforme ma pièce')
+    expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Transformez votre pièce en 48h')
   })
 
   it('affiche le badge "Populaire"', () => {
@@ -30,15 +30,16 @@ describe('JeTransformeMaPiecePage', () => {
     expect(screen.getAllByText(/\d+€/).length).toBeGreaterThan(0)
   })
 
-  it('affiche la checklist des livrables', () => {
+  it('affiche le bloc détail offre', () => {
     render(<JeTransformeMaPiecePage />)
-    expect(screen.getByTestId('checklist')).toBeInTheDocument()
+    expect(screen.getByTestId('offre-detail')).toBeInTheDocument()
   })
 
   it('affiche le lien CTA vers /analyse', () => {
     render(<JeTransformeMaPiecePage />)
-    const link = screen.getByRole('link', { name: /Je transforme ma pièce/ })
-    expect(link).toHaveAttribute('href', '/analyse')
+    const links = screen.getAllByRole('link', { name: /Analyser ma pièce/ })
+    expect(links.length).toBeGreaterThan(0)
+    expect(links[0]).toHaveAttribute('href', '/analyse')
   })
 
   it('affiche la navigation et le footer', () => {

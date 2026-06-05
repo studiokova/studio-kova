@@ -26,6 +26,10 @@ jest.mock('../KovaPdfDocument', () => ({
   KovaPdfDocument: () => null,
 }))
 
+jest.mock('@/lib/ralMatch', () => ({
+  ralMatch: jest.fn((hex) => hex ? { code: 'H060L50C50', nom: 'Test Brown', hex: '#af642b' } : null),
+}))
+
 const { POST } = require('../route')
 
 function makePost(body) {

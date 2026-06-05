@@ -1,10 +1,10 @@
 import Image from "next/image";
 import KovaNav    from "@/components/kova/KovaNav";
 import KovaBadge  from "@/components/kova/KovaBadge";
-import CheckList  from "@/components/kova/CheckList";
 import KovaButton from "@/components/kova/KovaButton";
 import KovaFooter from "@/components/kova/KovaFooter";
-import { OFFERS, ANALYSE_LIVRABLES } from "@/lib/config";
+import OffreDetail from "@/components/offre/OffreDetail";
+import { OFFERS } from "@/lib/config";
 
 export const metadata = {
   title: "Je transforme ma pièce - Studio Kova",
@@ -33,26 +33,34 @@ export default function JeTransformeMaPiecePage() {
         </div>
 
         <div className="kova-product-page__body">
-          <h1 className="kova-product-page__title">Je transforme ma pièce</h1>
+          <h1 className="kova-product-page__title">Transformez votre pièce en 48h</h1>
           <p className="kova-product-page__desc">
-            J'uploade la photo de ma pièce et je reçois un PDF avec des recommandations concrètes en 48h.
+            Vous envoyez les photos de votre pièce, vous recevez un plan déco complet
+            sous 48h. {OFFERS.analyse.display}.
           </p>
-          <CheckList items={ANALYSE_LIVRABLES} />
+          <div className="kova-product-page__hero-cta">
+            <KovaButton variant="primary" href="/analyse" fullWidth>
+              Analyser ma pièce - {OFFERS.analyse.display} →
+            </KovaButton>
+            <p className="kova-product-page__microcopy">
+              Livré sous 48h · paiement sécurisé
+            </p>
+          </div>
+
+          <OffreDetail piece={null} dark />
 
           <div className="kova-product-page__section">
             <span className="kova-product-page__eyebrow">EXEMPLE</span>
-            <h2 className="kova-product-page__section-title">
-              Voici ce que vous recevez
-            </h2>
             <p className="kova-product-page__section-sub">
-              Un PDF de 2 pages avec votre analyse complète.
+              Voici un exemple d&apos;analyse complète. C&apos;est exactement le format que vous
+              recevez, adapté à votre pièce.
             </p>
             <div className="kova-product-page__preview">
               <Image
-                src="/email-apercu-pdf.png"
-                alt="Exemple de livrable PDF Studio Kova - analyse déco et moodboard"
-                width={600}
-                height={424}
+                src="/apercu-pdf-chambre.png"
+                alt="Exemple de livrable PDF Studio Kova - analyse déco chambre"
+                width={2968}
+                height={1400}
                 className="kova-product-page__preview-img"
               />
             </div>
@@ -69,7 +77,7 @@ export default function JeTransformeMaPiecePage() {
               {OFFERS.analyse.display}, paiement sécurisé, PDF livré sous 48h.
             </p>
             <KovaButton variant="primary" href="/analyse" fullWidth>
-              Je transforme ma pièce →
+              Analyser ma pièce - {OFFERS.analyse.display} →
             </KovaButton>
             <p className="kova-sell-cta__contact">
               Une question ? Écrivez-moi à{" "}

@@ -81,7 +81,7 @@ describe('PieceTemplate', () => {
 
   it('affiche le sous-titre du hero', () => {
     render(<PieceTemplate data={mockData} />);
-    expect(screen.getByText(/Envoyez 3 photos et recevez votre diagnostic/)).toBeInTheDocument();
+    expect(screen.getByText(/Envoyez vos photos/)).toBeInTheDocument();
   });
 
   it('affiche le CTA primaire du hero', () => {

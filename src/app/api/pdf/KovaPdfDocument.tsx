@@ -337,7 +337,7 @@ function d(text: string): string {
     .replace(/ {2,}/g, ' ')
 }
 
-interface PaletteColor { hex: string; nom: string; usage?: string; statut?: 'a_appliquer' | 'existant' }
+interface PaletteColor { hex: string; nom: string; usage?: string; statut?: 'a_appliquer' | 'existant'; ral?: string }
 interface Action { action: string; pourquoi: string; cout_estime: string }
 interface Direction { intitule: string; description: string; palette: PaletteColor[]; actions: Action[] }
 
@@ -368,6 +368,11 @@ function PaletteBlock({ palette }: { palette: PaletteColor[] }) {
             {existant && (
               <Text style={{ fontSize: 7, color: C.GRIS, fontStyle: 'italic', textAlign: 'center' }}>
                 {d('conservé')}
+              </Text>
+            )}
+            {!existant && c.ral && (
+              <Text style={{ fontSize: 7, color: C.GRIS, textAlign: 'center' }}>
+                {`RAL le plus proche : ${c.ral}`}
               </Text>
             )}
           </View>

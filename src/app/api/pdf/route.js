@@ -5,9 +5,25 @@ import { renderToBuffer } from '@react-pdf/renderer'
 import { put } from '@vercel/blob'
 import { supabaseAdmin } from '@/lib/supabase'
 import { KovaPdfDocument } from './KovaPdfDocument'
+import { ralMatch } from '@/lib/ralMatch'
 
 const logoPath = path.join(process.cwd(), 'public/logos/logo-transparent-blanc.png')
 const logoBase64 = `data:image/png;base64,${fs.readFileSync(logoPath).toString('base64')}`
+
+function enrichWithRal(aiResult) {
+  if (!aiResult?.directions) return aiResult
+  return {
+    ...aiResult,
+    directions: aiResult.directions.map(dir => ({
+      ...dir,
+      palette: (dir.palette ?? []).map(color => {
+        if (color.statut !== 'a_appliquer') return color
+        const match = ralMatch(color.hex)
+        return match ? { ...color, ral: match.code } : color
+      }),
+    })),
+  }
+}
 
 function parsePhotoUrls(raw) {
   if (!raw) return []
@@ -62,7 +78,7 @@ export async function POST(request) {
   try {
     const pdfBuffer = await renderToBuffer(
       React.createElement(KovaPdfDocument, {
-        aiResult: analysis.ai_result,
+        aiResult: enrichWithRal(analysis.ai_result),
         logoBase64,
         photoUrls,
         roomContext: rc,
