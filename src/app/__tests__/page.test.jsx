@@ -163,8 +163,9 @@ describe('Homepage — CTA clicks', () => {
   it('déclenche "Clic offre 69" au clic sur le CTA Analyser ma pièce', () => {
     const { track } = require('@/lib/plausible')
     render(<Home />)
-    const analyseLink = screen.getByRole('link', { name: /Analyser ma pièce/ })
-    fireEvent.click(analyseLink)
+    const analyseLinks = screen.getAllByRole('link', { name: /Analyser ma pièce - 69/ })
+    // Le lien porteur du tracker est celui de la section offres (fullWidth — dernier)
+    fireEvent.click(analyseLinks[analyseLinks.length - 1])
     expect(track).toHaveBeenCalledWith('Clic offre 69')
   })
 
