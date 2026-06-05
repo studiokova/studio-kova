@@ -8,6 +8,8 @@ import { OFFERS, ANALYSE_LIVRABLES } from '@/lib/config';
 import { getStoredUtms } from '@/lib/utmTracking';
 
 const ROOM_TYPES = ['Salon', 'Chambre', 'Bureau', 'Salle à manger', 'Entrée', 'Autre'];
+const MAX_TOTAL_MB = 30;
+const MB = 1024 * 1024;
 const BUDGETS = ['Moins de 300€', '300–800€', '800–1 500€', 'Plus de 1 500€'];
 const MOTIVATIONS = [
   "J'emménage",
@@ -23,6 +25,33 @@ const AMBIANCES = [
   { label: 'Zen et épuré',         desc: "peu d'objets, palette neutre, calme visuel" },
 ];
 const MATIERES = ['Bois naturel', 'Rotin', 'Lin', 'Velours', 'Laiton', 'Pierre', 'Céramique', 'Cuir'];
+const CAS_USAGE_OPTIONS = [
+  { value: 'surfaces', label: 'Refaire les surfaces',      desc: 'Peinture, papier peint, mur, moulures. Le mobilier reste.' },
+  { value: 'deco',     label: 'Refaire la déco',           desc: 'Textiles, objets, luminaires, agencement. Murs et meubles restent.' },
+  { value: 'tout',     label: 'Tout refaire / meubler',    desc: 'Surfaces + mobilier.' },
+];
+const CAS_USAGE_LABELS = {
+  surfaces: 'Refaire les surfaces',
+  deco:     'Refaire la déco',
+  tout:     'Tout refaire / meubler',
+};
+const LIVRABLES_BY_CAS_USAGE = {
+  surfaces: [
+    '3 propositions de mur / peinture (neutre, médian, coloré)',
+    'Recommandations matières',
+    'PDF complet',
+  ],
+  deco: [
+    'Directions déco : textiles, objets, luminaires, agencement',
+    'Recommandations matières',
+    'PDF complet',
+  ],
+  tout: [
+    'Directions surfaces + déco + mobilier',
+    'Recommandations matières',
+    'PDF complet',
+  ],
+};
 const PROFILE_PALETTES = {
   'Scandinave chaleureux': ['#E8E0D5', '#A89880', '#6B5D4F'],
   'Naturel affirmé':       ['#C4A882', '#8B6F47', '#E8D5B7'],
@@ -110,6 +139,14 @@ const CSS = `
 
   .an-error { font-size: 13px; color: #c0392b; margin-top: 8px; }
 
+  .an-weight { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
+  .an-weight-track { flex: 1; height: 4px; background: #D3D1C7; border-radius: 2px; overflow: hidden; }
+  .an-weight-fill { height: 100%; border-radius: 2px; background: #3D6B52; transition: width 0.25s; }
+  .an-weight-fill.warn { background: #E8C97A; }
+  .an-weight-fill.over { background: #c0392b; }
+  .an-weight-label { font-size: 12px; color: #888780; white-space: nowrap; }
+  .an-weight-label.over { color: #c0392b; font-weight: 500; }
+
   .an-consent { display: flex; flex-direction: column; gap: 12px; margin: 20px 0 8px; }
   .an-consent-row { display: flex; align-items: flex-start; gap: 10px; cursor: pointer; }
   .an-consent-row input[type="checkbox"] { flex-shrink: 0; margin-top: 3px; width: 18px; height: 18px; accent-color: #3D6B52; cursor: pointer; }
@@ -129,10 +166,10 @@ export default function AnalysePage() {
   const [email, setEmail] = useState('');
   const [styleProfile, setStyleProfile] = useState(undefined);
   const [roomContext, setRoomContext] = useState({
-    type_piece: '', approche: '', garder: '', probleme: '', budget: '', motivation: '',
+    type_piece: '', cas_usage: '', garder: '', contraintes: '', probleme: '', budget: '', motivation: '',
   });
   const [styleContext, setStyleContext] = useState({
-    ambiance: [], couleur_aimee: '', couleur_evitee: '', matieres: [],
+    ambiance: [], couleur_aimee: '', couleur_evitee: '', matieres: [], demande_precise: '',
   });
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState('');
@@ -150,7 +187,7 @@ export default function AnalysePage() {
       track('Analysis Step 2 Completed', {
         room_type: roomContext.type_piece,
         budget_range: roomContext.budget,
-        approche: roomContext.approche,
+        cas_usage: roomContext.cas_usage,
       });
     } else if (step === 3) {
       const styleSrc = !hasProfile ? 'manual' : styleModifiedRef.current ? 'quiz_adjusted' : 'quiz_kept';
@@ -167,7 +204,7 @@ export default function AnalysePage() {
 
   function addFiles(newFiles) {
     const arr = Array.from(newFiles);
-    const toAdd = arr.slice(0, 3 - files.length);
+    const toAdd = arr;
     if (!toAdd.length) return;
     const newPreviews = toAdd.map(f => URL.createObjectURL(f));
     setFiles(prev => [...prev, ...toAdd]);
@@ -182,7 +219,6 @@ export default function AnalysePage() {
 
   function handleDrop(e) {
     e.preventDefault();
-    if (files.length >= 3) return;
     addFiles(e.dataTransfer.files);
   }
 
@@ -258,8 +294,13 @@ export default function AnalysePage() {
     }
   }
 
-  const step1Ready = files.length >= 1 && email.includes('@') && !uploading;
-  const step2Ready = !!roomContext.type_piece && !!roomContext.budget;
+  const totalSizeMb = files.reduce((acc, f) => acc + f.size, 0) / MB;
+  const overLimit = totalSizeMb > MAX_TOTAL_MB;
+  const fillPct = Math.min(100, (totalSizeMb / MAX_TOTAL_MB) * 100);
+  const fillClass = overLimit ? 'over' : fillPct > 80 ? 'warn' : '';
+
+  const step1Ready = files.length >= 1 && email.includes('@') && !uploading && !overLimit;
+  const step2Ready = !!roomContext.cas_usage && !!roomContext.type_piece && !!roomContext.budget;
   const step3Ready = styleContext.ambiance.length >= 1;
   const step4Ready = acceptLegal;
   const hasProfile = !!(styleProfile && styleProfile.style_name);
@@ -277,7 +318,7 @@ export default function AnalysePage() {
         {step === 1 && (
           <div className="an-wrap">
             <h1 className="an-title">Montrez-moi votre pièce</h1>
-            <p className="an-sub">2 à 3 photos depuis des angles différents. Plus on voit la pièce, plus l'analyse sera précise.</p>
+            <p className="an-sub">Ajoutez autant de photos que nécessaire depuis des angles différents. Plus on voit la pièce, plus l'analyse sera précise.</p>
 
             {previewUrls.length > 0 && (
               <div className="an-previews">
@@ -291,16 +332,16 @@ export default function AnalysePage() {
             )}
 
             <div
-              className={`an-upload-zone${files.length >= 3 ? ' full' : ''}`}
-              onClick={() => files.length < 3 && fileInputRef.current?.click()}
+              className="an-upload-zone"
+              onClick={() => fileInputRef.current?.click()}
               onDragOver={e => e.preventDefault()}
               onDrop={handleDrop}
             >
               <div className="an-upload-icon">📷</div>
               <div className="an-upload-text">
-                {files.length >= 3 ? 'Maximum de 3 photos atteint' : files.length > 0 ? 'Ajouter une autre photo' : 'Choisir mes photos'}
+                {files.length > 0 ? 'Ajouter une autre photo' : 'Choisir mes photos'}
               </div>
-              <div className="an-upload-hint">JPG, PNG ou WebP · 5 Mo max par photo</div>
+              <div className="an-upload-hint">JPG, PNG ou WebP · 5 Mo max par photo · {MAX_TOTAL_MB} Mo total</div>
               <input
                 ref={fileInputRef}
                 type="file"
@@ -310,6 +351,18 @@ export default function AnalysePage() {
                 onChange={e => e.target.files && addFiles(e.target.files)}
               />
             </div>
+
+            {files.length > 0 && (
+              <div className="an-weight">
+                <div className="an-weight-track">
+                  <div className={`an-weight-fill${fillClass ? ' ' + fillClass : ''}`} style={{ width: `${fillPct}%` }} />
+                </div>
+                <span className={`an-weight-label${overLimit ? ' over' : ''}`}>
+                  {totalSizeMb.toFixed(1).replace('.', ',')} Mo / {MAX_TOTAL_MB} Mo
+                </span>
+              </div>
+            )}
+            {overLimit && <p className="an-error">Total trop lourd. Supprimez des photos pour continuer.</p>}
 
             <div className="an-field">
               <label className="an-label">Votre email pour recevoir l'analyse</label>
@@ -346,36 +399,28 @@ export default function AnalysePage() {
             <p className="an-sub">Ces informations me permettent de cadrer l'analyse.</p>
 
             <div className="an-field">
+              <p className="an-section">Qu'est-ce que vous voulez faire ?</p>
+              <div className="an-cards" style={{ gridTemplateColumns: '1fr' }}>
+                {CAS_USAGE_OPTIONS.map(({ value, label, desc }) => (
+                  <button
+                    key={value}
+                    className={`an-card${roomContext.cas_usage === value ? ' sel' : ''}`}
+                    onClick={() => setRoom('cas_usage', value)}
+                  >
+                    <div className="an-card-title">{label}</div>
+                    <div className="an-card-desc">{desc}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="an-field">
               <p className="an-section">Quelle pièce ?</p>
               <div className="an-chips">
                 {ROOM_TYPES.map(t => (
                   <button key={t} className={`an-chip${roomContext.type_piece === t ? ' sel' : ''}`} onClick={() => setRoom('type_piece', t)}>{t}</button>
                 ))}
               </div>
-            </div>
-
-            <div className="an-field">
-              <p className="an-section">Votre approche ?</p>
-              <div className="an-cards">
-                <button className={`an-card${roomContext.approche === 'ameliorer' ? ' sel' : ''}`} onClick={() => setRoom('approche', 'ameliorer')}>
-                  <div className="an-card-title">Améliorer l'existant</div>
-                  <div className="an-card-desc">Je garde mes meubles principaux</div>
-                </button>
-                <button className={`an-card${roomContext.approche === 'repenser' ? ' sel' : ''}`} onClick={() => setRoom('approche', 'repenser')}>
-                  <div className="an-card-title">Tout repenser</div>
-                  <div className="an-card-desc">Je pars de zéro ou presque</div>
-                </button>
-              </div>
-            </div>
-
-            <div className="an-field">
-              <label className="an-label">Ce que vous voulez absolument garder</label>
-              <textarea className="an-textarea" placeholder="Ex : mon canapé gris, ma bibliothèque, le parquet..." value={roomContext.garder} onChange={e => setRoom('garder', e.target.value)} />
-            </div>
-
-            <div className="an-field">
-              <label className="an-label">Ce qui vous dérange le plus</label>
-              <textarea className="an-textarea" placeholder="Ex : c'est sans personnalité, rien ne va ensemble, trop sombre..." value={roomContext.probleme} onChange={e => setRoom('probleme', e.target.value)} />
             </div>
 
             <div className="an-field">
@@ -394,6 +439,21 @@ export default function AnalysePage() {
                   <button key={m} className={`an-chip${roomContext.motivation === m ? ' sel' : ''}`} onClick={() => setRoom('motivation', m)}>{m}</button>
                 ))}
               </div>
+            </div>
+
+            <div className="an-field">
+              <label className="an-label">Ce qui vous dérange le plus</label>
+              <textarea className="an-textarea" placeholder="Ex : c'est sans personnalité, rien ne va ensemble, trop sombre..." value={roomContext.probleme} onChange={e => setRoom('probleme', e.target.value)} />
+            </div>
+
+            <div className="an-field">
+              <label className="an-label">Ce que vous gardez</label>
+              <textarea className="an-textarea" placeholder="Ex : mon canapé gris, ma bibliothèque, le parquet..." value={roomContext.garder} onChange={e => setRoom('garder', e.target.value)} />
+            </div>
+
+            <div className="an-field">
+              <label className="an-label">Vos contraintes</label>
+              <textarea className="an-textarea" placeholder="Ex : locataire, budget serré sur un poste, animaux..." value={roomContext.contraintes} onChange={e => setRoom('contraintes', e.target.value)} />
             </div>
           </div>
         )}
@@ -438,6 +498,11 @@ export default function AnalysePage() {
                 ))}
               </div>
             </div>
+
+            <div className="an-field">
+              <label className="an-label">Une demande précise, si vous en avez une</label>
+              <textarea className="an-textarea" placeholder="Ex : je veux que la pièce paraisse plus grande, trouver un coin lecture..." value={styleContext.demande_precise} onChange={e => { styleModifiedRef.current = true; setStyleContext(prev => ({ ...prev, demande_precise: e.target.value })); }} />
+            </div>
           </div>
         )}
 
@@ -461,7 +526,7 @@ export default function AnalysePage() {
             <div className="an-field">
               <p className="an-section">Votre pièce</p>
               <p className="an-recap-row">
-                {roomContext.type_piece} · {roomContext.approche === 'ameliorer' ? "Améliorer l'existant" : 'Tout repenser'} · Budget {roomContext.budget}
+                {roomContext.type_piece} · {CAS_USAGE_LABELS[roomContext.cas_usage]} · Budget {roomContext.budget}
               </p>
             </div>
 
@@ -474,7 +539,7 @@ export default function AnalysePage() {
 
             <div className="an-livrables">
               <p className="an-section">Ce qui est inclus</p>
-              {ANALYSE_LIVRABLES.map(item => (
+              {(LIVRABLES_BY_CAS_USAGE[roomContext.cas_usage] || ANALYSE_LIVRABLES).map(item => (
                 <div key={item} className="an-livrable">
                   <span className="an-check">✓</span>
                   {item}

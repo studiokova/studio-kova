@@ -61,9 +61,7 @@ function makeAnalyseEvent(metadataOverrides = {}) {
         payment_intent: 'pi_test_123',
         customer_details: { email: 'client@test.fr' },
         metadata: {
-          room_context: JSON.stringify({ type_piece: 'Salon' }),
-          style_context: JSON.stringify({ ambiance: ['Épuré'] }),
-          photo_urls: 'https://blob.example.com/photo.jpg',
+          room_analysis_id: 'analysis-uuid-123',
           meta_event_id: 'evt_test_123',
           utm_source: 'instagram',
           ...metadataOverrides,
@@ -152,7 +150,7 @@ describe('POST /api/webhook', () => {
   })
 
   describe('Analyse 69€', () => {
-    it('retourne 400 si room_context est du JSON invalide', async () => {
+    it('retourne 400 si room_analysis_id est absent des métadonnées', async () => {
       mockConstructEvent.mockReturnValue({
         type: 'checkout.session.completed',
         data: {
@@ -160,10 +158,7 @@ describe('POST /api/webhook', () => {
             customer_email: 'client@test.fr',
             payment_intent: 'pi_test',
             customer_details: { email: 'client@test.fr' },
-            metadata: {
-              room_context: 'not-valid-json{{{',
-              photo_urls: 'https://blob.example.com/photo.jpg',
-            },
+            metadata: { meta_event_id: 'evt_123' },
           },
         },
       })
@@ -171,41 +166,14 @@ describe('POST /api/webhook', () => {
       const res = await POST(makeRequest('body'))
       expect(res.status).toBe(400)
       const data = await res.json()
-      expect(data.error).toMatch(/room_context invalide/)
+      expect(data.error).toMatch(/room_analysis_id manquant/)
     })
 
-    it('gère style_context JSON invalide sans retourner d\'erreur', async () => {
-      const chain = buildSupabaseChain()
-      mockFrom.mockReturnValue(chain)
-
-      mockConstructEvent.mockReturnValue({
-        type: 'checkout.session.completed',
-        data: {
-          object: {
-            customer_email: 'client@test.fr',
-            payment_intent: 'pi_test',
-            customer_details: { email: 'client@test.fr' },
-            metadata: {
-              room_context: JSON.stringify({ type_piece: 'Salon' }),
-              style_context: 'invalid-json',
-              photo_urls: 'https://blob.example.com/photo.jpg',
-              meta_event_id: 'evt_123',
-            },
-          },
-        },
-      })
-
-      const res = await POST(makeRequest('body'))
-      expect(res.status).toBe(200)
-    })
-
-    it('insère l\'analyse et déclenche la chaîne complète', async () => {
+    it('met à jour la ligne pending → paid et déclenche la chaîne complète', async () => {
       const styleProfile = { id: 'prof-1', email: 'client@test.fr', marketing_consent: true }
-      let fromCallCount = 0
       mockFrom.mockImplementation((table) => {
-        fromCallCount++
         if (table === 'style_profiles') {
-          return buildSupabaseChain({ maybySingle: jest.fn(), maybySingle_: jest.fn(), maybeSingle: jest.fn().mockResolvedValue({ data: styleProfile }) })
+          return buildSupabaseChain({ maybeSingle: jest.fn().mockResolvedValue({ data: styleProfile }) })
         }
         return buildSupabaseChain()
       })
@@ -228,20 +196,29 @@ describe('POST /api/webhook', () => {
       )
     })
 
-    it('retourne 500 si Supabase insert échoue', async () => {
+    it('retourne 200 sans déclencher l\'analyse si la ligne n\'est plus en pending (idempotence)', async () => {
+      const styleProfile = { id: 'prof-1', email: 'client@test.fr', marketing_consent: false }
       mockFrom.mockImplementation((table) => {
         if (table === 'style_profiles') {
-          return buildSupabaseChain()
+          return buildSupabaseChain({ maybeSingle: jest.fn().mockResolvedValue({ data: styleProfile }) })
         }
         return buildSupabaseChain({
-          single: jest.fn().mockResolvedValue({ data: null, error: { message: 'DB error' } }),
+          single: jest.fn().mockResolvedValue({ data: null, error: null }),
         })
       })
 
       mockConstructEvent.mockReturnValue(makeAnalyseEvent())
 
       const res = await POST(makeRequest('body'))
-      expect(res.status).toBe(500)
+      expect(res.status).toBe(200)
+      const data = await res.json()
+      expect(data.received).toBe(true)
+
+      expect(global.fetch).not.toHaveBeenCalledWith(
+        expect.stringContaining('/api/analyze'),
+        expect.anything()
+      )
+      expect(mockAddContactToList).not.toHaveBeenCalled()
     })
 
     it('n\'ajoute pas à marketing si styleProfile.marketing_consent est false', async () => {

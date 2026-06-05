@@ -12,40 +12,85 @@ Tu donnes des recommandations concrètes, actionnables et personnalisées.
 Tu ne fais jamais de généralités. Chaque recommandation doit être liée à quelque chose que tu vois dans les photos ou à une préférence explicite.`
 
 function buildPrompt(roomContext, styleContext, styleProfile) {
+  const rc = roomContext || {}
   const sc = styleContext || {}
+
   const profileBlock = styleProfile ? `# Son profil style général - contexte de fond uniquement
 Profil : ${styleProfile.style_name}
 Tendances générales : ${styleProfile.ambiance_cible?.join(', ')}, ${styleProfile.couleurs_aimees?.join(', ')}, ${styleProfile.matieres_preferees?.join(', ')}
-Note : ce profil reflète ses goûts généraux. Les préférences exprimées ci-dessus pour cette pièce précise priment toujours sur ce profil.
+Note : ce profil reflète ses goûts généraux. Il sert UNIQUEMENT de départage quand les préférences exprimées pour cette pièce et les photos ne suffisent pas à trancher. Ne le cite jamais comme justification d'une recommandation : les seules justifications visibles dans le livrable sont les éléments des photos et les préférences exprimées pour cette pièce.
 
 ` : ''
 
+  const casUsageBlock = {
+    surfaces: `Cas d'usage : REFAIRE LES SURFACES (peinture, papier peint, murs, moulures).
+Tu travailles UNIQUEMENT les surfaces. Le mobilier reste tel quel : ne propose jamais de le changer, de le déplacer ou de le repeindre. Tes 3 directions sont 3 partis pris de traitement des murs/surfaces.`,
+    deco: `Cas d'usage : REFAIRE LA DÉCO (textiles, objets, luminaires, agencement).
+Tu ne touches NI aux murs/surfaces NI aux gros meubles existants. Tu travailles la couche déco : textiles, luminaires, objets, disposition. Tes 3 directions sont 3 ambiances déco.`,
+    tout: `Cas d'usage : TOUT REFAIRE / MEUBLER (surfaces + mobilier).
+Périmètre complet : surfaces, mobilier, déco. Tes 3 directions sont 3 partis pris globaux pour la pièce.`,
+  }[rc.cas_usage] || `Cas d'usage : non précisé. Propose 3 directions globales pour la pièce.`
+
   return `# Cette pièce - priorité absolue
-Type de pièce : ${roomContext.type_piece}
-Approche souhaitée : ${roomContext.approche}
-Ce que la cliente veut garder : ${roomContext.garder || 'non précisé'}
-Ce qui la dérange le plus : "${roomContext.probleme || 'non précisé'}"
-Budget : ${roomContext.budget}
-Pourquoi elle fait cette analyse maintenant : ${roomContext.motivation || 'non précisé'}
+Type de pièce : ${rc.type_piece}
+${casUsageBlock}
+Ce que la cliente veut GARDER (à ne jamais remettre en cause) : ${rc.garder || 'non précisé'}
+Ses contraintes (locataire, budget serré, etc.) : ${rc.contraintes || 'non précisé'}
+Ce qui la dérange le plus : "${rc.probleme || 'non précisé'}"
+Budget : ${rc.budget}
+Pourquoi elle fait cette analyse maintenant : ${rc.motivation || 'non précisé'}
 
 # Ses préférences pour cette pièce - priorité haute
 Ambiance souhaitée : ${sc.ambiance?.join(', ') || 'non précisé'}
 Couleur qu'elle aime : ${sc.couleur_aimee || 'non précisé'}
 Couleur qu'elle veut absolument éviter : ${sc.couleur_evitee || 'non précisé'}
 Matières qu'elle aime : ${sc.matieres?.join(', ') || 'non précisé'}
+Sa demande précise (si exprimée, à traiter en priorité) : ${sc.demande_precise || 'non précisé'}
 
 ${profileBlock}# Règles de recommandation
-- Le diagnostic doit citer des éléments concrets visibles sur les photos (proportion, couleur existante, source de lumière, meuble identifiable)
-- La palette doit respecter la couleur évitée
-- Chaque priorité doit être liée soit à quelque chose vu sur la photo, soit à une préférence explicite
-- Le coût estimé doit être réaliste par rapport au budget : ${roomContext.budget}
-- La phrase clé décrit l'état final souhaité, pas un conseil
+- Respecte STRICTEMENT le cas d'usage ci-dessus : ne sors jamais de son périmètre.
+- Ne propose JAMAIS de modifier, déplacer ou remplacer un élément listé dans "ce que la cliente veut garder". Compose tes palettes et tes actions AUTOUR de ces éléments (par ex. une palette qui s'accorde avec un canapé conservé).
+- Respecte les contraintes : si elle est locataire, privilégie le réversible ; si le budget est serré, priorise.
+- Le diagnostic cite des éléments concrets visibles sur les photos (proportion, couleur existante, lumière, meuble identifiable).
+- Toutes les palettes respectent la couleur à éviter.
+- Tu proposes EXACTEMENT 3 directions : "Neutre" (sobre, sûr, peu de risque), "Médian" (un parti pris assumé mais accessible), "Coloré" (le plus affirmé). Chacune doit rester cohérente avec ses préférences et son cas d'usage.
+- INTERDICTION ABSOLUE de nommer un produit, une marque, une enseigne ou une référence commerciale précise. Tu donnes des catégories, des matières, des couleurs, des principes — jamais "le canapé X de la marque Y". Les références précises sont une autre offre.
+- Le coût estimé de chaque action est réaliste par rapport au budget : ${rc.budget}.
+- La phrase clé décrit l'état final souhaité, pas un conseil.
+- La palette de chaque direction représente l'harmonie complète de la pièce : les couleurs à appliquer ET, quand un élément coloré marquant est conservé (étagères, fauteuil, meuble visible sur les photos), sa couleur reprise telle quelle.
+- Chaque couleur de palette porte un champ "statut" : "a_appliquer" si on la met en œuvre (peinture…), "existant" si c'est la couleur d'un élément déjà présent qu'on garde.
+- Quand un élément coloré marquant existe et est conservé, intègre sa couleur dans la palette en "existant" pour ancrer la proposition dans la pièce réelle. Si la pièce n'a pas d'élément coloré marquant à reprendre, la palette peut être entièrement "a_appliquer" — ne force pas une couleur existante artificielle.
+- INTERDICTION d'une couleur fantôme : toute couleur de la palette doit être soit utilisée dans au moins une action de la direction, soit une couleur d'un élément existant ("existant"). Aucune couleur décorative non rattachée.
+- Chaque direction comporte 3 à 4 actions.
+- N'utilise JAMAIS le tiret cadratin (—). Remplace-le par une virgule, un point ou une reformulation directe selon le contexte.
 
 Réponds UNIQUEMENT en JSON valide, sans backticks, sans texte avant ou après :
 {
+  "cas_usage": "${rc.cas_usage || 'tout'}",
   "diagnostic": "2-3 phrases. Cite des éléments concrets de la photo : lumière, proportions, couleurs existantes.",
-  "palette": [{ "nom": "", "hex": "#000000", "usage": "Pour quoi et où dans la pièce" }],
-  "priorites": [{ "action": "Verbe d'action + quoi faire concrètement", "pourquoi": "Lien avec la photo ou la préférence", "cout_estime": "Fourchette réaliste en euros" }],
+  "directions": [
+    {
+      "intitule": "Neutre",
+      "description": "1-2 phrases décrivant l'esprit de cette direction.",
+      "palette": [
+        { "nom": "", "hex": "#000000", "usage": "Pour quoi et où dans la pièce", "statut": "a_appliquer" },
+        { "nom": "", "hex": "#000000", "usage": "Couleur de l'élément existant conservé (ex. étagères, fauteuil)", "statut": "existant" }
+      ],
+      "actions": [{ "action": "Verbe d'action + quoi faire concrètement", "pourquoi": "Lien avec la photo ou la préférence", "cout_estime": "Fourchette réaliste en euros" }]
+    },
+    {
+      "intitule": "Médian",
+      "description": "1-2 phrases.",
+      "palette": [{ "nom": "", "hex": "#000000", "usage": "", "statut": "a_appliquer" }],
+      "actions": [{ "action": "", "pourquoi": "", "cout_estime": "" }]
+    },
+    {
+      "intitule": "Coloré",
+      "description": "1-2 phrases.",
+      "palette": [{ "nom": "", "hex": "#000000", "usage": "", "statut": "a_appliquer" }],
+      "actions": [{ "action": "", "pourquoi": "", "cout_estime": "" }]
+    }
+  ],
   "matieres": ["", "", ""],
   "a_eviter": ["", ""],
   "phrase_cle": "Une phrase qui décrit l'état final : ce que la pièce deviendra."
@@ -53,11 +98,12 @@ Réponds UNIQUEMENT en JSON valide, sans backticks, sans texte avant ou après :
 }
 
 function parseClaudeJson(text) {
-  const cleaned = text
-    .replace(/```json\s*/g, '')
-    .replace(/```\s*/g, '')
-    .trim()
-  return JSON.parse(cleaned)
+  const cleaned = text.replace(/```json\s*/g, '').replace(/```\s*/g, '').trim()
+  const parsed = JSON.parse(cleaned)
+  if (!Array.isArray(parsed.directions) || parsed.directions.length !== 3) {
+    throw new Error('Format invalide : 3 directions attendues')
+  }
+  return parsed
 }
 
 function getPhotoUrls(analysis) {
@@ -80,7 +126,7 @@ async function callClaude(prompt, photoUrls) {
 
   const response = await anthropic.messages.create({
     model: 'claude-sonnet-4-6',
-    max_tokens: 2000,
+    max_tokens: 4000,
     system: SYSTEM_PROMPT,
     messages: [{
       role: 'user',

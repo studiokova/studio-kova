@@ -10,7 +10,7 @@ export const cuisineData = {
   hero: {
     h1: 'Décorer votre cuisine',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre cuisine.",
-    image: '/ok/window.webp',
+    image: '/images/site/window.webp',
     ctaPrimary: { label: 'Analyser ma cuisine - 69€', href: '/analyse?piece=cuisine' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },

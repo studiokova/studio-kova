@@ -65,22 +65,11 @@ export async function POST(request) {
   }
 
   // ─── Analyse 69€ ─────────────────────────────────────────────────────────
-  let roomContext
-  try {
-    roomContext = JSON.parse(metadata.room_context)
-  } catch {
-    console.error('[webhook] room_context invalide:', metadata.room_context)
-    return Response.json({ error: 'room_context invalide' }, { status: 400 })
+  const roomAnalysisId = metadata.room_analysis_id
+  if (!roomAnalysisId) {
+    console.error('[webhook] room_analysis_id manquant dans les métadonnées')
+    return Response.json({ error: 'room_analysis_id manquant' }, { status: 400 })
   }
-
-  let styleContext = null
-  try {
-    if (metadata.style_context) styleContext = JSON.parse(metadata.style_context)
-  } catch {
-    console.error('[webhook] style_context invalide:', metadata.style_context)
-  }
-
-  const photoUrls = metadata.photo_urls
 
   // Récupère le profil style (peut être null si la cliente n'a pas fait le quiz)
   const { data: styleProfile } = await supabaseAdmin
@@ -89,24 +78,25 @@ export async function POST(request) {
     .eq('email', customer_email)
     .maybeSingle()
 
-  // Insère l'analyse avec statut paid
-  const { data: analysis, error: insertError } = await supabaseAdmin
+  // Passe la ligne de 'pending' à 'paid'.
+  // .eq('status', 'pending') rend l'UPDATE idempotent : si Stripe rejoue l'événement,
+  // la ligne est déjà au-delà de 'pending' et aucune ligne n'est modifiée.
+  const { data: updatedAnalysis } = await supabaseAdmin
     .from('room_analyses')
-    .insert({
-      email: customer_email,
+    .update({
       stripe_payment_id: payment_intent,
-      photo_url: photoUrls,
-      room_context: roomContext,
-      style_context: styleContext,
       style_profile_snap: styleProfile ?? null,
       status: 'paid',
     })
+    .eq('id', roomAnalysisId)
+    .eq('status', 'pending')
     .select('id')
     .single()
 
-  if (insertError || !analysis) {
-    console.error('[webhook] Erreur insertion:', insertError?.message)
-    return Response.json({ error: 'Erreur base de données' }, { status: 500 })
+  if (!updatedAnalysis) {
+    // Ligne absente ou déjà au-delà de 'pending' — événement déjà traité, on ignore.
+    console.warn('[webhook] Mise à jour ignorée (ligne déjà traitée ou absente):', roomAnalysisId)
+    return Response.json({ received: true })
   }
 
   // Inscrit dans la liste transactionnelle analyse
@@ -125,7 +115,7 @@ export async function POST(request) {
   await fetch(`${baseUrl}/api/analyze`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ analysisId: analysis.id }),
+    body: JSON.stringify({ analysisId: updatedAnalysis.id }),
   }).catch((err) => console.error('[webhook] Erreur déclenchement analyse:', err?.message))
 
   const metaEventId = session.metadata?.meta_event_id

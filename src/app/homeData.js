@@ -1,15 +1,15 @@
 export const PIECES = [
-  { slug: "chambre",      label: "Chambre",      img: "/ok/bedroom.webp",     aria: "Transformer ma chambre" },
-  { slug: "salon",        label: "Salon",         img: "/ok/living-room.webp", aria: "Transformer mon salon" },
-  { slug: "salle-de-bain",label: "Salle de bain", img: "/ok/bath.webp",        aria: "Transformer ma salle de bain" },
-  { slug: "cuisine",      label: "Cuisine",       img: "/ok/window.webp",      aria: "Transformer ma cuisine" },
-  { slug: "bureau",       label: "Bureau",        img: "/ok/office.webp",      aria: "Transformer mon bureau" },
-  { slug: "entree",       label: "Entrée",        img: "/ok/entryway.webp",    aria: "Transformer mon entrée" },
+  { slug: "chambre",      label: "Chambre",      img: "/images/pieces/bedroom.webp",     aria: "Transformer ma chambre" },
+  { slug: "salon",        label: "Salon",         img: "/images/pieces/living-room.webp", aria: "Transformer mon salon" },
+  { slug: "salle-de-bain",label: "Salle de bain", img: "/images/pieces/bath.webp",        aria: "Transformer ma salle de bain" },
+  { slug: "cuisine",      label: "Cuisine",       img: "/images/site/window.webp",         aria: "Transformer ma cuisine" },
+  { slug: "bureau",       label: "Bureau",        img: "/images/pieces/office.webp",       aria: "Transformer mon bureau" },
+  { slug: "entree",       label: "Entrée",        img: "/images/pieces/entryway.webp",     aria: "Transformer mon entrée" },
 ];
 
 export const OFFRES = [
   {
-    img: "/ok/window.webp",
+    img: "/images/site/window.webp",
     badgeText: "Gratuit", badgeClass: "kova-badge--gold",
     price: "Gratuit",
     title: "Quiz de style",
@@ -18,7 +18,7 @@ export const OFFRES = [
     event: "Clic offre gratuite", featured: false,
   },
   {
-    img: "/ok/shelves.webp",
+    img: "/images/site/shelves.webp",
     badgeText: "Recommandé", badgeClass: "kova-badge--copper",
     price: "69€",
     title: "Analyse IA + plan d'action en 48h",
@@ -27,7 +27,7 @@ export const OFFRES = [
     event: "Clic offre 69", featured: true,
   },
   {
-    img: "/ok/lamp.webp",
+    img: "/images/site/lamp.webp",
     badgeText: "CLÉ EN MAIN", badgeClass: "kova-badge--dark",
     priceFrom: "à partir de", price: "299€", priceUnit: "/pièce",
     title: "Aménagement clé en main",

@@ -7,18 +7,18 @@ const FONT_DIR = path.join(process.cwd(), 'public', 'fonts')
 Font.register({
   family: 'DMSans',
   fonts: [
-    { src: path.join(FONT_DIR, 'DMSans.ttf'), fontWeight: 400 },
-    { src: path.join(FONT_DIR, 'DMSans-Italic.ttf'), fontWeight: 400, fontStyle: 'italic' },
-    { src: path.join(FONT_DIR, 'DMSans.ttf'), fontWeight: 500 },
-    { src: path.join(FONT_DIR, 'DMSans.ttf'), fontWeight: 700 },
+    { src: path.join(FONT_DIR, 'DMSans-clean.ttf'), fontWeight: 400 },
+    { src: path.join(FONT_DIR, 'DMSans-Italic-clean.ttf'), fontWeight: 400, fontStyle: 'italic' },
+    { src: path.join(FONT_DIR, 'DMSans-clean.ttf'), fontWeight: 500 },
+    { src: path.join(FONT_DIR, 'DMSans-clean.ttf'), fontWeight: 700 },
   ],
 })
 
 Font.register({
   family: 'Playfair',
   fonts: [
-    { src: path.join(FONT_DIR, 'PlayfairDisplay.ttf'), fontWeight: 400 },
-    { src: path.join(FONT_DIR, 'PlayfairDisplay-Italic.ttf'), fontWeight: 400, fontStyle: 'italic' },
+    { src: path.join(FONT_DIR, 'PlayfairDisplay-clean.ttf'), fontWeight: 400 },
+    { src: path.join(FONT_DIR, 'PlayfairDisplay-Italic-clean.ttf'), fontWeight: 400, fontStyle: 'italic' },
   ],
 })
 
@@ -53,24 +53,6 @@ const s = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'center',
   },
-  photo: {
-    width: '100%',
-    height: 220,
-    objectFit: 'cover',
-  },
-  photoFallback: {
-    width: '100%',
-    height: 220,
-    backgroundColor: C.GRIS_CLAIR,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  photoFallbackText: {
-    fontFamily: 'DMSans',
-    fontSize: 11,
-    color: C.GRIS,
-    textAlign: 'center',
-  },
   titleBlock: {
     paddingTop: 20,
     paddingRight: 40,
@@ -89,6 +71,13 @@ const s = StyleSheet.create({
     fontSize: 10,
     color: C.GRIS,
     letterSpacing: 0.3,
+  },
+  casUsageLabel: {
+    fontFamily: 'DMSans',
+    fontSize: 9,
+    color: C.CUIVRE,
+    letterSpacing: 0.3,
+    marginTop: 4,
   },
   titleSeparator: {
     height: 1,
@@ -131,6 +120,12 @@ const s = StyleSheet.create({
     color: C.SAUGE_FONCE,
     lineHeight: 1.6,
     marginBottom: 20,
+  },
+  directionDesc: {
+    fontSize: 10,
+    color: C.SAUGE_FONCE,
+    lineHeight: 1.6,
+    marginBottom: 16,
   },
   paletteRow: {
     flexDirection: 'row',
@@ -215,6 +210,40 @@ const s = StyleSheet.create({
     lineHeight: 1.6,
     flex: 1,
   },
+  enviesBox: {
+    backgroundColor: C.BLANC,
+    borderWidth: 0.5,
+    borderColor: C.SAUGE_FONCE,
+    borderRadius: 8,
+    paddingTop: 10,
+    paddingBottom: 10,
+    paddingLeft: 12,
+    paddingRight: 12,
+    marginTop: 10,
+  },
+  enviesTitle: {
+    fontFamily: 'Playfair',
+    fontSize: 11,
+    color: C.SAUGE_FONCE,
+    marginBottom: 8,
+  },
+  enviesRow: {
+    flexDirection: 'row',
+  },
+  enviesLabel: {
+    fontFamily: 'DMSans',
+    fontWeight: 700,
+    fontSize: 9,
+    color: C.CUIVRE,
+    width: 120,
+  },
+  enviesValue: {
+    fontFamily: 'DMSans',
+    fontSize: 9,
+    color: C.GRIS,
+    flex: 1,
+    lineHeight: 1.5,
+  },
   phraseBox: {
     backgroundColor: C.SAUGE_FONCE,
     borderRadius: 8,
@@ -255,6 +284,18 @@ const s = StyleSheet.create({
   },
 })
 
+const CAS_USAGE_LABELS: Record<string, string> = {
+  surfaces: 'Votre projet : refaire les surfaces',
+  deco: 'Votre projet : refaire la déco',
+  tout: 'Votre projet : tout repenser',
+}
+
+const CAS_USAGE_SHORT: Record<string, string> = {
+  surfaces: 'Refaire les surfaces',
+  deco: 'Refaire la déco',
+  tout: 'Tout repenser',
+}
+
 interface PageHeaderProps { logoBase64: string }
 
 function PageHeader({ logoBase64 }: PageHeaderProps) {
@@ -273,22 +314,131 @@ function PageFooter() {
   )
 }
 
-function d(text: string): string {
-  return text
-    .replace(/-/g, ' - ')
-    .replace(/–/g, '-')
+function chunkPhotos(urls: string[]): string[][] {
+  const n = urls.length
+  if (n === 0) return []
+  const MAX_PER_ROW = 4
+  const numRows = Math.ceil(n / MAX_PER_ROW)
+  const cols = Math.ceil(n / numRows)
+  const rows: string[][] = []
+  for (let i = 0; i < n; i += cols) {
+    rows.push(urls.slice(i, i + cols))
+  }
+  return rows
 }
 
-interface PaletteColor { hex: string; nom: string }
-interface Priorite { action: string; pourquoi: string; cout_estime: string }
+function d(text: string): string {
+  return text
+    .replace(/([,;:.!?])\s*—\s*/g, '$1 ')
+    .replace(/ — /g, ', ')
+    .replace(/—/g, ', ')
+    .replace(/–/g, ' - ')
+    .replace(/-/g, ' - ')
+    .replace(/ {2,}/g, ' ')
+}
+
+interface PaletteColor { hex: string; nom: string; usage?: string; statut?: 'a_appliquer' | 'existant' }
+interface Action { action: string; pourquoi: string; cout_estime: string }
+interface Direction { intitule: string; description: string; palette: PaletteColor[]; actions: Action[] }
+
+function PaletteBlock({ palette }: { palette: PaletteColor[] }) {
+  const items = (palette ?? []).slice(0, 5)
+  if (items.length === 0) return null
+  return (
+    <View style={s.paletteRow}>
+      {items.map((c, i) => {
+        const existant = c.statut === 'existant'
+        return (
+          <View key={i} style={s.swatchContainer}>
+            <View
+              style={{
+                width: 44,
+                height: 44,
+                borderRadius: 22,
+                backgroundColor: c.hex.startsWith('#') ? c.hex : `#${c.hex}`,
+                alignSelf: 'center',
+                marginBottom: 8,
+                borderWidth: 0.5,
+                borderColor: C.SAUGE_FONCE,
+                borderStyle: 'solid',
+              }}
+            />
+            <Text style={s.swatchName}>{d(c.nom)}</Text>
+            <Text style={s.swatchHex}>{c.hex}</Text>
+            {existant && (
+              <Text style={{ fontSize: 7, color: C.GRIS, fontStyle: 'italic', textAlign: 'center' }}>
+                {d('conservé')}
+              </Text>
+            )}
+          </View>
+        )
+      })}
+    </View>
+  )
+}
+
+function ActionsBlock({ actions }: { actions: Action[] }) {
+  const items = (actions ?? []).slice(0, 4)
+  if (items.length === 0) return null
+  return (
+    <>
+      {items.map((p, i) => (
+        <View
+          key={i}
+          style={[s.priorityRow, i < items.length - 1 ? s.priorityRowBorder : {}]}
+        >
+          <Text style={s.priorityNum}>{String(i + 1).padStart(2, '0')}</Text>
+          <View style={s.priorityContent}>
+            <Text style={s.priorityAction}>{d(p.action)}</Text>
+            <Text style={s.priorityPourquoi}>{d(p.pourquoi)}</Text>
+            <Text style={s.priorityBudget}>Budget : {d(p.cout_estime)}</Text>
+          </View>
+        </View>
+      ))}
+    </>
+  )
+}
 
 export interface AiResult {
   diagnostic: string
-  palette: PaletteColor[]
-  priorites: Priorite[]
+  cas_usage?: string
+  directions: Direction[]
   matieres: string[]
   a_eviter?: string[]
   phrase_cle: string
+}
+
+interface EnviesBlockProps {
+  roomContext?: Record<string, unknown>
+  styleContext?: Record<string, unknown>
+}
+
+function EnviesBlock({ roomContext, styleContext }: EnviesBlockProps) {
+  const casUsage = roomContext?.cas_usage as string | undefined
+  const items = [
+    { label: 'Votre projet', value: casUsage ? CAS_USAGE_SHORT[casUsage] : undefined },
+    { label: 'Ce que vous gardez', value: roomContext?.garder },
+    { label: 'Vos contraintes', value: roomContext?.contraintes },
+    { label: 'Votre demande', value: styleContext?.demande_precise },
+    { label: 'Couleur que vous aimez', value: styleContext?.couleur_aimee },
+    { label: 'Couleur à éviter', value: styleContext?.couleur_evitee },
+  ].filter((item): item is { label: string; value: string } =>
+    typeof item.value === 'string' && item.value.trim() !== ''
+  )
+
+  if (items.length === 0) return null
+
+  return (
+    <View style={s.enviesBox}>
+      <Text style={s.enviesTitle}>Vos envies pour cette pièce</Text>
+      {items.map((item, i) => (
+        <View key={i} style={[s.enviesRow, i < items.length - 1 ? { marginBottom: 5 } : {}]}>
+          <Text style={s.enviesLabel}>{item.label}</Text>
+          <Text style={s.enviesValue}>{d(item.value)}</Text>
+        </View>
+      ))}
+    </View>
+  )
 }
 
 export interface KovaPdfDocumentProps {
@@ -296,31 +446,20 @@ export interface KovaPdfDocumentProps {
   logoBase64: string
   photoUrls: string[]
   roomContext?: Record<string, unknown>
+  styleContext?: Record<string, unknown>
 }
 
-export function KovaPdfDocument({ aiResult, logoBase64, photoUrls, roomContext }: KovaPdfDocumentProps) {
-
-  const palette   = (aiResult.palette   ?? []).slice(0, 5)
-  const priorites = (aiResult.priorites ?? []).slice(0, 4)
-  const matieres  = aiResult.matieres   ?? []
-  const aEviter   = aiResult.a_eviter   ?? []
+export function KovaPdfDocument({ aiResult, logoBase64, photoUrls, roomContext, styleContext }: KovaPdfDocumentProps) {
+  const directions = aiResult.directions ?? []
+  const matieres = aiResult.matieres ?? []
+  const aEviter = aiResult.a_eviter ?? []
+  const casUsageLabel = aiResult.cas_usage ? CAS_USAGE_LABELS[aiResult.cas_usage] : undefined
 
   return (
     <Document>
-      {/* PAGE 1 - PHOTO + TITRE + DIAGNOSTIC + PALETTE */}
+      {/* PAGE 1 — COMMUNE : titre, cas d'usage, photos, diagnostic */}
       <Page size="A4" style={s.page}>
         <PageHeader logoBase64={logoBase64} />
-
-        {photoUrls.length > 0
-          ? (
-            <View style={{ flexDirection: 'row', width: '100%', height: 220 }}>
-              {photoUrls.map((url, i) => (
-                <Image key={i} src={url} style={{ flex: 1, height: 220, objectFit: 'cover' }} />
-              ))}
-            </View>
-          )
-          : <View style={s.photoFallback}><Text style={s.photoFallbackText}>Votre pièce</Text></View>
-        }
 
         <View style={s.titleBlock}>
           <Text style={s.titlePiece}>{d(String(roomContext?.type_piece ?? ''))}</Text>
@@ -328,61 +467,66 @@ export function KovaPdfDocument({ aiResult, logoBase64, photoUrls, roomContext }
             {'Analyse personnalisée · Budget '}
             {d(String(roomContext?.budget ?? ''))}
           </Text>
-          <View style={s.titleSeparator} />
+          {casUsageLabel && (
+            <Text style={s.casUsageLabel}>{casUsageLabel}</Text>
+          )}
         </View>
+
+        {photoUrls.length > 0 && (
+          <View style={{ paddingLeft: 40, paddingRight: 40, paddingBottom: 14 }}>
+            {chunkPhotos(photoUrls).map((row, ri) => (
+              <View key={ri} style={{ flexDirection: 'row', marginBottom: 8 }}>
+                {row.map((url, ci) => (
+                  <Image
+                    key={ci}
+                    src={url}
+                    style={{ width: 110, height: 110, objectFit: 'cover', borderRadius: 6, marginRight: ci < row.length - 1 ? 8 : 0 }}
+                  />
+                ))}
+              </View>
+            ))}
+          </View>
+        )}
 
         <View style={s.content}>
           <Text style={s.sectionLabel}>Diagnostic</Text>
           <Text style={s.diagnostic}>{d(aiResult.diagnostic)}</Text>
-
-          <Text style={s.sectionLabel}>Palette de couleurs</Text>
-          <View style={s.paletteRow}>
-            {palette.map((c, i) => (
-              <View key={i} style={s.swatchContainer}>
-                <View
-                  style={{
-                    width: 44,
-                    height: 44,
-                    borderRadius: 22,
-                    backgroundColor: c.hex.startsWith('#') ? c.hex : `#${c.hex}`,
-                    alignSelf: 'center',
-                    marginBottom: 8,
-                    borderWidth: 0.5,
-                    borderColor: C.SAUGE_FONCE,
-                    borderStyle: 'solid',
-                  }}
-                />
-                <Text style={s.swatchName}>{d(c.nom)}</Text>
-                <Text style={s.swatchHex}>{c.hex}</Text>
-              </View>
-            ))}
-          </View>
+          <EnviesBlock roomContext={roomContext} styleContext={styleContext} />
         </View>
 
         <PageFooter />
       </Page>
 
-      {/* PAGE 2 - PRIORITÉS + MATIÈRES + À ÉVITER + PHRASE CLÉ */}
+      {/* PAGES 2-4 — UNE PAGE PAR DIRECTION (Neutre, Médian, Coloré) */}
+      {directions.map((dir, idx) => (
+        <Page key={idx} size="A4" style={s.page}>
+          <PageHeader logoBase64={logoBase64} />
+
+          <View style={s.titleBlock}>
+            <Text style={s.titlePiece}>{d(dir.intitule)}</Text>
+            <View style={s.titleSeparator} />
+          </View>
+
+          <View style={s.content}>
+            <Text style={s.directionDesc}>{d(dir.description)}</Text>
+
+            <Text style={s.sectionLabel}>Palette de couleurs</Text>
+            <PaletteBlock palette={dir.palette} />
+
+            <Text style={s.sectionLabelSpaced}>Actions prioritaires</Text>
+            <ActionsBlock actions={dir.actions} />
+          </View>
+
+          <PageFooter />
+        </Page>
+      ))}
+
+      {/* PAGE 5 — COMMUNE : matières, à éviter, phrase clé */}
       <Page size="A4" style={s.page}>
         <PageHeader logoBase64={logoBase64} />
 
         <View style={s.contentPage2}>
-          <Text style={s.sectionLabel}>Vos priorités</Text>
-          {priorites.map((p, i) => (
-            <View
-              key={i}
-              style={[s.priorityRow, i < priorites.length - 1 ? s.priorityRowBorder : {}]}
-            >
-              <Text style={s.priorityNum}>{String(i + 1).padStart(2, '0')}</Text>
-              <View style={s.priorityContent}>
-                <Text style={s.priorityAction}>{d(p.action)}</Text>
-                <Text style={s.priorityPourquoi}>{d(p.pourquoi)}</Text>
-                <Text style={s.priorityBudget}>Budget : {d(p.cout_estime)}</Text>
-              </View>
-            </View>
-          ))}
-
-          <Text style={s.sectionLabelSpaced}>Matières recommandées</Text>
+          <Text style={s.sectionLabel}>Matières recommandées</Text>
           {matieres.map((m, i) => (
             <View key={i} style={s.matiereRow}>
               <Text style={s.matiereBullet}>•</Text>

@@ -9,7 +9,7 @@ export default function KovaFooter({ full = false }) {
       <div className="kova-footer__logo">
         <a href="/" aria-label="Studio Kova - accueil">
           <Image
-            src="/logo-fond-vert.svg"
+            src="/logos/logo-fond-vert.svg"
             alt="Studio Kova"
             width={220}
             height={70}

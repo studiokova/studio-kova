@@ -21,7 +21,7 @@ export default function JeTransformeMaPiecePage() {
 
         <div
           className="kova-product-page__img"
-          style={{ backgroundImage: "url('/ok/shelves.webp')" }}
+          style={{ backgroundImage: "url('/images/site/shelves.webp')" }}
         >
           <div className="kova-product-page__img-overlay" />
           <span className="kova-product-page__badge">
