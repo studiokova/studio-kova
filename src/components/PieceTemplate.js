@@ -5,6 +5,9 @@ import KovaHeading from '@/components/kova/KovaHeading';
 import KovaButton from '@/components/kova/KovaButton';
 import KovaFooter from '@/components/kova/KovaFooter';
 import KovaArticleCard from '@/components/kova/KovaArticleCard';
+import KovaCloser from '@/components/KovaCloser';
+import OffreDetail from '@/components/offre/OffreDetail';
+import OffreApercu from '@/components/offre/OffreApercu';
 import { track } from '@/lib/plausible';
 import PropTypes from 'prop-types';
 
@@ -38,8 +41,9 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
   }
 
   const enjeuxParagraphs = data.enjeux.body.split('\n\n');
-  const hasArticles = relatedPosts.length > 0;
-  const isSingleArticle = relatedPosts.length === 1;
+  const cappedPosts = relatedPosts.slice(0, 2);
+  const hasArticles = cappedPosts.length > 0;
+  const isSingleArticle = cappedPosts.length === 1;
 
   return (
     <>
@@ -51,7 +55,10 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
         <div className="kova-pt-hero__overlay" />
         <div className="kova-pt-hero__inner">
           <h1 className="kova-pt-hero__h1">{data.hero.h1}</h1>
-          <p className="kova-pt-hero__sub">{data.hero.subtitle}</p>
+          <p className="kova-pt-hero__sub">
+            Envoyez vos photos. Recevez sous 48h un diagnostic complet et trois directions
+            chiffrées pour transformer votre {data.slug}.
+          </p>
           <div className="kova-pt-hero__ctas">
             <KovaButton
               variant="primary"
@@ -60,31 +67,45 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
             >
               {data.hero.ctaPrimary.label}
             </KovaButton>
-            <KovaButton
-              variant="outline-light"
-              href={data.hero.ctaSecondary.href}
+            <a
+              href="/quiz"
+              className="kova-pt-hero__text-link"
               onClick={() => trackCta('hero-secondary')}
             >
               {data.hero.ctaSecondary.label}
-            </KovaButton>
+            </a>
           </div>
         </div>
       </section>
 
-      {/* ── Bloc 2 : Enjeux ── */}
+      {/* ── Bloc 2 : Comment ça marche — clair ── */}
       <section className="kova-pt-section kova-pt-section--craie">
-        <div className="kova-pt-section__inner reveal" ref={ref}>
-          <p className="kova-kicker">La pièce</p>
-          <KovaHeading level="h2" className="kova-heading--nav">{data.enjeux.title}</KovaHeading>
-          <div className="kova-pt-body">
-            {enjeuxParagraphs.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
+        <div className="kova-pt-section__inner">
+          <div className="reveal" ref={ref}>
+            <OffreDetail piece={data.slug} only="steps" />
           </div>
         </div>
       </section>
 
-      {/* ── Bloc 3 : Ce qu'on analyse ── */}
+      {/* ── Bloc 3 : Ce que vous recevez — foncé ── */}
+      <section className="kova-pt-section kova-pt-section--dark">
+        <div className="kova-pt-section__inner">
+          <div className="reveal" ref={ref}>
+            <OffreDetail piece={data.slug} only="deliverables" dark />
+          </div>
+        </div>
+      </section>
+
+      {/* ── Bloc 4 : Aperçu du livrable — clair ── */}
+      <section className="kova-pt-section kova-pt-section--craie">
+        <div className="kova-pt-section__inner">
+          <div className="reveal" ref={ref}>
+            <OffreApercu />
+          </div>
+        </div>
+      </section>
+
+      {/* ── Bloc 5 : Ce qu'on examine — foncé ── */}
       <section className="kova-pt-section kova-pt-section--dark">
         <div className="kova-pt-section__inner">
           <div className="reveal" ref={ref}>
@@ -111,11 +132,26 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
         </div>
       </section>
 
-      {/* ── Bloc 4 : FAQ ── */}
-      <section className="kova-faq">
+      {/* ── Bloc 6 : Les enjeux de la pièce — clair ── */}
+      <section className="kova-pt-section kova-pt-section--craie">
+        <div className="kova-pt-section__inner">
+          <div className="reveal" ref={ref}>
+            <p className="kova-kicker">La pièce</p>
+            <KovaHeading level="h2" className="kova-heading--nav">{data.enjeux.title}</KovaHeading>
+            <div className="kova-pt-body">
+              {enjeuxParagraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ── Bloc 7 : FAQ — foncé ── */}
+      <section className="kova-faq kova-faq--dark">
         <div className="kova-faq__header reveal" ref={ref}>
-          <p className="kova-kicker">Vos questions</p>
-          <KovaHeading level="h2" className="kova-heading--nav">{data.faqTitle}</KovaHeading>
+          <p className="kova-kicker kova-kicker--light">Vos questions</p>
+          <KovaHeading level="h2" light className="kova-heading--nav">{data.faqTitle}</KovaHeading>
         </div>
         <div className="kova-faq__list">
           {data.faq.map((item, i) => (
@@ -127,34 +163,7 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
         </div>
       </section>
 
-      {/* ── Bloc 5 : Articles liés (conditionnel) ── */}
-      {hasArticles && (
-        <section className="kova-pt-articles kova-pt-articles--dark">
-          <div className="kova-pt-articles__inner">
-            <div className="reveal" ref={ref}>
-              <p className="kova-kicker kova-kicker--light">Pour aller plus loin</p>
-              <KovaHeading level="h2" light className="kova-heading--nav">
-                {isSingleArticle ? 'À lire sur ce sujet' : 'Articles sur cette pièce'}
-              </KovaHeading>
-            </div>
-            <div className={isSingleArticle ? 'kova-pt-articles__pillar' : 'kova-pt-articles__grid'}>
-              {relatedPosts.map((post) => (
-                <div key={post.slug} className="reveal" ref={ref}>
-                  <KovaArticleCard
-                    href={`/blog/${post.slug}`}
-                    title={post.title}
-                    excerpt={post.excerpt}
-                    date={post.date}
-                    image={post.image}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* ── Bloc 6 : CTA final ── */}
+      {/* ── Bloc 8 : CTA final — clair ── */}
       <section className="kova-cta-final kova-cta-final--light">
         <div className="kova-cta-final__inner reveal" ref={ref}>
           <KovaHeading level="h2">{data.ctaFinal.title}</KovaHeading>
@@ -176,6 +185,36 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
           </div>
         </div>
       </section>
+
+      {/* ── Bloc 9 : Articles liés (max 2) — foncé ── */}
+      {hasArticles && (
+        <section className="kova-pt-articles kova-pt-articles--dark">
+          <div className="kova-pt-articles__inner">
+            <div className="reveal" ref={ref}>
+              <p className="kova-kicker kova-kicker--light">Pour aller plus loin</p>
+              <KovaHeading level="h2" light className="kova-heading--nav">
+                {isSingleArticle ? 'À lire sur ce sujet' : 'Articles sur cette pièce'}
+              </KovaHeading>
+            </div>
+            <div className={isSingleArticle ? 'kova-pt-articles__pillar' : 'kova-pt-articles__grid'}>
+              {cappedPosts.map((post) => (
+                <div key={post.slug} className="reveal" ref={ref}>
+                  <KovaArticleCard
+                    href={`/blog/${post.slug}`}
+                    title={post.title}
+                    excerpt={post.excerpt}
+                    date={post.date}
+                    image={post.image}
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ── Bloc 10 : Phrase de clôture — clair ── */}
+      <KovaCloser />
 
       <KovaFooter />
     </>

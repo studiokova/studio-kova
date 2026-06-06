@@ -29,14 +29,13 @@ Et si possible, gardez en tête que ce bureau doit aussi pouvoir disparaître. L
   },
 
   analyse: {
-    title: "Ce que l'analyse IA examine dans votre bureau",
+    title: "Ce que l'analyse regarde dans votre bureau",
     points: [
-      'La position du bureau par rapport à la lumière naturelle',
-      "L'ergonomie de l'assise et la hauteur du plan de travail",
-      'La séparation visuelle avec le reste de la pièce (si bureau dans salon ou chambre)',
-      'Les éléments dans le champ de vision (mur, étagère, plante)',
-      "L'organisation des câbles et du matériel",
-      'La possibilité de « fermer » la zone de travail le soir',
+      "L'harmonie des couleurs entre les murs, le mobilier et les rangements",
+      "Ce qui fatigue l'œil ou empêche de se concentrer dans l'espace actuel",
+      "La lumière naturelle de la pièce et la palette qui soutient la concentration",
+      "Les surfaces à reprendre en priorité, et avec quelle teinte exacte",
+      "Les matières et textiles qui rendent la pièce plus apaisante sans la surcharger",
     ],
   },
 

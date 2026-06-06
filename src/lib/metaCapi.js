@@ -43,6 +43,11 @@ export async function sendMetaEvent({
   fbc,
   customData,
 }) {
+  if (process.env.VERCEL_ENV !== 'production') {
+    console.log('[CAPI] skipped (non-prod)');
+    return { success: false, skipped: true };
+  }
+
   if (!PIXEL_ID || !ACCESS_TOKEN) {
     console.error('[Meta CAPI] Missing NEXT_PUBLIC_META_PIXEL_ID or META_CAPI_ACCESS_TOKEN');
     return { success: false, error: 'Missing configuration' };

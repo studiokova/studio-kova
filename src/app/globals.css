@@ -293,46 +293,13 @@ body {
 .kova-badge--gold   { background: var(--ocre);   color: var(--sauge-dk); }
 .kova-badge--copper { background: var(--cuivre); color: white; }
 .kova-badge--dark   { background: var(--sauge-dk); color: var(--craie); }
-.kova-badge--eyebrow {
-  background: none;
-  color: var(--cuivre);
-  padding: 0;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.kova-badge--eyebrow::before {
-  content: "";
-  display: block;
-  width: 24px;
-  height: 1px;
-  background: var(--cuivre);
-}
-.kova-badge--eyebrow-light {
-  background: none;
-  color: var(--ocre);
-  padding: 0;
-  font-size: 10px;
-  letter-spacing: 0.18em;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-}
-.kova-badge--eyebrow-light::before {
-  content: "";
-  display: block;
-  width: 24px;
-  height: 1px;
-  background: var(--ocre);
-}
-
-
-/* ═══════════════════════════════════════
-   KOVA KICKER
-   ═══════════════════════════════════════ */
-.kova-kicker {
+/* ─── SOURCE UNIQUE — propriétés partagées par tous les eyebrows ─── */
+.kova-kicker,
+.kova-badge--eyebrow,
+.kova-badge--eyebrow-light,
+.kova-product-page__eyebrow,
+.kova-page-header__eyebrow,
+.kova-article-cta__eyebrow {
   display: inline-flex;
   align-items: center;
   gap: 8px;
@@ -341,17 +308,42 @@ body {
   font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--cuivre);
-  margin-bottom: 10px;
 }
-.kova-kicker::before {
+.kova-kicker::before,
+.kova-badge--eyebrow::before,
+.kova-badge--eyebrow-light::before,
+.kova-product-page__eyebrow::before,
+.kova-page-header__eyebrow::before,
+.kova-article-cta__eyebrow::before {
   content: "";
   display: block;
   width: 24px;
   height: 1px;
-  background: var(--cuivre);
   flex-shrink: 0;
 }
+
+.kova-badge--eyebrow {
+  background: none;
+  color: var(--cuivre);
+  padding: 0;
+}
+.kova-badge--eyebrow::before { background: var(--cuivre); }
+.kova-badge--eyebrow-light {
+  background: none;
+  color: var(--ocre);
+  padding: 0;
+}
+.kova-badge--eyebrow-light::before { background: var(--ocre); }
+
+
+/* ═══════════════════════════════════════
+   KOVA KICKER
+   ═══════════════════════════════════════ */
+.kova-kicker {
+  color: var(--cuivre);
+  margin-bottom: 10px;
+}
+.kova-kicker::before { background: var(--cuivre); }
 .kova-kicker--light { color: var(--ocre); }
 .kova-kicker--light::before { background: var(--ocre); }
 
@@ -360,7 +352,7 @@ body {
    KOVA BUTTON
    ═══════════════════════════════════════ */
 .kova-btn {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   justify-content: center;
   padding: 15px 24px;
@@ -498,7 +490,7 @@ body {
 }
 .kova-checklist__check {
   color: var(--cuivre);
-  font-size: 11px;
+  font-size: 16px;
   flex-shrink: 0;
   margin-top: 2px;
 }
@@ -511,7 +503,7 @@ body {
   font-size: 15px;
 }
 .kova-checklist--bordered .kova-checklist__item:last-child { border-bottom: none; }
-.kova-checklist--bordered .kova-checklist__check { font-size: 14px; width: 16px; flex-shrink: 0; }
+.kova-checklist--bordered .kova-checklist__check { width: 16px; flex-shrink: 0; }
 
 
 /* ═══════════════════════════════════════
@@ -834,26 +826,16 @@ body {
 .kova-product-page__section {
   padding-top: 28px;
   margin-top: 28px;
-  border-top: 1px solid var(--gris-clair);
+}
+.kova-pt-section .kova-product-page__section {
+  padding-top: 0;
+  margin-top: 0;
 }
 .kova-product-page__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
   color: var(--cuivre);
   margin-bottom: 12px;
 }
-.kova-product-page__eyebrow::before {
-  content: "";
-  display: block;
-  width: 24px;
-  height: 1px;
-  background: var(--cuivre);
-}
+.kova-product-page__eyebrow::before { background: var(--cuivre); }
 .kova-product-page__section-title {
   font-family: var(--font-playfair, "Playfair Display"), serif;
   font-size: clamp(22px, 6vw, 28px);
@@ -881,6 +863,119 @@ body {
   border-radius: 10px;
   box-shadow: 0 6px 28px rgba(46,74,58,0.1);
   display: block;
+}
+.kova-product-page__hero-cta {
+  margin-top: 20px;
+  margin-bottom: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.kova-product-page__microcopy {
+  font-size: 12px;
+  color: var(--gris);
+  text-align: center;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════
+   OFFRE DETAIL
+   ═══════════════════════════════════════ */
+.kova-pt-offre { margin-top: 40px; }
+
+.offre-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+.offre-detail__section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.offre-detail .kova-kicker { margin-bottom: 0; }
+.offre-detail__steps {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+.offre-detail__step {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  font-family: var(--font-dm-sans, "DM Sans"), sans-serif;
+  font-size: 15px;
+  font-weight: 400;
+  color: var(--sauge-fonce);
+  line-height: 1.6;
+}
+.offre-detail__step-num {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: var(--cuivre);
+  color: white;
+  font-family: var(--font-playfair, "Playfair Display"), serif;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 2px;
+}
+.offre-detail__body {
+  font-family: var(--font-dm-sans, "DM Sans"), sans-serif;
+  font-size: 14px;
+  font-weight: 300;
+  color: var(--gris);
+  line-height: 1.65;
+  margin: 0;
+}
+.offre-detail .kova-pt-points { margin-top: 0; }
+.offre-detail .kova-pt-points + .offre-detail__body { margin-top: 12px; }
+.offre-detail .kova-pt-point { color: var(--sauge-fonce); }
+.offre-detail .kova-pt-point__check { color: var(--cuivre); }
+.offre-detail--dark {
+  gap: 0;
+}
+.offre-detail--dark > .offre-detail__section {
+  padding-bottom: 40px;
+}
+.offre-detail__section--dark {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--sauge-dk);
+  margin-left: -24px;
+  margin-right: -24px;
+  padding: 48px 24px;
+}
+.offre-detail__section--dark .offre-detail__body {
+  color: rgba(245, 239, 228, 0.85);
+}
+.offre-detail__section--dark .kova-pt-point {
+  color: var(--craie);
+}
+.offre-detail__section--dark .kova-pt-point__check {
+  color: var(--ocre);
+}
+/* Variante sans fond propre — utilisée quand la section parente fournit le fond foncé */
+.offre-detail__section--dark-inline {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.offre-detail__section--dark-inline .offre-detail__body {
+  color: rgba(245, 239, 228, 0.85);
+}
+.offre-detail__section--dark-inline .kova-pt-point {
+  color: var(--craie);
+}
+.offre-detail__section--dark-inline .kova-pt-point__check {
+  color: var(--ocre);
 }
 
 /* ═══════════════════════════════════════
@@ -1048,7 +1143,7 @@ body {
 /* ═══════════════════════════════════════
    PAGE SURMESURE — LIVRABLES
    ═══════════════════════════════════════ */
-.kova-livrables { padding: 28px 24px 24px; background: var(--craie); }
+.kova-livrables { padding: 48px 24px; background: var(--craie); }
 
 /* ═══════════════════════════════════════
    PAGE OFFRE PREMIUM (legacy)
@@ -1181,7 +1276,7 @@ body {
 .kova-legal__section p, .kova-legal__section address { font-size: 14px; font-weight: 300; color: var(--sauge-dk); line-height: 1.8; font-style: normal; margin-bottom: 10px; }
 .kova-legal__section ul { list-style: none; display: flex; flex-direction: column; gap: 6px; margin-bottom: 10px; padding-left: 0; }
 .kova-legal__section ul li { font-size: 14px; font-weight: 300; color: var(--sauge-dk); line-height: 1.7; padding-left: 16px; position: relative; }
-.kova-legal__section ul li::before { content: "✓"; position: absolute; left: 0; color: var(--sauge-lt); font-size: 11px; }
+.kova-legal__section ul li::before { content: "✓"; position: absolute; left: 0; color: var(--cuivre); font-size: 16px; }
 .kova-legal__divider { height: 1px; background: var(--gris-clair); margin: 36px 0; }
 .kova-legal__table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 10px; }
 .kova-legal__table th { font-weight: 500; text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--gris-clair); color: var(--cuivre); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; }
@@ -1305,23 +1400,10 @@ body {
 .kova-page-header--narrow { max-width: 700px; }
 .kova-page-header--wide   { max-width: none; padding-left: 0; padding-right: 0; }
 .kova-page-header__eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
   color: var(--cuivre);
   margin-bottom: 14px;
 }
-.kova-page-header__eyebrow::before {
-  content: "";
-  display: block;
-  width: 24px;
-  height: 1px;
-  background: var(--cuivre);
-}
+.kova-page-header__eyebrow::before { background: var(--cuivre); }
 .kova-page-header__title {
   font-family: var(--font-playfair, "Playfair Display"), serif;
   font-size: clamp(28px, 5vw, 32px);
@@ -1586,13 +1668,10 @@ body {
   color: var(--craie);
 }
 .kova-article-cta__eyebrow {
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
   color: var(--sauge-text);
   margin-bottom: 10px;
 }
+.kova-article-cta__eyebrow::before { background: var(--sauge-text); }
 .kova-article-cta__label {
   font-family: var(--font-playfair, "Playfair Display"), serif;
   font-size: clamp(18px, 2.5vw, 22px);
@@ -2141,6 +2220,18 @@ body {
   color: var(--gris);
   line-height: 1.7;
 }
+.kova-faq--dark {
+  background: var(--sauge-dk);
+}
+.kova-faq--dark details {
+  border-bottom-color: rgba(245, 239, 228, 0.2);
+}
+.kova-faq--dark summary {
+  color: var(--craie);
+}
+.kova-faq--dark .kova-faq__answer {
+  color: rgba(245, 239, 228, 0.75);
+}
 
 
 /* ═══════════════════════════════════════
@@ -2160,7 +2251,6 @@ body {
   display: flex;
   flex-direction: column;
   gap: 14px;
-  align-items: center;
 }
 .kova-cta-final__secondary {
   font-size: 14px;
@@ -2239,8 +2329,21 @@ body {
 .kova-pt-hero__ctas {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 8px;
   margin-top: 8px;
+}
+.kova-pt-hero__text-link {
+  font-family: var(--font-dm-sans, "DM Sans"), sans-serif;
+  font-size: 13px;
+  font-weight: 400;
+  color: rgba(245, 239, 228, 0.6);
+  text-decoration: none;
+  text-align: center;
+  padding: 4px 0;
+  transition: color 0.2s;
+}
+.kova-pt-hero__text-link:hover {
+  color: rgba(245, 239, 228, 0.9);
 }
 @media (min-width: 768px) {
   .kova-pt-hero {

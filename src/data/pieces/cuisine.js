@@ -27,14 +27,13 @@ Et si vous êtes en location avec une cuisine équipée qui ne vous plaît pas, 
   },
 
   analyse: {
-    title: "Ce que l'analyse IA examine dans votre cuisine",
+    title: "Ce que l'analyse regarde dans votre cuisine",
     points: [
-      "L'ergonomie du plan de travail et de la circulation",
-      "Le rangement visible et l'impact sur l'ambiance",
-      "L'harmonie crédence / plan de travail / meubles",
-      "L'éclairage fonctionnel et l'éclairage d'ambiance",
-      "Les zones de personnalisation possible (étagères ouvertes, accessoires)",
-      'La cohérence avec le salon si la cuisine est ouverte',
+      "L'harmonie des couleurs entre les murs, les façades et le plan de travail",
+      "Ce qui crée la surcharge ou le manque de cohérence visuelle",
+      "La lumière de la pièce et la palette qui lui va vraiment",
+      "Les surfaces à reprendre en priorité (murs, crédence, façades à repeindre), avec quelle teinte",
+      "Les matières et touches déco qui réchauffent une cuisine trop fonctionnelle",
     ],
   },
 

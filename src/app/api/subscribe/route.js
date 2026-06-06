@@ -5,7 +5,7 @@ import { getClientIp, getClientUserAgent, getFbp, getFbc } from '@/lib/metaHelpe
 const QUIZ_TEMPLATE_ID = 2;
 
 function buildEmailParams({ name, axes, palette, text, actions }) {
-  const cta = { label: "Je transforme ma pièce →", href: "https://studiokova.fr/analyse" };
+  const cta = { label: "Analyser ma pièce - 69€ →", href: "https://studiokova.fr/analyse" };
 
   const swatches = palette
     .map(

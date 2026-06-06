@@ -29,14 +29,13 @@ Bonne nouvelle : c'est aussi la pièce où une transformation à petit budget se
   },
 
   analyse: {
-    title: "Ce que l'analyse IA examine dans votre salle de bain",
+    title: "Ce que l'analyse regarde dans votre salle de bain",
     points: [
-      'La gestion de la lumière (naturelle et artificielle)',
-      "L'efficacité des rangements visibles et cachés",
-      "Le choix des matières adaptées à l'humidité",
-      "L'harmonie chromatique (carrelage, peinture, accessoires)",
-      "L'optimisation de la circulation dans un petit volume",
-      "Les éléments décoratifs qui apportent une vraie chaleur",
+      "L'harmonie des couleurs entre les murs, le carrelage et les meubles",
+      "Ce qui donne l'effet froid, daté ou impersonnel que vous ressentez",
+      "La lumière de la pièce et la palette qui lui rend de la chaleur",
+      "Les surfaces à reprendre en priorité (murs, faïence à peindre), avec quelle teinte",
+      "Les matières et accessoires qui changent l'ambiance sans gros travaux",
     ],
   },
 

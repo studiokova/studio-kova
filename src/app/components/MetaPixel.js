@@ -6,6 +6,9 @@ import Script from 'next/script';
 import { useConsent } from './ConsentContext';
 
 const PIXEL_ID = process.env.NEXT_PUBLIC_META_PIXEL_ID;
+const IS_PROD =
+  process.env.NODE_ENV === 'production' &&
+  process.env.NEXT_PUBLIC_VERCEL_ENV === 'production';
 
 function PageViewTracker() {
   const pathname = usePathname();
@@ -13,7 +16,7 @@ function PageViewTracker() {
   const { consent } = useConsent();
 
   useEffect(() => {
-    if (!PIXEL_ID || consent !== 'accepted' || typeof window.fbq !== 'function') return;
+    if (!IS_PROD || !PIXEL_ID || consent !== 'accepted' || typeof window.fbq !== 'function') return;
     window.fbq('track', 'PageView');
   }, [pathname, searchParams]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -24,7 +27,7 @@ export default function MetaPixel() {
   const { consent, isLoaded } = useConsent();
 
   // Wait until localStorage has been read, then only render for explicit consent
-  if (!PIXEL_ID || !isLoaded || consent !== 'accepted') return null;
+  if (!IS_PROD || !PIXEL_ID || !isLoaded || consent !== 'accepted') return null;
 
   return (
     <>

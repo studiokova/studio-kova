@@ -57,7 +57,7 @@ export default function JeTransformeMaPiecePage() {
             </p>
             <div className="kova-product-page__preview">
               <Image
-                src="/apercu-pdf-chambre.png"
+                src="/apercu-pdf-chambre.webp"
                 alt="Exemple de livrable PDF Studio Kova - analyse déco chambre"
                 width={2968}
                 height={1400}

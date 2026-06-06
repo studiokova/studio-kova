@@ -37,7 +37,7 @@ export default function Home() {
           <h1 className="kova-hero-imm__title">La déco personnalisée,<br /><em>enfin accessible.</em></h1>
           <p className="kova-hero-imm__sub">Vous allez adorer rentrer chez vous.</p>
           <div className="kova-hero-imm__ctas">
-            <KovaButton variant="primary" href="/je-transforme-ma-piece">J&apos;analyse ma pièce avec l&apos;IA →</KovaButton>
+            <KovaButton variant="primary" href="/je-transforme-ma-piece">Analyser ma pièce - 69€ →</KovaButton>
             <KovaButton variant="ghost" href="#offres">Voir les offres</KovaButton>
           </div>
         </div>

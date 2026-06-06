@@ -23,7 +23,7 @@ export const OFFRES = [
     price: "69€",
     title: "Analyse IA + plan d'action en 48h",
     desc: "Envoyez 1 à 3 photos de votre pièce. Recevez en 48h une analyse IA complète : diagnostic, palette, priorités, matières.",
-    ctaLabel: "Analyser ma pièce →", ctaHref: "/je-transforme-ma-piece", ctaVariant: "primary",
+    ctaLabel: "Analyser ma pièce - 69€ →", ctaHref: "/je-transforme-ma-piece", ctaVariant: "primary",
     event: "Clic offre 69", featured: true,
   },
   {

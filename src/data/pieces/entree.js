@@ -29,14 +29,13 @@ Et c'est probablement la pièce où on a le meilleur retour sur investissement :
   },
 
   analyse: {
-    title: "Ce que l'analyse IA examine dans votre entrée",
+    title: "Ce que l'analyse regarde dans votre entrée",
     points: [
-      "L'efficacité du rangement (manteaux, chaussures, sacs, clés)",
-      "La présence et la qualité de l'éclairage",
-      "Le rôle structurant d'un miroir",
-      "L'harmonie chromatique avec le reste de l'appartement",
-      "L'effet « première impression » donné à un visiteur",
-      "L'utilisation de la hauteur dans les petits espaces",
+      "L'harmonie des couleurs entre les murs, le sol et les premiers meubles visibles",
+      "Ce qui donne l'impression d'un espace étroit, sombre ou négligé",
+      "La lumière de la pièce et la palette qui l'agrandit visuellement",
+      "Les surfaces à reprendre en priorité, et avec quelle teinte exacte",
+      "Les matières et touches déco qui posent le ton dès l'entrée",
     ],
   },
 

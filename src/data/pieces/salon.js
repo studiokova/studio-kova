@@ -27,14 +27,13 @@ Le troisième enjeu, c'est l'ancrage au sol. Un tapis bien dimensionné transfor
   },
 
   analyse: {
-    title: "Ce que l'analyse IA examine dans votre salon",
+    title: "Ce que l'analyse regarde dans votre salon",
     points: [
-      "L'agencement des assises et la fluidité de circulation",
-      "L'équilibre entre zones d'usage (TV, lecture, réception)",
-      "Les sources lumineuses et leur complémentarité",
-      "L'harmonie des couleurs et matières",
-      'Le tapis, son dimensionnement et son rôle structurant',
-      "Les rangements visibles et leur impact sur l'ambiance",
+      "L'harmonie des couleurs entre les murs, le canapé et les textiles",
+      "Ce qui crée la surcharge visuelle ou l'impression de pièce qui « ne se tient pas »",
+      "La lumière naturelle de la pièce et la palette qui la met en valeur",
+      "Les surfaces à reprendre en priorité, et avec quelle teinte exacte",
+      "Les matières et textiles qui manquent pour réchauffer l'ensemble",
     ],
   },
 

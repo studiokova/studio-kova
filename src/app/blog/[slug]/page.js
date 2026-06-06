@@ -139,7 +139,7 @@ export default async function BlogPostPage({ params }) {
             Tous les articles
           </Link>
           <KovaButton variant="primary" href="/analyse">
-            Découvrir l&rsquo;Analyse déco →
+            Analyser ma pièce - 69€ →
           </KovaButton>
         </footer>
       </div>

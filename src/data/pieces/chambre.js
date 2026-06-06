@@ -27,14 +27,13 @@ Enfin l'ambiance : cocoon, minimal, romantique, contemporain - c'est ce qui tran
   },
 
   analyse: {
-    title: "Ce que l'analyse IA examine dans votre chambre",
+    title: "Ce que l'analyse regarde dans votre chambre",
     points: [
-      'La qualité de lumière naturelle et son orientation',
-      "L'agencement du lit, de l'armoire et de la circulation",
-      "L'harmonie des couleurs murs / textiles / mobilier",
-      'Les zones de rangement et leur usage réel',
-      "Les sources de lumière artificielle (suspension, chevet, ambiance)",
-      "L'ambiance générale et sa cohérence avec votre mode de vie",
+      "L'harmonie des couleurs entre les murs, le linge de lit et le mobilier",
+      "Ce qui crée la surcharge, la froideur ou l'impression de pièce impersonnelle",
+      "La lumière naturelle de la pièce et la palette qui lui va vraiment",
+      "Les surfaces à reprendre en priorité, et avec quelle teinte exacte",
+      "Les matières et textiles qui manquent pour réchauffer l'ensemble",
     ],
   },
 
