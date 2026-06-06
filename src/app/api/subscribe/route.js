@@ -5,7 +5,7 @@ import { getClientIp, getClientUserAgent, getFbp, getFbc } from '@/lib/metaHelpe
 const QUIZ_TEMPLATE_ID = 2;
 
 function buildEmailParams({ name, axes, palette, text, actions }) {
-  const cta = { label: "Analyser ma pièce - 69€ →", href: "https://studiokova.fr/analyse" };
+  const cta = { label: "Analyser ma pièce - 69€ →", href: "https://www.studiokova.fr/analyse" };
 
   const swatches = palette
     .map(
@@ -41,6 +41,13 @@ function buildEmailParams({ name, axes, palette, text, actions }) {
     </td>
   </tr>
   ${actionItems}
+</table>
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin:28px 0 0;">
+  <tr>
+    <td>
+      <p style="font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;font-size:15px;line-height:1.7;color:#2E4A3A;margin:0;">Ces 3 actions, c&rsquo;est votre style en général. Pour savoir quoi faire dans votre pièce à vous, avec votre vrai mur et votre vrai canapé, il y a l&rsquo;analyse.</p>
+    </td>
+  </tr>
 </table>`;
 
   return {
