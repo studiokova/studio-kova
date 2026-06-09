@@ -35,11 +35,11 @@ describe('AnalysePage — rendu initial', () => {
     expect(screen.getByTestId('step-shell')).toBeInTheDocument();
   });
 
-  it('démarre à l\'étape 1 sur 3', () => {
+  it('démarre à l\'étape 1 sur 4', () => {
     render(<AnalysePage />);
     const shell = screen.getByTestId('step-shell');
     expect(shell).toHaveAttribute('data-step', '1');
-    expect(shell).toHaveAttribute('data-total', '3');
+    expect(shell).toHaveAttribute('data-total', '4');
   });
 
   it('affiche le titre de l\'étape 1', () => {
@@ -203,15 +203,9 @@ describe('AnalysePage — étape 3 (photos + email + paiement)', () => {
     expect(screen.getByPlaceholderText('votre@email.fr')).toBeInTheDocument();
   });
 
-  it('le bouton payer est désactivé sans photo ni email ni CGV', async () => {
+  it('le bouton continuer est désactivé sans photo ni email', async () => {
     await allerEtape3();
-    expect(screen.getByRole('button', { name: /Payer/i })).toBeDisabled();
-  });
-
-  it('affiche le récap de la pièce à l\'étape 3', async () => {
-    await allerEtape3();
-    expect(screen.getByText(/Chambre/)).toBeInTheDocument();
-    expect(screen.getByText(/300–800€/)).toBeInTheDocument();
+    expect(screen.getByRole('button', { name: 'Continuer →' })).toBeDisabled();
   });
 
   it('track "Analysis Photo Added" à l\'ajout de la première photo', async () => {

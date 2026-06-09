@@ -1,7 +1,8 @@
 export const ANALYSE_LIVRABLES = [
-  "Analyse photo de la pièce",
-  "Recommandations couleurs et aménagement",
-  "PDF complet livré en 48h",
+  "Un diagnostic de votre pièce. Ce qui fonctionne, ce qui crée la gêne que vous ressentez, et pourquoi. Une lecture de vos photos, mur par mur.",
+  "Trois directions au choix, du plus sobre au plus affirmé. Chacune avec sa palette précise (références exactes, couleurs à conserver) et ses actions prioritaires.",
+  "Chaque action est chiffrée. Quoi faire, dans quel ordre, et combien ça coûte (fourchette par poste). Vous choisissez la direction qui vous parle, votre budget suit.",
+  "Les matières à privilégier et à éviter, pour que vos achats restent cohérents.",
 ];
 
 export const OFFERS = {

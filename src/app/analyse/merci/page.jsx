@@ -28,10 +28,12 @@ export default function MerciPage() {
         .mc-title { font-family: "Playfair Display", serif; font-style: italic; font-size: clamp(26px, 6vw, 36px); color: #2E4A3A; line-height: 1.2; margin: 0 0 12px; }
         .mc-sub { font-family: "DM Sans", sans-serif; font-size: 16px; color: #2E4A3A; line-height: 1.6; margin: 0; }
         .mc-sep { border: none; border-top: 1px solid #D3D1C7; margin: 32px 0; }
-        .mc-block-label { font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.10em; color: #888780; margin-bottom: 16px; }
+        .mc-livrables { background: #2E4A3A; border-radius: 14px; padding: 24px; margin: 32px 0; }
+        .mc-block-label { font-family: "DM Sans", sans-serif; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.10em; color: #E8C97A; margin: 0 0 16px; }
         .mc-list { list-style: none; padding: 0; margin: 0; text-align: left; display: flex; flex-direction: column; gap: 12px; }
-        .mc-item { display: flex; align-items: flex-start; gap: 10px; font-family: "DM Sans", sans-serif; font-size: 15px; color: #2E4A3A; line-height: 1.5; }
-        .mc-check { color: #B8612A; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+        .mc-item { display: flex; align-items: flex-start; gap: 10px; font-family: "DM Sans", sans-serif; font-size: 15px; color: #F5EFE4; line-height: 1.5; }
+        .mc-check { color: #E8C97A; font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+        .mc-reassurance { font-family: "DM Sans", sans-serif; font-size: 14px; color: #F5EFE4; line-height: 1.6; margin: 16px 0 0; }
         .mc-contact { font-family: "DM Sans", sans-serif; font-size: 13px; color: #888780; margin: 0; }
         .mc-contact a { color: #888780; text-decoration: underline; text-underline-offset: 3px; }
         .mc-cta { display: inline-block; margin-top: 28px; padding: 16px 32px; background: #2E4A3A; color: #F5EFE4; border-radius: 999px; font-family: "DM Sans", sans-serif; font-size: 15px; font-weight: 500; text-decoration: none; transition: opacity 0.18s; }
@@ -51,19 +53,20 @@ export default function MerciPage() {
           <h1 className="mc-title">Votre analyse est lancée.</h1>
           <p className="mc-sub">Je l'analyse et vous envoie votre PDF sous 48h.</p>
 
-          <hr className="mc-sep" />
-
-          <p className="mc-block-label">Ce qui arrive dans votre boîte mail</p>
-          <ul className="mc-list">
-            {ANALYSE_LIVRABLES.map(item => (
-              <li key={item} className="mc-item">
-                <span className="mc-check">✓</span>
-                {item}
-              </li>
-            ))}
-          </ul>
-
-          <hr className="mc-sep" />
+          <div className="mc-livrables">
+            <p className="mc-block-label">Ce qui arrive dans votre boîte mail</p>
+            <ul className="mc-list">
+              {ANALYSE_LIVRABLES.map(item => (
+                <li key={item} className="mc-item">
+                  <span className="mc-check">✓</span>
+                  {item}
+                </li>
+              ))}
+            </ul>
+            <p className="mc-reassurance">
+              Vous n&rsquo;avez plus rien à faire. Je relis chaque recommandation avant de vous envoyer votre PDF. Si quelque chose ne vous convient pas à la réception, vous me le dites.
+            </p>
+          </div>
 
           <p className="mc-contact">
             Une question ?{' '}

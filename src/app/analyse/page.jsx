@@ -4,7 +4,7 @@ import { upload } from '@vercel/blob/client';
 import { track, getSource } from '@/lib/plausible';
 import KovaStepShell from '@/components/kova/KovaStepShell';
 import KovaFooter from '@/components/kova/KovaFooter';
-import { OFFERS, ANALYSE_LIVRABLES } from '@/lib/config';
+import { OFFERS } from '@/lib/config';
 import { getStoredUtms } from '@/lib/utmTracking';
 
 const ROOM_TYPES = ['Salon', 'Chambre', 'Bureau', 'Salle à manger', 'Entrée', 'Autre'];
@@ -34,23 +34,6 @@ const CAS_USAGE_LABELS = {
   surfaces: 'Refaire les surfaces',
   deco:     'Refaire la déco',
   tout:     'Tout refaire / meubler',
-};
-const LIVRABLES_BY_CAS_USAGE = {
-  surfaces: [
-    '3 propositions de mur / peinture (neutre, médian, coloré)',
-    'Recommandations matières',
-    'PDF complet',
-  ],
-  deco: [
-    'Directions déco : textiles, objets, luminaires, agencement',
-    'Recommandations matières',
-    'PDF complet',
-  ],
-  tout: [
-    'Directions surfaces + déco + mobilier',
-    'Recommandations matières',
-    'PDF complet',
-  ],
 };
 const PROFILE_PALETTES = {
   'Scandinave chaleureux': ['#E8E0D5', '#A89880', '#6B5D4F'],
@@ -124,6 +107,10 @@ const CSS = `
 
   .an-recap-row { font-size: 14px; color: #2E4A3A; line-height: 1.5; margin: 0; }
   .an-livrables { background: #F5EFE4; border: 1px solid #D3D1C7; border-radius: 12px; padding: 16px; margin-bottom: 20px; }
+  .an-livrables-dark { background: #2E4A3A; border: none; }
+  .an-livrables-dark .an-section { color: #E8C97A; }
+  .an-livrables-dark .an-livrable { color: #F5EFE4; }
+  .an-livrables-dark .an-check { color: #E8C97A; }
   .an-livrable { display: flex; align-items: flex-start; gap: 10px; font-size: 14px; color: #2E4A3A; padding: 5px 0; }
   .an-check { color: #B8612A; font-weight: 600; flex-shrink: 0; }
   .an-delai { font-size: 13px; color: #888780; text-align: center; margin-bottom: 8px; }
@@ -192,6 +179,8 @@ export default function AnalysePage() {
     } else if (step === 2) {
       const styleSrc = !hasProfile ? 'manual' : styleModifiedRef.current ? 'quiz_adjusted' : 'quiz_kept';
       track('Analysis Style Completed', { style_source: styleSrc });
+    } else if (step === 3) {
+      track('Analysis Photos Completed', { photo_count: files.length, has_quiz_profile: hasProfile });
     }
     window.scrollTo({ top: 0, behavior: 'instant' });
     setStep(s => s + 1);
@@ -293,7 +282,8 @@ export default function AnalysePage() {
 
   const step1Ready = !!roomContext.cas_usage && !!roomContext.type_piece && !!roomContext.budget;
   const step2Ready = styleContext.ambiance.length >= 1;
-  const step3Ready = files.length >= 1 && email.includes('@') && !uploading && !overLimit && acceptLegal;
+  const step3Ready = files.length >= 1 && email.includes('@') && !overLimit;
+  const step4Ready = acceptLegal;
   const hasProfile = !!(styleProfile && styleProfile.style_name);
   const swatches = hasProfile ? (PROFILE_PALETTES[styleProfile.style_name] || []) : [];
 
@@ -303,7 +293,7 @@ export default function AnalysePage() {
       <KovaStepShell
         offerLabel="JE TRANSFORME MA PIÈCE"
         currentStep={step}
-        totalSteps={3}
+        totalSteps={4}
       >
         {/* ─── ÉTAPE 1 : Votre pièce ─── */}
         {step === 1 && (
@@ -419,7 +409,7 @@ export default function AnalysePage() {
           </div>
         )}
 
-        {/* ─── ÉTAPE 3 : Photos + Email + Récap + Paiement ─── */}
+        {/* ─── ÉTAPE 3 : Photos + Email ─── */}
         {step === 3 && (
           <div className="an-wrap">
             <h1 className="an-title">Montrez-moi votre pièce</h1>
@@ -492,33 +482,41 @@ export default function AnalysePage() {
                 )}
               </div>
             )}
+          </div>
+        )}
 
-            <div className="an-field">
-              <p className="an-section">Votre pièce</p>
-              <p className="an-recap-row">
-                {roomContext.type_piece} · {CAS_USAGE_LABELS[roomContext.cas_usage]} · Budget {roomContext.budget}
-              </p>
-            </div>
+        {/* ─── ÉTAPE 4 : Paiement ─── */}
+        {step === 4 && (
+          <div className="an-wrap">
+            <h1 className="an-title">Plus qu&rsquo;une étape.</h1>
+            <p className="an-sub">Votre analyse est prête à démarrer.</p>
 
-            <div className="an-field">
-              <p className="an-section">Votre style</p>
-              <p className="an-recap-row">
-                {[styleContext.ambiance.join(', '), styleContext.couleur_aimee, styleContext.matieres.join(', ')].filter(Boolean).join(' · ')}
-              </p>
-            </div>
-
-            <div className="an-livrables">
-              <p className="an-section">Ce qui est inclus</p>
-              {(LIVRABLES_BY_CAS_USAGE[roomContext.cas_usage] || ANALYSE_LIVRABLES).map(item => (
-                <div key={item} className="an-livrable">
-                  <span className="an-check">✓</span>
-                  {item}
-                </div>
-              ))}
+            <div className="an-livrables an-livrables-dark">
+              <p className="an-section">Ce que vous recevez, sous 48h</p>
+              <p style={{ fontSize: 14, color: '#F5EFE4', margin: '4px 0 10px' }}>Un PDF personnalisé d&rsquo;environ 5 pages, construit à partir de vos photos :</p>
+              <div className="an-livrable">
+                <span className="an-check">✓</span>
+                Un diagnostic de votre {roomContext.type_piece.toLowerCase()}. Ce qui fonctionne, ce qui crée la gêne que vous ressentez, et pourquoi. Une lecture de vos photos, mur par mur.
+              </div>
+              <div className="an-livrable">
+                <span className="an-check">✓</span>
+                Trois directions au choix, du plus sobre au plus affirmé. Chacune avec sa palette précise (références exactes, couleurs à conserver) et ses actions prioritaires.
+              </div>
+              <div className="an-livrable">
+                <span className="an-check">✓</span>
+                Chaque action est chiffrée. Quoi faire, dans quel ordre, et combien ça coûte (fourchette par poste). Vous choisissez la direction qui vous parle, votre budget suit.
+              </div>
+              <div className="an-livrable">
+                <span className="an-check">✓</span>
+                Les matières à privilégier et à éviter, pour que vos achats restent cohérents.
+              </div>
+              <p style={{ fontSize: 14, color: '#F5EFE4', margin: '10px 0 0' }}>Vous repartez avec un plan que vous exécutez vous-même, à votre rythme, sans décorateur.</p>
             </div>
 
             <p className="an-delai">Livraison sous 48h par email</p>
             <div className="an-price">{OFFERS.analyse.display}</div>
+
+            <p className="an-delai" style={{ marginBottom: 20 }}>Si l&rsquo;analyse ne vous parle pas, je vous rembourse. Vous me le dites dans les 14 jours, sans justification à fournir.</p>
 
             <div className="an-consent">
               <label className="an-consent-row">
@@ -530,8 +528,7 @@ export default function AnalysePage() {
                 <span className="an-consent-label">
                   J&rsquo;accepte les{" "}
                   <a href="/cgv" target="_blank" rel="noopener noreferrer">conditions générales de vente</a>
-                  {" "}et je demande que la prestation commence dès maintenant, en reconnaissant
-                  qu&rsquo;une fois l&rsquo;analyse réalisée je perds mon droit de rétractation de 14 jours.
+                  {" "}et je demande que mon analyse commence dès maintenant.
                 </span>
               </label>
             </div>
@@ -551,7 +548,10 @@ export default function AnalysePage() {
               <button className="an-cta" disabled={!step2Ready} onClick={goNext}>Continuer →</button>
             )}
             {step === 3 && (
-              <button className="an-cta" disabled={!step3Ready || paying} onClick={handlePay}>
+              <button className="an-cta" disabled={!step3Ready} onClick={goNext}>Continuer →</button>
+            )}
+            {step === 4 && (
+              <button className="an-cta" disabled={!step4Ready || paying} onClick={handlePay}>
                 {uploading ? 'Envoi en cours…' : paying ? 'Redirection…' : 'Payer et recevoir mon analyse →'}
               </button>
             )}
