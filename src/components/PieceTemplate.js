@@ -74,6 +74,9 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
             >
               {data.hero.ctaSecondary.label}
             </a>
+            <p style={{ fontSize: '0.72rem', opacity: 0.55, textAlign: 'center', color: 'var(--craie)', margin: 0, fontStyle: 'italic' }}>
+              Analyse livrée sous 48h.<br />Si elle ne vous parle pas, je vous rembourse.
+            </p>
           </div>
         </div>
       </section>

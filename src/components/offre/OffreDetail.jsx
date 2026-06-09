@@ -75,6 +75,10 @@ export default function OffreDetail({ piece, dark = false, only = null }) {
             Vous repartez avec un plan que vous exécutez vous-même, à votre rythme, sans
             décorateur.
           </p>
+          <p className="offre-detail__body">
+            Et si l&apos;analyse ne vous parle pas, je vous rembourse. Vous me le dites dans
+            les 14 jours, sans justification à fournir.
+          </p>
         </div>
       )}
     </div>
