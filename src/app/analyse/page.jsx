@@ -26,9 +26,9 @@ const AMBIANCES = [
 ];
 const MATIERES = ['Bois naturel', 'Rotin', 'Lin', 'Velours', 'Laiton', 'Pierre', 'Céramique', 'Cuir'];
 const CAS_USAGE_OPTIONS = [
-  { value: 'surfaces', label: 'Refaire les surfaces',      desc: 'Peinture, papier peint, mur, moulures. Le mobilier reste.' },
-  { value: 'deco',     label: 'Refaire la déco',           desc: 'Textiles, objets, luminaires, agencement. Murs et meubles restent.' },
-  { value: 'tout',     label: 'Tout refaire / meubler',    desc: 'Surfaces + mobilier.' },
+  { value: 'surfaces', label: 'Refaire les surfaces',   desc: 'Peinture, papier peint, mur, moulures. Le mobilier reste.' },
+  { value: 'deco',     label: 'Refaire la déco',        desc: 'Textiles, objets, luminaires, agencement. Murs et meubles restent.' },
+  { value: 'tout',     label: 'Tout refaire / meubler', desc: 'Surfaces + mobilier.' },
 ];
 const CAS_USAGE_LABELS = {
   surfaces: 'Refaire les surfaces',
@@ -162,7 +162,6 @@ export default function AnalysePage() {
   const [step, setStep] = useState(1);
   const [files, setFiles] = useState([]);
   const [previewUrls, setPreviewUrls] = useState([]);
-  const [photoUrls, setPhotoUrls] = useState([]);
   const [email, setEmail] = useState('');
   const [styleProfile, setStyleProfile] = useState(undefined);
   const [roomContext, setRoomContext] = useState({
@@ -177,21 +176,22 @@ export default function AnalysePage() {
   const [acceptLegal, setAcceptLegal] = useState(false);
   const fileInputRef = useRef(null);
   const styleModifiedRef = useRef(false);
+
   useEffect(() => {
     const piece = new URLSearchParams(window.location.search).get('piece') || '';
     track('Analysis Page Viewed', { source: getSource(), ...(piece && { piece }) });
   }, []);
 
   function goNext() {
-    if (step === 2) {
-      track('Analysis Step 2 Completed', {
+    if (step === 1) {
+      track('Analysis Room Completed', {
         room_type: roomContext.type_piece,
         budget_range: roomContext.budget,
         cas_usage: roomContext.cas_usage,
       });
-    } else if (step === 3) {
+    } else if (step === 2) {
       const styleSrc = !hasProfile ? 'manual' : styleModifiedRef.current ? 'quiz_adjusted' : 'quiz_kept';
-      track('Analysis Step 3 Completed', { style_source: styleSrc });
+      track('Analysis Style Completed', { style_source: styleSrc });
     }
     window.scrollTo({ top: 0, behavior: 'instant' });
     setStep(s => s + 1);
@@ -204,11 +204,10 @@ export default function AnalysePage() {
 
   function addFiles(newFiles) {
     const arr = Array.from(newFiles);
-    const toAdd = arr;
-    if (!toAdd.length) return;
-    if (files.length === 0) track('Analysis Photo Added', { count: toAdd.length });
-    const newPreviews = toAdd.map(f => URL.createObjectURL(f));
-    setFiles(prev => [...prev, ...toAdd]);
+    if (!arr.length) return;
+    if (files.length === 0) track('Analysis Photo Added', { count: arr.length });
+    const newPreviews = arr.map(f => URL.createObjectURL(f));
+    setFiles(prev => [...prev, ...arr]);
     setPreviewUrls(prev => [...prev, ...newPreviews]);
   }
 
@@ -229,28 +228,37 @@ export default function AnalysePage() {
     try {
       const res = await fetch(`/api/profile?email=${encodeURIComponent(emailVal)}`);
       const data = await res.json();
-      const profile = data.profile || null;
-      setStyleProfile(profile);
+      setStyleProfile(data.profile || null);
     } catch {
       setStyleProfile(null);
     }
   }
 
-  async function handleStep1Next() {
-    if (!step1Ready) return;
+  async function handlePay() {
     setUploading(true);
     setUploadError('');
+    setPaying(true);
     try {
       const blobs = await Promise.all(
         files.map(f => upload(f.name, f, { access: 'public', handleUploadUrl: '/api/upload' }))
       );
-      setPhotoUrls(blobs.map(b => b.url));
-      track('Analysis Step 1 Completed', { photo_count: files.length, has_quiz_profile: hasProfile });
-      window.scrollTo({ top: 0, behavior: 'instant' });
-      setStep(2);
+      const uploadedUrls = blobs.map(b => b.url);
+      track('Analysis Photos Uploaded', { photo_count: files.length, has_quiz_profile: hasProfile });
+      track('Analysis Checkout Started', undefined, OFFERS.analyse.amount);
+      const utms = getStoredUtms();
+      const res = await fetch('/api/checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, photoUrls: uploadedUrls, roomContext, styleContext, styleProfile, utms }),
+      });
+      const { url, error } = await res.json();
+      if (error) throw new Error(error);
+      sessionStorage.setItem('analysis_room_type', roomContext.type_piece);
+      window.location.href = url;
     } catch {
       track('Analysis Upload Error', { photo_count: files.length });
-      setUploadError("Erreur lors de l'upload, réessayez.");
+      setUploadError("Erreur lors de l'envoi, réessayez.");
+      setPaying(false);
     } finally {
       setUploading(false);
     }
@@ -272,29 +280,10 @@ export default function AnalysePage() {
 
   function toggleMatiere(m) {
     styleModifiedRef.current = true;
-    setStyleContext(prev => {
-      const cur = prev.matieres;
-      return { ...prev, matieres: cur.includes(m) ? cur.filter(x => x !== m) : [...cur, m] };
-    });
-  }
-
-  async function handlePay() {
-    track('Analysis Checkout Started', undefined, OFFERS.analyse.amount);
-    setPaying(true);
-    try {
-      const utms = getStoredUtms();
-      const res = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, photoUrls, roomContext, styleContext, styleProfile, utms }),
-      });
-      const { url, error } = await res.json();
-      if (error) throw new Error(error);
-      sessionStorage.setItem('analysis_room_type', roomContext.type_piece);
-      window.location.href = url;
-    } catch {
-      setPaying(false);
-    }
+    setStyleContext(prev => ({
+      ...prev,
+      matieres: prev.matieres.includes(m) ? prev.matieres.filter(x => x !== m) : [...prev.matieres, m],
+    }));
   }
 
   const totalSizeMb = files.reduce((acc, f) => acc + f.size, 0) / MB;
@@ -302,10 +291,9 @@ export default function AnalysePage() {
   const fillPct = Math.min(100, (totalSizeMb / MAX_TOTAL_MB) * 100);
   const fillClass = overLimit ? 'over' : fillPct > 80 ? 'warn' : '';
 
-  const step1Ready = files.length >= 1 && email.includes('@') && !uploading && !overLimit;
-  const step2Ready = !!roomContext.cas_usage && !!roomContext.type_piece && !!roomContext.budget;
-  const step3Ready = styleContext.ambiance.length >= 1;
-  const step4Ready = acceptLegal;
+  const step1Ready = !!roomContext.cas_usage && !!roomContext.type_piece && !!roomContext.budget;
+  const step2Ready = styleContext.ambiance.length >= 1;
+  const step3Ready = files.length >= 1 && email.includes('@') && !uploading && !overLimit && acceptLegal;
   const hasProfile = !!(styleProfile && styleProfile.style_name);
   const swatches = hasProfile ? (PROFILE_PALETTES[styleProfile.style_name] || []) : [];
 
@@ -315,10 +303,124 @@ export default function AnalysePage() {
       <KovaStepShell
         offerLabel="JE TRANSFORME MA PIÈCE"
         currentStep={step}
-        totalSteps={4}
+        totalSteps={3}
       >
-        {/* ─── ÉTAPE 1 : Vos photos ─── */}
+        {/* ─── ÉTAPE 1 : Votre pièce ─── */}
         {step === 1 && (
+          <div className="an-wrap">
+            <h1 className="an-title">Parlez-moi de cette pièce</h1>
+            <p className="an-sub">Ces informations me permettent de cadrer l'analyse.</p>
+
+            <div className="an-field">
+              <p className="an-section">Qu'est-ce que vous voulez faire ?</p>
+              <div className="an-cards" style={{ gridTemplateColumns: '1fr' }}>
+                {CAS_USAGE_OPTIONS.map(({ value, label, desc }) => (
+                  <button
+                    key={value}
+                    className={`an-card${roomContext.cas_usage === value ? ' sel' : ''}`}
+                    onClick={() => setRoom('cas_usage', value)}
+                  >
+                    <div className="an-card-title">{label}</div>
+                    <div className="an-card-desc">{desc}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="an-field">
+              <p className="an-section">Quelle pièce ?</p>
+              <div className="an-chips">
+                {ROOM_TYPES.map(t => (
+                  <button key={t} className={`an-chip${roomContext.type_piece === t ? ' sel' : ''}`} onClick={() => setRoom('type_piece', t)}>{t}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="an-field">
+              <p className="an-section">Votre budget pour cette pièce</p>
+              <div className="an-chips">
+                {BUDGETS.map(b => (
+                  <button key={b} className={`an-chip${roomContext.budget === b ? ' sel' : ''}`} onClick={() => setRoom('budget', b)}>{b}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="an-field">
+              <p className="an-section">Pourquoi cette analyse maintenant ?</p>
+              <div className="an-chips">
+                {MOTIVATIONS.map(m => (
+                  <button key={m} className={`an-chip${roomContext.motivation === m ? ' sel' : ''}`} onClick={() => setRoom('motivation', m)}>{m}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="an-field">
+              <label className="an-label">Ce qui vous dérange le plus</label>
+              <textarea className="an-textarea" placeholder="Ex : c'est sans personnalité, rien ne va ensemble, trop sombre..." value={roomContext.probleme} onChange={e => setRoom('probleme', e.target.value)} />
+            </div>
+
+            <div className="an-field">
+              <label className="an-label">Ce que vous gardez</label>
+              <textarea className="an-textarea" placeholder="Ex : mon canapé gris, ma bibliothèque, le parquet..." value={roomContext.garder} onChange={e => setRoom('garder', e.target.value)} />
+            </div>
+
+            <div className="an-field">
+              <label className="an-label">Vos contraintes</label>
+              <textarea className="an-textarea" placeholder="Ex : locataire, budget serré sur un poste, animaux..." value={roomContext.contraintes} onChange={e => setRoom('contraintes', e.target.value)} />
+            </div>
+          </div>
+        )}
+
+        {/* ─── ÉTAPE 2 : Votre style ─── */}
+        {step === 2 && (
+          <div className="an-wrap">
+            <h1 className="an-title">Votre style pour cette pièce</h1>
+            <p className="an-sub">Pas de bonne ou mauvaise réponse. Ce qui compte c'est ce que vous voulez, pas ce qui est tendance.</p>
+
+            <div className="an-field">
+              <p className="an-section">L'ambiance que vous voulez créer <span className="an-hint">(max 2)</span></p>
+              <div className="an-ambiance-chips">
+                {AMBIANCES.map(({ label, desc }) => (
+                  <button
+                    key={label}
+                    className={`an-ambiance-chip${styleContext.ambiance.includes(label) ? ' sel' : ''}`}
+                    onClick={() => toggleAmbiance(label)}
+                  >
+                    <div className="an-ambiance-chip-label">{label}</div>
+                    <div className="an-ambiance-chip-desc">{desc}</div>
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            <div className="an-field">
+              <label className="an-label">Une couleur que vous aimez pour cette pièce</label>
+              <input type="text" className="an-input" placeholder="Ex : le vert bouteille, le terracotta, le bleu nuit..." value={styleContext.couleur_aimee} onChange={e => { styleModifiedRef.current = true; setStyleContext(prev => ({ ...prev, couleur_aimee: e.target.value })); }} />
+            </div>
+
+            <div className="an-field">
+              <label className="an-label">Une couleur que vous évitez absolument</label>
+              <input type="text" className="an-input" placeholder="Ex : le beige, le gris froid, l'orange..." value={styleContext.couleur_evitee} onChange={e => { styleModifiedRef.current = true; setStyleContext(prev => ({ ...prev, couleur_evitee: e.target.value })); }} />
+            </div>
+
+            <div className="an-field">
+              <p className="an-section">Les matières que vous aimez</p>
+              <div className="an-chips">
+                {MATIERES.map(m => (
+                  <button key={m} className={`an-chip${styleContext.matieres.includes(m) ? ' sel' : ''}`} onClick={() => toggleMatiere(m)}>{m}</button>
+                ))}
+              </div>
+            </div>
+
+            <div className="an-field">
+              <label className="an-label">Une demande précise, si vous en avez une</label>
+              <textarea className="an-textarea" placeholder="Ex : je veux que la pièce paraisse plus grande, trouver un coin lecture..." value={styleContext.demande_precise} onChange={e => { styleModifiedRef.current = true; setStyleContext(prev => ({ ...prev, demande_precise: e.target.value })); }} />
+            </div>
+          </div>
+        )}
+
+        {/* ─── ÉTAPE 3 : Photos + Email + Récap + Paiement ─── */}
+        {step === 3 && (
           <div className="an-wrap">
             <h1 className="an-title">Montrez-moi votre pièce</h1>
             <p className="an-sub">Ajoutez autant de photos que nécessaire depuis des angles différents. Plus on voit la pièce, plus l'analyse sera précise.</p>
@@ -391,141 +493,6 @@ export default function AnalysePage() {
               </div>
             )}
 
-            {uploadError && <p className="an-error">{uploadError}</p>}
-          </div>
-        )}
-
-        {/* ─── ÉTAPE 2 : Votre pièce ─── */}
-        {step === 2 && (
-          <div className="an-wrap">
-            <h1 className="an-title">Parlez-moi de cette pièce</h1>
-            <p className="an-sub">Ces informations me permettent de cadrer l'analyse.</p>
-
-            <div className="an-field">
-              <p className="an-section">Qu'est-ce que vous voulez faire ?</p>
-              <div className="an-cards" style={{ gridTemplateColumns: '1fr' }}>
-                {CAS_USAGE_OPTIONS.map(({ value, label, desc }) => (
-                  <button
-                    key={value}
-                    className={`an-card${roomContext.cas_usage === value ? ' sel' : ''}`}
-                    onClick={() => setRoom('cas_usage', value)}
-                  >
-                    <div className="an-card-title">{label}</div>
-                    <div className="an-card-desc">{desc}</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="an-field">
-              <p className="an-section">Quelle pièce ?</p>
-              <div className="an-chips">
-                {ROOM_TYPES.map(t => (
-                  <button key={t} className={`an-chip${roomContext.type_piece === t ? ' sel' : ''}`} onClick={() => setRoom('type_piece', t)}>{t}</button>
-                ))}
-              </div>
-            </div>
-
-            <div className="an-field">
-              <p className="an-section">Votre budget pour cette pièce</p>
-              <div className="an-chips">
-                {BUDGETS.map(b => (
-                  <button key={b} className={`an-chip${roomContext.budget === b ? ' sel' : ''}`} onClick={() => setRoom('budget', b)}>{b}</button>
-                ))}
-              </div>
-            </div>
-
-            <div className="an-field">
-              <p className="an-section">Pourquoi cette analyse maintenant ?</p>
-              <div className="an-chips">
-                {MOTIVATIONS.map(m => (
-                  <button key={m} className={`an-chip${roomContext.motivation === m ? ' sel' : ''}`} onClick={() => setRoom('motivation', m)}>{m}</button>
-                ))}
-              </div>
-            </div>
-
-            <div className="an-field">
-              <label className="an-label">Ce qui vous dérange le plus</label>
-              <textarea className="an-textarea" placeholder="Ex : c'est sans personnalité, rien ne va ensemble, trop sombre..." value={roomContext.probleme} onChange={e => setRoom('probleme', e.target.value)} />
-            </div>
-
-            <div className="an-field">
-              <label className="an-label">Ce que vous gardez</label>
-              <textarea className="an-textarea" placeholder="Ex : mon canapé gris, ma bibliothèque, le parquet..." value={roomContext.garder} onChange={e => setRoom('garder', e.target.value)} />
-            </div>
-
-            <div className="an-field">
-              <label className="an-label">Vos contraintes</label>
-              <textarea className="an-textarea" placeholder="Ex : locataire, budget serré sur un poste, animaux..." value={roomContext.contraintes} onChange={e => setRoom('contraintes', e.target.value)} />
-            </div>
-          </div>
-        )}
-
-        {/* ─── ÉTAPE 3 : Votre style ─── */}
-        {step === 3 && (
-          <div className="an-wrap">
-            <h1 className="an-title">Votre style pour cette pièce</h1>
-            <p className="an-sub">Pas de bonne ou mauvaise réponse. Ce qui compte c'est ce que vous voulez, pas ce qui est tendance.</p>
-
-            <div className="an-field">
-              <p className="an-section">L'ambiance que vous voulez créer <span className="an-hint">(max 2)</span></p>
-              <div className="an-ambiance-chips">
-                {AMBIANCES.map(({ label, desc }) => (
-                  <button
-                    key={label}
-                    className={`an-ambiance-chip${styleContext.ambiance.includes(label) ? ' sel' : ''}`}
-                    onClick={() => toggleAmbiance(label)}
-                  >
-                    <div className="an-ambiance-chip-label">{label}</div>
-                    <div className="an-ambiance-chip-desc">{desc}</div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className="an-field">
-              <label className="an-label">Une couleur que vous aimez pour cette pièce</label>
-              <input type="text" className="an-input" placeholder="Ex : le vert bouteille, le terracotta, le bleu nuit..." value={styleContext.couleur_aimee} onChange={e => { styleModifiedRef.current = true; setStyleContext(prev => ({ ...prev, couleur_aimee: e.target.value })); }} />
-            </div>
-
-            <div className="an-field">
-              <label className="an-label">Une couleur que vous évitez absolument</label>
-              <input type="text" className="an-input" placeholder="Ex : le beige, le gris froid, l'orange..." value={styleContext.couleur_evitee} onChange={e => { styleModifiedRef.current = true; setStyleContext(prev => ({ ...prev, couleur_evitee: e.target.value })); }} />
-            </div>
-
-            <div className="an-field">
-              <p className="an-section">Les matières que vous aimez</p>
-              <div className="an-chips">
-                {MATIERES.map(m => (
-                  <button key={m} className={`an-chip${styleContext.matieres.includes(m) ? ' sel' : ''}`} onClick={() => toggleMatiere(m)}>{m}</button>
-                ))}
-              </div>
-            </div>
-
-            <div className="an-field">
-              <label className="an-label">Une demande précise, si vous en avez une</label>
-              <textarea className="an-textarea" placeholder="Ex : je veux que la pièce paraisse plus grande, trouver un coin lecture..." value={styleContext.demande_precise} onChange={e => { styleModifiedRef.current = true; setStyleContext(prev => ({ ...prev, demande_precise: e.target.value })); }} />
-            </div>
-          </div>
-        )}
-
-        {/* ─── ÉTAPE 4 : Récap + Paiement ─── */}
-        {step === 4 && (
-          <div className="an-wrap">
-            <h1 className="an-title">Votre commande</h1>
-            <p className="an-sub">Vérifiez et payez pour recevoir votre analyse sous 48h.</p>
-
-            <div className="an-field">
-              <p className="an-section">Vos photos</p>
-              <div className="an-previews">
-                {previewUrls.map((url, i) => (
-                  <div key={i} className="an-thumb">
-                    <img src={url} alt={`Photo ${i + 1}`} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
             <div className="an-field">
               <p className="an-section">Votre pièce</p>
               <p className="an-recap-row">
@@ -568,6 +535,8 @@ export default function AnalysePage() {
                 </span>
               </label>
             </div>
+
+            {uploadError && <p className="an-error">{uploadError}</p>}
           </div>
         )}
 
@@ -576,15 +545,14 @@ export default function AnalysePage() {
           <div className="an-foot-inner">
             {step > 1 && <button className="an-prev-link" onClick={goPrev}>← Précédent</button>}
             {step === 1 && (
-              <button className="an-cta" disabled={!step1Ready} onClick={handleStep1Next}>
-                {uploading ? 'Envoi en cours…' : 'Continuer →'}
-              </button>
+              <button className="an-cta" disabled={!step1Ready} onClick={goNext}>Continuer →</button>
             )}
-            {step === 2 && <button className="an-cta" disabled={!step2Ready} onClick={goNext}>Continuer →</button>}
-            {step === 3 && <button className="an-cta" disabled={!step3Ready} onClick={goNext}>Continuer →</button>}
-            {step === 4 && (
-              <button className="an-cta" disabled={paying || !step4Ready} onClick={handlePay}>
-                {paying ? 'Redirection…' : 'Payer et recevoir mon analyse →'}
+            {step === 2 && (
+              <button className="an-cta" disabled={!step2Ready} onClick={goNext}>Continuer →</button>
+            )}
+            {step === 3 && (
+              <button className="an-cta" disabled={!step3Ready || paying} onClick={handlePay}>
+                {uploading ? 'Envoi en cours…' : paying ? 'Redirection…' : 'Payer et recevoir mon analyse →'}
               </button>
             )}
           </div>
