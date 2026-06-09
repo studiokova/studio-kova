@@ -177,9 +177,9 @@ export default function AnalysePage() {
   const [acceptLegal, setAcceptLegal] = useState(false);
   const fileInputRef = useRef(null);
   const styleModifiedRef = useRef(false);
-
   useEffect(() => {
-    track('Analysis Page Viewed', { source: getSource() });
+    const piece = new URLSearchParams(window.location.search).get('piece') || '';
+    track('Analysis Page Viewed', { source: getSource(), ...(piece && { piece }) });
   }, []);
 
   function goNext() {
@@ -206,6 +206,7 @@ export default function AnalysePage() {
     const arr = Array.from(newFiles);
     const toAdd = arr;
     if (!toAdd.length) return;
+    if (files.length === 0) track('Analysis Photo Added', { count: toAdd.length });
     const newPreviews = toAdd.map(f => URL.createObjectURL(f));
     setFiles(prev => [...prev, ...toAdd]);
     setPreviewUrls(prev => [...prev, ...newPreviews]);
@@ -224,6 +225,7 @@ export default function AnalysePage() {
 
   async function checkProfile(emailVal) {
     if (!emailVal.includes('@')) return;
+    track('Analysis Email Entered', { has_photos: files.length > 0 });
     try {
       const res = await fetch(`/api/profile?email=${encodeURIComponent(emailVal)}`);
       const data = await res.json();
@@ -247,6 +249,7 @@ export default function AnalysePage() {
       window.scrollTo({ top: 0, behavior: 'instant' });
       setStep(2);
     } catch {
+      track('Analysis Upload Error', { photo_count: files.length });
       setUploadError("Erreur lors de l'upload, réessayez.");
     } finally {
       setUploading(false);

@@ -512,7 +512,7 @@ export default function Quiz() {
   useEffect(() => {
     if (phase !== "result") return;
     const p = computeProfile(answers);
-    track("Quiz Result Shown", {
+    track("Quiz Email Submitted", {
       profile: p.name,
       budget_range: answers[6] || "",
       room: answers[4] || "",

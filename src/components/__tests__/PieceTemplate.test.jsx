@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import PieceTemplate from '../PieceTemplate';
 
 jest.mock('@/lib/plausible', () => ({ track: jest.fn() }));
@@ -161,6 +161,44 @@ describe('PieceTemplate', () => {
     render(<PieceTemplate data={mockData} />);
     expect(screen.queryByText('Articles sur cette pièce')).not.toBeInTheDocument();
     expect(screen.queryByText('À lire sur ce sujet')).not.toBeInTheDocument();
+  });
+
+  it('appelle track au clic sur le CTA hero primaire', () => {
+    const { track } = require('@/lib/plausible');
+    render(<PieceTemplate data={mockData} />);
+    const links = screen.getAllByRole('link', { name: /Analyser ma chambre/i });
+    fireEvent.click(links[0]);
+    expect(track).toHaveBeenCalledWith('Clic CTA piece', { piece: 'chambre', cta: 'hero-primary' });
+  });
+
+  it('appelle track au clic sur le lien secondaire hero', () => {
+    const { track } = require('@/lib/plausible');
+    render(<PieceTemplate data={mockData} />);
+    fireEvent.click(screen.getByRole('link', { name: /Faire le quiz/i }));
+    expect(track).toHaveBeenCalledWith('Clic CTA piece', { piece: 'chambre', cta: 'hero-secondary' });
+  });
+
+  it('appelle track au clic sur le CTA analyse', () => {
+    const { track } = require('@/lib/plausible');
+    render(<PieceTemplate data={mockData} />);
+    const links = screen.getAllByRole('link', { name: /Analyser ma chambre/i });
+    fireEvent.click(links[1]);
+    expect(track).toHaveBeenCalledWith('Clic CTA piece', { piece: 'chambre', cta: 'analyse' });
+  });
+
+  it('appelle track au clic sur le CTA final primaire', () => {
+    const { track } = require('@/lib/plausible');
+    render(<PieceTemplate data={mockData} />);
+    const links = screen.getAllByRole('link', { name: /Analyser ma chambre/i });
+    fireEvent.click(links[2]);
+    expect(track).toHaveBeenCalledWith('Clic CTA piece', { piece: 'chambre', cta: 'final-primary' });
+  });
+
+  it('appelle track au clic sur le CTA final secondaire', () => {
+    const { track } = require('@/lib/plausible');
+    render(<PieceTemplate data={mockData} />);
+    fireEvent.click(screen.getByRole('link', { name: /Voir l'aménagement clé en main/i }));
+    expect(track).toHaveBeenCalledWith('Clic CTA piece', { piece: 'chambre', cta: 'final-secondary' });
   });
 
   it('affiche le titre du CTA final', () => {

@@ -7,6 +7,7 @@ import { ConsentProvider } from "./components/ConsentContext";
 import ConsentBanner from "./components/ConsentBanner";
 import ConsentPreferences from "./components/ConsentPreferences";
 import { JsonLd } from "@/components/seo/JsonLd";
+import PlausiblePageview from "./components/PlausiblePageview";
 
 const dmSans = DM_Sans({
   subsets: ["latin"],
@@ -74,6 +75,7 @@ export default function RootLayout({ children }) {
           "sameAs": ["https://instagram.com/studiokova.fr"],
         }} />
         <ConsentProvider>
+          <PlausiblePageview />
           <MetaPixel />
           <PinterestPixel />
           <UtmCapture />

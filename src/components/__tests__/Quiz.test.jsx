@@ -7,12 +7,15 @@ beforeAll(() => {
   window.history.back = jest.fn();
 });
 
+jest.mock('@/lib/plausible', () => ({ track: jest.fn(), getSource: jest.fn(() => 'direct') }));
+jest.mock('@/lib/utmTracking', () => ({ getStoredUtms: jest.fn(() => ({})) }));
+
 // Profil attendu avec ces réponses : "Scandinave chaleureux"
 // Q1=Les couleurs → sature:2
 // Q2=A (Naturel & lumière) → chaud:4, epure:4, neutre_col:4
 // Q3=Tons naturels → chaud:2, neutre_col:2
 // → chaud|epure|neutre
-function remplirQuiz() {
+function remplirQuiz(budget = 'Entre 500€ et 1 500€') {
   fireEvent.click(screen.getByText('Les couleurs'));
   fireEvent.click(screen.getByText('Suivant →'));
 
@@ -29,7 +32,7 @@ function remplirQuiz() {
   fireEvent.click(screen.getByText('Suivant →'));
 
   // Q6 — déclenche setPhase("gate")
-  fireEvent.click(screen.getByText('Entre 500€ et 1 500€'));
+  fireEvent.click(screen.getByText(budget));
   fireEvent.click(screen.getByText('Voir mon profil →'));
 }
 
@@ -282,5 +285,89 @@ describe('Quiz — soumission email via gate', () => {
     const body = JSON.parse(global.fetch.mock.calls[0][1].body);
     expect(body.email).toBe('contact@test.fr');
     expect(body.attributes.PROFIL).toBe('Scandinave chaleureux');
+  });
+
+  it('soumet le gate via la touche Entrée', async () => {
+    global.fetch
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ success: true }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+    render(<Quiz />);
+    remplirQuiz();
+
+    const input = screen.getByPlaceholderText('votre@email.fr');
+    fireEvent.change(input, { target: { value: 'enter@test.fr' } });
+    await act(async () => {
+      fireEvent.keyDown(input, { key: 'Enter' });
+    });
+
+    await waitFor(() => screen.getByText('Vos 3 premières actions'));
+  });
+});
+
+describe('Quiz — CTA résultat avec budget faible', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+    global.fetch = jest.fn();
+  });
+
+  afterEach(() => {
+    act(() => { jest.runOnlyPendingTimers(); });
+    jest.useRealTimers();
+    jest.clearAllMocks();
+  });
+
+  async function allerAuResultatBudgetFaible() {
+    global.fetch
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ success: true }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+    render(<Quiz />);
+    remplirQuiz('Moins de 200€');
+    await soumettreGate();
+    await waitFor(() => screen.getByText('Vos 3 premières actions'));
+  }
+
+  it('affiche le CTA vers /analyse avec un budget faible', async () => {
+    await allerAuResultatBudgetFaible();
+    expect(screen.getByRole('link', { name: /Je transforme ma pièce/ })).toHaveAttribute('href', '/analyse');
+  });
+
+  it('CTA cliqué tracke la destination analysis', async () => {
+    const { track } = require('@/lib/plausible');
+    await allerAuResultatBudgetFaible();
+    fireEvent.click(screen.getByRole('link', { name: /Je transforme ma pièce/ }));
+    expect(track).toHaveBeenCalledWith('Quiz CTA Clicked', { destination: 'analysis' });
+  });
+});
+
+describe('Quiz — CTA résultat avec budget élevé', () => {
+  beforeEach(() => {
+    jest.useFakeTimers();
+    global.fetch = jest.fn();
+  });
+
+  afterEach(() => {
+    act(() => { jest.runOnlyPendingTimers(); });
+    jest.useRealTimers();
+    jest.clearAllMocks();
+  });
+
+  async function allerAuResultatBudgetEleve() {
+    global.fetch
+      .mockResolvedValueOnce({ ok: true, json: async () => ({ success: true }) })
+      .mockResolvedValueOnce({ ok: true, json: async () => ({}) });
+
+    render(<Quiz />);
+    remplirQuiz('Entre 500€ et 1 500€');
+    await soumettreGate();
+    await waitFor(() => screen.getByText('Vos 3 premières actions'));
+  }
+
+  it('CTA cliqué tracke la destination premium', async () => {
+    const { track } = require('@/lib/plausible');
+    await allerAuResultatBudgetEleve();
+    fireEvent.click(screen.getByRole('link', { name: /Je vous confie mon intérieur/ }));
+    expect(track).toHaveBeenCalledWith('Quiz CTA Clicked', { destination: 'premium' });
   });
 });

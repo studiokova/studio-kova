@@ -16,6 +16,7 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
 
   useEffect(() => {
     track('Vue page piece', { piece: data.slug });
+    const engageTimer = setTimeout(() => track('Piece Engaged', { piece: data.slug }), 30_000);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -29,7 +30,7 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
       { threshold: 0.1 }
     );
     revealRefs.current.forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
+    return () => { clearTimeout(engageTimer); observer.disconnect(); };
   }, [data.slug]);
 
   const ref = (el) => {
