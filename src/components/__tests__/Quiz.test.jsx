@@ -282,7 +282,8 @@ describe('Quiz — soumission email via gate', () => {
     remplirQuiz();
     await soumettreGate('contact@test.fr');
 
-    const body = JSON.parse(global.fetch.mock.calls[0][1].body);
+    // calls[0] = /api/profile (Supabase), calls[1] = /api/subscribe (Brevo)
+    const body = JSON.parse(global.fetch.mock.calls[1][1].body);
     expect(body.email).toBe('contact@test.fr');
     expect(body.attributes.PROFIL).toBe('Scandinave chaleureux');
   });
