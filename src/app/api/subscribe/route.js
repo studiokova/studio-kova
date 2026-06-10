@@ -85,15 +85,21 @@ export async function POST(request) {
       }),
     });
 
-    if (!contactRes.ok && contactRes.status !== 204) {
-      const err = await contactRes.json();
+    if (!contactRes.ok) {
+      const err = await contactRes.json().catch(() => ({ status: contactRes.status }));
       console.error("Brevo contact error:", err);
-      return Response.json({ error: "Erreur Brevo" }, { status: 500 });
+      return Response.json({ error: "Erreur Brevo contact", detail: err?.message || contactRes.status }, { status: 500 });
     }
 
     // 2. Envoyer l'email transactionnel (quiz uniquement)
     if (offre === "quiz" && profile) {
-      const params = buildEmailParams({ ...profile, budget });
+      let params;
+      try {
+        params = buildEmailParams({ ...profile, budget });
+      } catch (e) {
+        console.error("buildEmailParams error:", e);
+        return Response.json({ error: "Erreur template email", detail: e?.message }, { status: 500 });
+      }
       await sendTransactionalEmail(email, QUIZ_TEMPLATE_ID, params);
     }
 
@@ -120,7 +126,7 @@ export async function POST(request) {
 
     return Response.json({ success: true });
   } catch (e) {
-    console.error(e);
-    return Response.json({ error: "Erreur serveur" }, { status: 500 });
+    console.error("subscribe catch-all:", e);
+    return Response.json({ error: "Erreur serveur", detail: e?.message }, { status: 500 });
   }
 }
