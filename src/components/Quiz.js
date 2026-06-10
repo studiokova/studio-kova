@@ -509,15 +509,7 @@ export default function Quiz() {
     }
   }, [phase]);
 
-  useEffect(() => {
-    if (phase !== "result") return;
-    const p = computeProfile(answers);
-    track("Quiz Email Submitted", {
-      profile: p.name,
-      budget_range: answers[6] || "",
-      room: answers[4] || "",
-    });
-  }, [phase]); // eslint-disable-line react-hooks/exhaustive-deps
+
 
   const isStepReady = () => {
     if (step === 2) return (answers[2] || []).length > 0;
@@ -587,6 +579,23 @@ export default function Quiz() {
 
     const actions = profile.actions[answers[4]] || profile.actions["Salon"];
     const processedActions = actions.map(a => a);
+
+    // Sauvegarde Supabase en parallèle, indépendante du succès Brevo
+    fetch("/api/profile", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email,
+        style_name: profile.name,
+        ambiance_cible: profile.axes.split(" · "),
+        couleurs_aimees: profile.palette.map(p => p.name),
+        couleurs_evitees: [],
+        matieres_preferees: [],
+        references_visuelles: answers[2] || [],
+        marketing_consent: marketingConsent,
+      }),
+    }).catch(err => console.error("[quiz] sauvegarde profil:", err?.message));
+
     try {
       const res = await fetch("/api/subscribe", {
         method: "POST",
@@ -594,7 +603,7 @@ export default function Quiz() {
         body: JSON.stringify({
           email,
           offre: "quiz",
-          meta_event_id: eventId, // null when no consent → CAPI Lead not triggered
+          meta_event_id: eventId,
           utms,
           attributes: {
             PROFIL: profile?.name || "",
@@ -620,20 +629,6 @@ export default function Quiz() {
       setEmailStatus(status);
       if (status === "success") {
         track("Quiz Email Submitted", { profile: profile?.name || "", marketing_consent: marketingConsent });
-        fetch("/api/profile", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email,
-            style_name: profile.name,
-            ambiance_cible: profile.axes.split(" · "),
-            couleurs_aimees: profile.palette.map(p => p.name),
-            couleurs_evitees: [],
-            matieres_preferees: [],
-            references_visuelles: answers[2] || [],
-            marketing_consent: marketingConsent,
-          }),
-        }).catch(err => console.error("[quiz] sauvegarde profil:", err?.message));
       }
     } catch {
       setEmailStatus("error");
