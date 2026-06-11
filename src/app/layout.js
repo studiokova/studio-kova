@@ -58,6 +58,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="fr" data-scroll-behavior="smooth">
       <head>
+        <link rel="preload" as="image" href="/images/site/hero.webp" fetchPriority="high" />
         {/* Privacy-friendly analytics by Plausible */}
         <script defer data-domain="studiokova.fr" src="https://plausible.io/js/script.manual.revenue.tagged-events.js" />
         <script dangerouslySetInnerHTML={{__html: `window.plausible=window.plausible||function(){(window.plausible.q=window.plausible.q||[]).push(arguments)}`}} />
