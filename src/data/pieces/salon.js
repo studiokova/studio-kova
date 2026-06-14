@@ -57,7 +57,7 @@ Le troisième enjeu, c'est l'ancrage au sol. Un tapis bien dimensionné transfor
     },
     {
       q: 'Quel budget pour rafraîchir un salon ?',
-      a: "Un salon rafraîchi sans changement de mobilier : 300 à 600€ (peinture, textiles, éclairage, déco). Un salon transformé : 1500 à 4000€ selon le mobilier. L'analyse vous donne des priorités chiffrées pour arbitrer.",
+      a: "Un salon rafraîchi sans changement de mobilier : 300 à 600€ (peinture, textiles, éclairage, déco). Un salon transformé : 1500 à 4000€ selon le mobilier. L'analyse vous donne des priorités chiffrées pour arbitrer. Si vous pensez déléguer, cet article détaille <a href='/blog/prix-decorateur-interieur'>combien coûte un décorateur d'intérieur</a>.",
     },
   ],
 

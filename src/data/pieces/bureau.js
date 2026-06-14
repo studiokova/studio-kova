@@ -55,7 +55,7 @@ Et si possible, gardez en tête que ce bureau doit aussi pouvoir disparaître. L
     },
     {
       q: 'Quel budget pour aménager un bureau à la maison ?',
-      a: "Un bureau correct : 200 à 400€ (plan de travail + tréteaux ou bureau IKEA basique, bonne chaise d'occasion, lampe). Un bureau soigné : 600 à 1500€ (bureau qualité, chaise ergonomique neuve, éclairage et déco). La chaise est le poste le plus important : c'est elle qui fait la santé du dos.",
+      a: "Un bureau correct : 200 à 400€ (plan de travail + tréteaux ou bureau IKEA basique, bonne chaise d'occasion, lampe). Un bureau soigné : 600 à 1500€ (bureau qualité, chaise ergonomique neuve, éclairage et déco). La chaise est le poste le plus important : c'est elle qui fait la santé du dos. Si vous envisagez de <a href='/blog/prix-decorateur-interieur'>faire appel à un décorateur d'intérieur</a>, les tarifs varient selon la nature de la mission.",
     },
     {
       q: 'Comment décorer un bureau sans le surcharger ?',

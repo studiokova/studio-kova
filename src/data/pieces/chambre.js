@@ -53,7 +53,7 @@ Enfin l'ambiance : cocoon, minimal, romantique, contemporain - c'est ce qui tran
     },
     {
       q: 'Quel budget moyen pour redécorer une chambre ?',
-      a: "Tout dépend de l'ampleur. Une chambre rafraîchie (peinture + textiles + 2-3 objets) : 200 à 400€. Une chambre transformée avec changement de mobilier : 800 à 2000€. L'analyse vous donne des fourchettes précises par priorité, pour que vous arbitriez vous-même selon votre budget.",
+      a: "Tout dépend de l'ampleur. Une chambre rafraîchie (peinture + textiles + 2-3 objets) : 200 à 400€. Une chambre transformée avec changement de mobilier : 800 à 2000€. L'analyse vous donne des fourchettes précises par priorité, pour que vous arbitriez vous-même selon votre budget. Si vous pensez faire appel à un pro, voici les vrais chiffres sur <a href='/blog/prix-decorateur-interieur'>le prix d'un décorateur d'intérieur</a>.",
     },
     {
       q: "L'analyse fonctionne-t-elle pour une chambre d'enfant ?",

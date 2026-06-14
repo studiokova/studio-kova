@@ -161,7 +161,7 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
           {data.faq.map((item, i) => (
             <details key={i} className="reveal" ref={ref} style={{ transitionDelay: `${i * 0.07}s` }}>
               <summary>{item.q}</summary>
-              <p className="kova-faq__answer">{item.a}</p>
+              <p className="kova-faq__answer" dangerouslySetInnerHTML={{ __html: item.a }} />
             </details>
           ))}
         </div>

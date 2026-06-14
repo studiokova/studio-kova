@@ -55,7 +55,7 @@ Et c'est probablement la pièce où on a le meilleur retour sur investissement :
     },
     {
       q: 'Quel budget pour transformer une entrée ?',
-      a: "Une entrée transformée : 150 à 400€. C'est la pièce où le ratio impact/budget est le meilleur de l'appartement. Postes prioritaires : miroir, éclairage, peinture, un meuble bien choisi. Le reste suit naturellement.",
+      a: "Une entrée transformée : 150 à 400€. C'est la pièce où le ratio impact/budget est le meilleur de l'appartement. Postes prioritaires : miroir, éclairage, peinture, un meuble bien choisi. Le reste suit naturellement. Pour contextualiser, voici un point sur les <a href='/blog/prix-decorateur-interieur'>honoraires d'un décorateur d'intérieur</a> en 2026.",
     },
     {
       q: "Comment créer une entrée quand il n'y en a pas vraiment ?",

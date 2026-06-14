@@ -55,7 +55,7 @@ Bonne nouvelle : c'est aussi la pièce où une transformation à petit budget se
     },
     {
       q: 'Quel budget pour rafraîchir une salle de bain ?',
-      a: "Un rafraîchissement (peinture, accessoires, miroir, textiles) : 150 à 400€. Une transformation avec mobilier (meuble vasque, étagères, éclairage) : 600 à 1500€. Sans toucher au carrelage existant.",
+      a: "Un rafraîchissement (peinture, accessoires, miroir, textiles) : 150 à 400€. Une transformation avec mobilier (meuble vasque, étagères, éclairage) : 600 à 1500€. Sans toucher au carrelage existant. Pour comparer avec <a href='/blog/prix-decorateur-interieur'>le tarif d'un décorateur d'intérieur</a>, notre guide fait le point.",
     },
     {
       q: 'Comment intégrer une plante dans une salle de bain ?',
