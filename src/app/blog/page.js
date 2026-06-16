@@ -4,12 +4,13 @@ import KovaPageHeader  from "@/components/kova/KovaPageHeader";
 import KovaArticleCard from "@/components/kova/KovaArticleCard";
 import KovaFooter      from "@/components/kova/KovaFooter";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://studiokova.fr";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.studiokova.fr";
 
 export const metadata = {
   title: "Journal - Studio Kova",
   description:
     "Conseils décoration, méthodes et inspirations pour transformer votre intérieur avec justesse.",
+  alternates: { canonical: `${SITE_URL}/blog` },
   openGraph: {
     title: "Journal Studio Kova — Conseils et méthodes décoration",
     description:

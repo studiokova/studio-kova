@@ -9,7 +9,7 @@ import KovaPageHeader from "@/components/kova/KovaPageHeader";
 import KovaButton     from "@/components/kova/KovaButton";
 import KovaFooter     from "@/components/kova/KovaFooter";
 
-const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://studiokova.fr";
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.studiokova.fr";
 
 function buildArticleSchema(frontmatter, slug) {
   return {
@@ -61,6 +61,7 @@ export async function generateMetadata({ params }) {
       title,
       description,
       ...(frontmatter.keywords?.length && { keywords: frontmatter.keywords }),
+      alternates: { canonical: `${SITE_URL}/blog/${slug}` },
       openGraph: {
         title,
         description,

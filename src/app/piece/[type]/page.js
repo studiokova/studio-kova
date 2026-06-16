@@ -3,6 +3,19 @@ import PieceTemplate from '@/components/PieceTemplate';
 import { piecesData } from '@/data/pieces';
 import { getPostsByPiece, formatDate } from '@/lib/blog';
 
+function buildPieceFaqSchema(faq) {
+  if (!Array.isArray(faq) || faq.length === 0) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: faq.map(({ q, a }) => ({
+      "@type": "Question",
+      name: q,
+      acceptedAnswer: { "@type": "Answer", text: a },
+    })),
+  };
+}
+
 export async function generateStaticParams() {
   return Object.keys(piecesData).map((slug) => ({ type: slug }));
 }
@@ -38,5 +51,13 @@ export default async function PiecePage({ params }) {
     date: formatDate(post.date),
     image: post.image || '',
   }));
-  return <PieceTemplate data={data} relatedPosts={relatedPosts} />;
+  const faqSchema = buildPieceFaqSchema(data.faq);
+  return (
+    <>
+      {faqSchema && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
+      )}
+      <PieceTemplate data={data} relatedPosts={relatedPosts} />
+    </>
+  );
 }
