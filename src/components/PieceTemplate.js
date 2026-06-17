@@ -61,13 +61,7 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
         <div className="kova-pt-hero__overlay" />
         <div className="kova-pt-hero__inner">
           <h1 className="kova-pt-hero__h1">{data.hero.h1}</h1>
-          <p style={{ fontSize: '0.9rem', color: 'var(--craie)', opacity: 0.7, textAlign: 'center', margin: '-8px 0 4px', fontStyle: 'italic' }}>
-            Ou toute autre pièce
-          </p>
-          <p className="kova-pt-hero__sub">
-            Envoyez vos photos. Recevez sous 48h un diagnostic complet et trois directions
-            chiffrées pour transformer votre {data.slug}.
-          </p>
+          <p className="kova-pt-hero__sub">Vos photos, un plan déco chiffré sous 48h.</p>
           <div className="kova-pt-hero__ctas">
             <KovaButton
               variant="primary"
@@ -77,12 +71,18 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
               {promoLabel(data.hero.ctaPrimary.label)}
             </KovaButton>
             {PROMO.active && (
-              <p style={{ fontSize: '0.82rem', textAlign: 'center', color: 'var(--craie)', margin: '2px 0 0', fontWeight: 500 }}>
+              <p style={{ fontSize: '0.82rem', textAlign: 'center', color: 'var(--craie)', margin: 0, fontWeight: 500 }}>
                 <s style={{ opacity: 0.55, fontWeight: 400 }}>{PROMO.originalDisplay}</s>
                 {' '}{PROMO.display}
                 {' '}<span style={{ opacity: 0.7, fontWeight: 400, fontStyle: 'italic' }}>· jusqu&apos;au {PROMO.endLabel}</span>
               </p>
             )}
+            <p style={{ fontSize: '0.8rem', textAlign: 'center', color: 'var(--craie)', opacity: 0.85, margin: 0 }}>
+              Livré sous 48h · remboursé si ça ne vous parle pas.
+            </p>
+            <p style={{ fontSize: '0.72rem', textAlign: 'center', color: 'var(--craie)', opacity: 0.5, margin: 0, fontStyle: 'italic' }}>
+              Fonctionne pour toutes les pièces de votre logement.
+            </p>
             <a
               href="/quiz"
               className="kova-pt-hero__text-link"
@@ -90,9 +90,6 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
             >
               {data.hero.ctaSecondary.label}
             </a>
-            <p style={{ fontSize: '0.72rem', opacity: 0.55, textAlign: 'center', color: 'var(--craie)', margin: 0, fontStyle: 'italic' }}>
-              Analyse livrée sous 48h.<br />Si elle ne vous parle pas, je vous rembourse.
-            </p>
           </div>
         </div>
       </section>
