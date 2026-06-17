@@ -61,6 +61,9 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
         <div className="kova-pt-hero__overlay" />
         <div className="kova-pt-hero__inner">
           <h1 className="kova-pt-hero__h1">{data.hero.h1}</h1>
+          <p style={{ fontSize: '0.9rem', color: 'var(--craie)', opacity: 0.7, textAlign: 'center', margin: '-8px 0 4px', fontStyle: 'italic' }}>
+            Ou toute autre pièce
+          </p>
           <p className="kova-pt-hero__sub">
             Envoyez vos photos. Recevez sous 48h un diagnostic complet et trois directions
             chiffrées pour transformer votre {data.slug}.
