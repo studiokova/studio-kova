@@ -31,7 +31,20 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
       { threshold: 0.1 }
     );
     revealRefs.current.forEach((el) => el && observer.observe(el));
-    return () => { clearTimeout(engageTimer); observer.disconnect(); };
+
+    // Sur navigation arrière le scroll est restauré avant que l'observer ne fire :
+    // on rend visibles immédiatement les éléments déjà dans le viewport.
+    const raf = requestAnimationFrame(() => {
+      revealRefs.current.forEach((el) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) {
+          el.classList.add('visible');
+        }
+      });
+    });
+
+    return () => { clearTimeout(engageTimer); cancelAnimationFrame(raf); observer.disconnect(); };
   }, [data.slug]);
 
   const ref = (el) => {
