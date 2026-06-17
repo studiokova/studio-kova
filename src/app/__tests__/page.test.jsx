@@ -111,9 +111,9 @@ describe('Homepage', () => {
     expect(quizLinks.length).toBeGreaterThan(0);
   });
 
-  it('affiche le CTA nav Analyse IA', () => {
+  it('affiche le CTA nav Analyse', () => {
     render(<Home />);
-    const ctaLinks = screen.getAllByRole('link', { name: /Analyse IA/ });
+    const ctaLinks = screen.getAllByRole('link', { name: /^Analyse$/ });
     expect(ctaLinks.length).toBeGreaterThan(0);
   });
 });

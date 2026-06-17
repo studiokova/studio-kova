@@ -38,7 +38,7 @@ export default function KovaNav({ showBack = false, backLabel = "Retour", backHr
           </ul>
 
           <div className="kova-nav__right">
-            <a href="/je-transforme-ma-piece" className="kova-nav__cta">Analyse IA</a>
+            <a href="/je-transforme-ma-piece" className="kova-nav__cta">Analyse</a>
             <button
               className="kova-nav__burger"
               aria-label={menuOpen ? "Fermer le menu" : "Ouvrir le menu"}
@@ -65,7 +65,7 @@ export default function KovaNav({ showBack = false, backLabel = "Retour", backHr
           <a href="/quiz" className="kova-nav__drawer-link" onClick={closeMenu}>Quiz</a>
           <div className="kova-nav__drawer-cta">
             <a href="/je-transforme-ma-piece" className="kova-nav__cta" style={{ width: "100%", justifyContent: "center" }} onClick={closeMenu}>
-              Analyse IA
+              Analyse
             </a>
           </div>
         </div>

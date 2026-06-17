@@ -80,9 +80,9 @@ describe('KovaNav — variante full', () => {
     expect(screen.getAllByRole('link', { name: 'Quiz' }).length).toBeGreaterThan(0);
   });
 
-  it('affiche le CTA Analyse IA pointant vers /je-transforme-ma-piece', () => {
+  it('affiche le CTA Analyse pointant vers /je-transforme-ma-piece', () => {
     render(<KovaNav full />);
-    const ctaLinks = screen.getAllByRole('link', { name: 'Analyse IA' });
+    const ctaLinks = screen.getAllByRole('link', { name: 'Analyse' });
     expect(ctaLinks.length).toBeGreaterThan(0);
     ctaLinks.forEach((link) => expect(link).toHaveAttribute('href', '/je-transforme-ma-piece'));
   });
