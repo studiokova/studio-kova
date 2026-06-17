@@ -1,7 +1,7 @@
 export const PROMO = {
   active: true,
-  price: 48,
-  display: '48€',
+  price: 48.3,
+  display: '48,30€',
   originalDisplay: '69€',
   coupon: 'GvHAU7Wh',
   endLabel: '24 juin',
