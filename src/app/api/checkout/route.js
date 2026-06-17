@@ -76,6 +76,6 @@ export async function POST(request) {
     return Response.json({ url: session.url })
   } catch (err) {
     console.error('[checkout]', err?.message)
-    return Response.json({ error: 'Erreur de paiement. Réessayez ou contactez-nous.' }, { status: 500 })
+    return Response.json({ error: 'Erreur de paiement. Réessayez ou contactez-nous.', _debug: err?.message }, { status: 500 })
   }
 }
