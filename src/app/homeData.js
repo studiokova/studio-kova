@@ -1,7 +1,7 @@
 import { PROMO } from '@/lib/config';
 
 export const PIECES = [
-  { slug: "chambre",      label: "Chambre",      img: "/images/pieces/bedroom.webp",     aria: "Transformer ma chambre" },
+  { slug: "chambre",      label: "Chambre",      img: "/images/pieces/bedroom1.webp",     aria: "Transformer ma chambre" },
   { slug: "salon",        label: "Salon",         img: "/images/pieces/living-room.webp", aria: "Transformer mon salon" },
   { slug: "salle-de-bain",label: "Salle de bain", img: "/images/pieces/bath.webp",        aria: "Transformer ma salle de bain" },
   { slug: "cuisine",      label: "Cuisine",       img: "/images/site/window.webp",         aria: "Transformer ma cuisine" },
