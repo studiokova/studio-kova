@@ -1,4 +1,5 @@
 import KovaButton from "@/components/kova/KovaButton";
+import { PROMO } from "@/lib/config";
 
 const CTA_MAP = {
   quiz: {
@@ -13,7 +14,7 @@ const CTA_MAP = {
     label: "Une pièce qui ne fonctionne pas ?",
     desc: "Envoyez des photos. Recevez un diagnostic complet avec palette, priorités et PDF - en 48h.",
     href: "/analyse",
-    cta: "Analyser ma pièce - 69€ →",
+    cta: `Analyser ma pièce - ${PROMO.active ? PROMO.display : '69€'} →`,
   },
   surmesure: {
     eyebrow: "Passez à l'action",

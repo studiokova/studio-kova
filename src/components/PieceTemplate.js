@@ -9,6 +9,7 @@ import KovaCloser from '@/components/KovaCloser';
 import OffreDetail from '@/components/offre/OffreDetail';
 import OffreApercu from '@/components/offre/OffreApercu';
 import { track } from '@/lib/plausible';
+import { PROMO } from '@/lib/config';
 import PropTypes from 'prop-types';
 
 export default function PieceTemplate({ data, relatedPosts = [] }) {
@@ -41,6 +42,10 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
     track('Clic CTA piece', { piece: data.slug, cta: position });
   }
 
+  function promoLabel(label) {
+    return PROMO.active ? label.replace(PROMO.originalDisplay, PROMO.display) : label;
+  }
+
   const enjeuxParagraphs = data.enjeux.body.split('\n\n');
   const cappedPosts = relatedPosts.slice(0, 2);
   const hasArticles = cappedPosts.length > 0;
@@ -66,8 +71,15 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
               href={data.hero.ctaPrimary.href}
               onClick={() => trackCta('hero-primary')}
             >
-              {data.hero.ctaPrimary.label}
+              {promoLabel(data.hero.ctaPrimary.label)}
             </KovaButton>
+            {PROMO.active && (
+              <p style={{ fontSize: '0.82rem', textAlign: 'center', color: 'var(--craie)', margin: '2px 0 0', fontWeight: 500 }}>
+                <s style={{ opacity: 0.55, fontWeight: 400 }}>{PROMO.originalDisplay}</s>
+                {' '}{PROMO.display}
+                {' '}<span style={{ opacity: 0.7, fontWeight: 400, fontStyle: 'italic' }}>· jusqu&apos;au {PROMO.endLabel}</span>
+              </p>
+            )}
             <a
               href="/quiz"
               className="kova-pt-hero__text-link"
@@ -130,8 +142,13 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
               href={data.hero.ctaPrimary.href}
               onClick={() => trackCta('analyse')}
             >
-              {data.hero.ctaPrimary.label}
+              {promoLabel(data.hero.ctaPrimary.label)}
             </KovaButton>
+            {PROMO.active && (
+              <p style={{ fontSize: '0.8rem', textAlign: 'center', color: 'var(--craie)', margin: '6px 0 0', opacity: 0.8 }}>
+                <s style={{ opacity: 0.6 }}>{PROMO.originalDisplay}</s> {PROMO.display} · jusqu&apos;au {PROMO.endLabel}
+              </p>
+            )}
           </div>
         </div>
       </section>
@@ -177,7 +194,7 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
               href={data.ctaFinal.ctaPrimary.href}
               onClick={() => trackCta('final-primary')}
             >
-              {data.ctaFinal.ctaPrimary.label}
+              {promoLabel(data.ctaFinal.ctaPrimary.label)}
             </KovaButton>
             <KovaButton
               variant="dark"

@@ -1,3 +1,12 @@
+export const PROMO = {
+  active: true,
+  price: 48,
+  display: '48€',
+  originalDisplay: '69€',
+  coupon: 'FybqdJQq',
+  endLabel: '24 juin',
+} as const;
+
 export const ANALYSE_LIVRABLES = [
   "Un diagnostic de votre pièce. Ce qui fonctionne, ce qui crée la gêne que vous ressentez, et pourquoi. Une lecture de vos photos, mur par mur.",
   "Trois directions au choix, du plus sobre au plus affirmé. Chacune avec sa palette précise (références exactes, couleurs à conserver) et ses actions prioritaires.",

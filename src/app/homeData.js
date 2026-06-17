@@ -1,3 +1,5 @@
+import { PROMO } from '@/lib/config';
+
 export const PIECES = [
   { slug: "chambre",      label: "Chambre",      img: "/images/pieces/bedroom.webp",     aria: "Transformer ma chambre" },
   { slug: "salon",        label: "Salon",         img: "/images/pieces/living-room.webp", aria: "Transformer mon salon" },
@@ -20,10 +22,11 @@ export const OFFRES = [
   {
     img: "/images/site/shelves.webp",
     badgeText: "Recommandé", badgeClass: "kova-badge--copper",
-    price: "69€",
+    price: PROMO.active ? PROMO.display : "69€",
+    priceStrike: PROMO.active ? PROMO.originalDisplay : null,
     title: "Analyse IA + plan d'action en 48h",
     desc: "Envoyez 1 à 3 photos de votre pièce. Recevez en 48h une analyse IA complète : diagnostic, palette, priorités, matières.",
-    ctaLabel: "Analyser ma pièce - 69€ →", ctaHref: "/je-transforme-ma-piece", ctaVariant: "primary",
+    ctaLabel: PROMO.active ? `Analyser ma pièce - ${PROMO.display} →` : "Analyser ma pièce - 69€ →", ctaHref: "/je-transforme-ma-piece", ctaVariant: "primary",
     event: "Clic offre 69", featured: true,
   },
   {

@@ -1,6 +1,6 @@
 import Stripe from 'stripe';
 import { supabaseAdmin } from '@/lib/supabase';
-import { OFFERS } from '@/lib/config';
+import { OFFERS, PROMO } from '@/lib/config';
 import { generateEventId } from '@/lib/metaHelpers';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
@@ -68,6 +68,7 @@ export async function POST(request) {
           meta_event_id: metaEventId,
         },
       },
+      ...(PROMO.active && { discounts: [{ coupon: PROMO.coupon }] }),
       success_url: `${process.env.NEXT_PUBLIC_APP_URL}/analyse/merci?session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: `${process.env.NEXT_PUBLIC_APP_URL}/analyse`,
     })

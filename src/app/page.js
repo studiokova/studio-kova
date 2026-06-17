@@ -6,6 +6,7 @@ import KovaButton from "@/components/kova/KovaButton";
 import KovaFooter from "@/components/kova/KovaFooter";
 import { track } from "@/lib/plausible";
 import { PIECES, OFFRES, HOW_STEPS, FAQ_ITEMS } from "./homeData";
+import { PROMO } from "@/lib/config";
 
 export default function Home() {
   const revealRefs = useRef([]);
@@ -37,7 +38,7 @@ export default function Home() {
           <h1 className="kova-hero-imm__title">La déco personnalisée,<br /><em>enfin accessible.</em></h1>
           <p className="kova-hero-imm__sub">Vous allez adorer rentrer chez vous.</p>
           <div className="kova-hero-imm__ctas">
-            <KovaButton variant="primary" href="/je-transforme-ma-piece">Analyser ma pièce - 69€ →</KovaButton>
+            <KovaButton variant="primary" href="/je-transforme-ma-piece">Analyser ma pièce - {PROMO.active ? PROMO.display : '69€'} →</KovaButton>
             <KovaButton variant="ghost" href="#offres">Voir les offres</KovaButton>
           </div>
         </div>
@@ -89,6 +90,7 @@ export default function Home() {
                 <div className="kova-card__badge"><span className={`kova-badge ${o.badgeClass}`}>{o.badgeText}</span></div>
                 <div className="kova-card__price">
                   {o.priceFrom && <span className="kova-card__price-label">{o.priceFrom}</span>}
+                  {o.priceStrike && <s style={{ opacity: 0.55, fontWeight: 400, marginRight: 4 }}>{o.priceStrike}</s>}
                   {o.price}{o.priceUnit || ""}
                 </div>
               </div>

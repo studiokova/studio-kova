@@ -17,6 +17,7 @@ jest.mock('@/lib/supabase', () => ({
 
 jest.mock('@/lib/config', () => ({
   OFFERS: { analyse: { stripeId: 'price_test_analyse' } },
+  PROMO: { active: false, coupon: 'test_coupon', display: '48€', originalDisplay: '69€', endLabel: '24 juin', price: 48 },
 }))
 
 jest.mock('@/lib/metaHelpers', () => ({

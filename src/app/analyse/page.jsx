@@ -4,7 +4,7 @@ import { upload } from '@vercel/blob/client';
 import { track, getSource } from '@/lib/plausible';
 import KovaStepShell from '@/components/kova/KovaStepShell';
 import KovaFooter from '@/components/kova/KovaFooter';
-import { OFFERS } from '@/lib/config';
+import { OFFERS, PROMO } from '@/lib/config';
 import { getStoredUtms } from '@/lib/utmTracking';
 
 const ROOM_TYPES = ['Salon', 'Chambre', 'Bureau', 'Salle à manger', 'Entrée', 'Autre'];
@@ -514,7 +514,17 @@ export default function AnalysePage() {
             </div>
 
             <p className="an-delai">Livraison sous 48h par email</p>
-            <div className="an-price">{OFFERS.analyse.display}</div>
+            <div className="an-price">
+              {PROMO.active ? (
+                <>
+                  <s style={{ fontSize: '0.55em', opacity: 0.45, fontWeight: 400, verticalAlign: 'middle' }}>{PROMO.originalDisplay}</s>
+                  {' '}{PROMO.display}
+                </>
+              ) : OFFERS.analyse.display}
+            </div>
+            {PROMO.active && (
+              <p className="an-delai" style={{ marginTop: -12 }}>Promo d&apos;été · jusqu&apos;au {PROMO.endLabel}</p>
+            )}
 
             <p className="an-delai" style={{ marginBottom: 20 }}>Si l&rsquo;analyse ne vous parle pas, je vous rembourse. Vous me le dites dans les 14 jours, sans justification à fournir.</p>
 

@@ -8,6 +8,7 @@ import KovaNav        from "@/components/kova/KovaNav";
 import KovaPageHeader from "@/components/kova/KovaPageHeader";
 import KovaButton     from "@/components/kova/KovaButton";
 import KovaFooter     from "@/components/kova/KovaFooter";
+import { PROMO }     from "@/lib/config";
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? "https://www.studiokova.fr";
 
@@ -140,7 +141,7 @@ export default async function BlogPostPage({ params }) {
             Tous les articles
           </Link>
           <KovaButton variant="primary" href="/analyse">
-            Analyser ma pièce - 69€ →
+            Analyser ma pièce - {PROMO.active ? PROMO.display : '69€'} →
           </KovaButton>
         </footer>
       </div>

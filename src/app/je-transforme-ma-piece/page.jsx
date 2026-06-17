@@ -4,7 +4,7 @@ import KovaBadge  from "@/components/kova/KovaBadge";
 import KovaButton from "@/components/kova/KovaButton";
 import KovaFooter from "@/components/kova/KovaFooter";
 import OffreDetail from "@/components/offre/OffreDetail";
-import { OFFERS } from "@/lib/config";
+import { OFFERS, PROMO } from "@/lib/config";
 
 export const metadata = {
   title: "Je transforme ma pièce - Studio Kova",
@@ -28,7 +28,9 @@ export default function JeTransformeMaPiecePage() {
             <KovaBadge variant="copper">Populaire</KovaBadge>
           </span>
           <div className="kova-product-page__price">
-            {OFFERS.analyse.display}
+            {PROMO.active ? (
+              <><s style={{ opacity: 0.55, fontWeight: 400 }}>{PROMO.originalDisplay}</s> {PROMO.display}</>
+            ) : OFFERS.analyse.display}
           </div>
         </div>
 
@@ -36,14 +38,17 @@ export default function JeTransformeMaPiecePage() {
           <h1 className="kova-product-page__title">Transformez votre pièce en 48h</h1>
           <p className="kova-product-page__desc">
             Vous envoyez les photos de votre pièce, vous recevez un plan déco complet
-            sous 48h. {OFFERS.analyse.display}.
+            sous 48h. {PROMO.active ? `${PROMO.display} (promo d'été, jusqu'au ${PROMO.endLabel})` : OFFERS.analyse.display}.
           </p>
           <div className="kova-product-page__hero-cta">
             <KovaButton variant="primary" href="/analyse" fullWidth>
-              Analyser ma pièce - {OFFERS.analyse.display} →
+              Analyser ma pièce - {PROMO.active ? PROMO.display : OFFERS.analyse.display} →
             </KovaButton>
             <p className="kova-product-page__microcopy">
-              Livré sous 48h · paiement sécurisé
+              {PROMO.active
+                ? <>Promo d&apos;été -30% jusqu&apos;au {PROMO.endLabel} · livré sous 48h</>
+                : 'Livré sous 48h · paiement sécurisé'
+              }
             </p>
           </div>
 
@@ -74,10 +79,13 @@ export default function JeTransformeMaPiecePage() {
               Prête à transformer votre pièce&nbsp;?
             </h2>
             <p className="kova-sell-cta__sub">
-              {OFFERS.analyse.display}, paiement sécurisé, PDF livré sous 48h.
+              {PROMO.active
+                ? <><s>{PROMO.originalDisplay}</s> {PROMO.display} · promo jusqu&apos;au {PROMO.endLabel} · PDF livré sous 48h.</>
+                : `${OFFERS.analyse.display}, paiement sécurisé, PDF livré sous 48h.`
+              }
             </p>
             <KovaButton variant="primary" href="/analyse" fullWidth>
-              Analyser ma pièce - {OFFERS.analyse.display} →
+              Analyser ma pièce - {PROMO.active ? PROMO.display : OFFERS.analyse.display} →
             </KovaButton>
             <p className="kova-sell-cta__contact">
               Une question ? Écrivez-moi à{" "}
