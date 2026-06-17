@@ -83,13 +83,6 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
             <p style={{ fontSize: '0.72rem', textAlign: 'center', color: 'var(--craie)', opacity: 0.5, margin: 0, fontStyle: 'italic' }}>
               Fonctionne pour toutes les pièces de votre logement.
             </p>
-            <a
-              href="/quiz"
-              className="kova-pt-hero__text-link"
-              onClick={() => trackCta('hero-secondary')}
-            >
-              {data.hero.ctaSecondary.label}
-            </a>
           </div>
         </div>
       </section>
