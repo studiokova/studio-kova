@@ -21,7 +21,14 @@ export default function Home() {
       { threshold: 0.1 }
     );
     revealRefs.current.forEach((el) => el && observer.observe(el));
-    return () => observer.disconnect();
+    const raf = requestAnimationFrame(() => {
+      revealRefs.current.forEach((el) => {
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight && rect.bottom > 0) el.classList.add("visible");
+      });
+    });
+    return () => { cancelAnimationFrame(raf); observer.disconnect(); };
   }, []);
 
   const ref = (el) => { if (el && !revealRefs.current.includes(el)) revealRefs.current.push(el); };
