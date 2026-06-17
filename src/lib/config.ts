@@ -3,7 +3,7 @@ export const PROMO = {
   price: 48,
   display: '48€',
   originalDisplay: '69€',
-  coupon: 'FybqdJQq',
+  coupon: 'GvHAU7Wh',
   endLabel: '24 juin',
 } as const;
 
