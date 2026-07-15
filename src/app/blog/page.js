@@ -52,6 +52,7 @@ export default function BlogPage() {
               title={post.title}
               excerpt={post.excerpt}
               image={post.image || null}
+              imagePosition={post.imagePosition}
               priority={i === 0}
             />
           ))

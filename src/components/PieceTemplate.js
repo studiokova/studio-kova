@@ -232,6 +232,7 @@ export default function PieceTemplate({ data, relatedPosts = [] }) {
                     excerpt={post.excerpt}
                     date={post.date}
                     image={post.image}
+                    imagePosition={post.imagePosition}
                   />
                 </div>
               ))}
