@@ -3,7 +3,7 @@ export const cuisineData = {
 
   meta: {
     title: "Décorer sa cuisine : analyse IA + plan d'action en 48h | Studio Kova",
-    description: "Envoyez 3 photos de votre cuisine, recevez en 48h un diagnostic complet et un plan d'action concret. Couleurs, plan de travail, ambiance. Dès 69€.",
+    description: "Envoyez 3 photos de votre cuisine, recevez en 48h un diagnostic complet et un plan d'action concret. Couleurs, plan de travail, ambiance. Dès 15€.",
     ogImage: '/og/piece-cuisine.jpg',
   },
 
@@ -11,7 +11,7 @@ export const cuisineData = {
     h1: 'Décorer votre cuisine',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre cuisine.",
     image: '/images/site/window.webp',
-    ctaPrimary: { label: 'Analyser ma cuisine - 69€', href: '/analyse?piece=cuisine' },
+    ctaPrimary: { label: 'Analyser ma cuisine - 15€', href: '/analyse?piece=cuisine' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },
 
@@ -63,7 +63,7 @@ Et si vous êtes en location avec une cuisine équipée qui ne vous plaît pas, 
 
   ctaFinal: {
     title: 'Prête à transformer votre cuisine ?',
-    ctaPrimary: { label: 'Analyser ma cuisine - 69€', href: '/analyse?piece=cuisine' },
+    ctaPrimary: { label: 'Analyser ma cuisine - 15€', href: '/analyse?piece=cuisine' },
     ctaSecondary: { label: "Voir l'aménagement clé en main", href: '/surmesure' },
   },
 };

@@ -3,7 +3,7 @@ export const salleDeBainData = {
 
   meta: {
     title: "Décorer sa salle de bain : analyse IA + plan d'action en 48h | Studio Kova",
-    description: "Envoyez 3 photos de votre salle de bain, recevez en 48h un diagnostic complet et un plan d'action concret. Couleurs, rangement, lumière. Dès 69€.",
+    description: "Envoyez 3 photos de votre salle de bain, recevez en 48h un diagnostic complet et un plan d'action concret. Couleurs, rangement, lumière. Dès 15€.",
     ogImage: '/og/piece-salle-de-bain.jpg',
   },
 
@@ -11,7 +11,7 @@ export const salleDeBainData = {
     h1: 'Décorer votre salle de bain',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre salle de bain.",
     image: '/images/pieces/bath.webp',
-    ctaPrimary: { label: 'Analyser ma salle de bain - 69€', href: '/analyse?piece=salle-de-bain' },
+    ctaPrimary: { label: 'Analyser ma salle de bain - 15€', href: '/analyse?piece=salle-de-bain' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },
 
@@ -65,7 +65,7 @@ Bonne nouvelle : c'est aussi la pièce où une transformation à petit budget se
 
   ctaFinal: {
     title: 'Prête à transformer votre salle de bain ?',
-    ctaPrimary: { label: 'Analyser ma salle de bain - 69€', href: '/analyse?piece=salle-de-bain' },
+    ctaPrimary: { label: 'Analyser ma salle de bain - 15€', href: '/analyse?piece=salle-de-bain' },
     ctaSecondary: { label: "Voir l'aménagement clé en main", href: '/surmesure' },
   },
 };

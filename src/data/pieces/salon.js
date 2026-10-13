@@ -3,7 +3,7 @@ export const salonData = {
 
   meta: {
     title: "Décorer son salon : analyse IA + plan d'action en 48h | Studio Kova",
-    description: "Envoyez 3 photos de votre salon, recevez en 48h un diagnostic complet et un plan d'action concret. Couleurs, circulation, agencement. Dès 69€.",
+    description: "Envoyez 3 photos de votre salon, recevez en 48h un diagnostic complet et un plan d'action concret. Couleurs, circulation, agencement. Dès 15€.",
     ogImage: '/og/piece-salon.jpg',
   },
 
@@ -11,7 +11,7 @@ export const salonData = {
     h1: 'Décorer votre salon',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre salon.",
     image: '/images/pieces/living-room.webp',
-    ctaPrimary: { label: 'Analyser mon salon - 69€', href: '/analyse?piece=salon' },
+    ctaPrimary: { label: 'Analyser mon salon - 15€', href: '/analyse?piece=salon' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },
 
@@ -63,7 +63,7 @@ Le troisième enjeu, c'est l'ancrage au sol. Un tapis bien dimensionné transfor
 
   ctaFinal: {
     title: 'Prête à transformer votre salon ?',
-    ctaPrimary: { label: 'Analyser mon salon - 69€', href: '/analyse?piece=salon' },
+    ctaPrimary: { label: 'Analyser mon salon - 15€', href: '/analyse?piece=salon' },
     ctaSecondary: { label: "Voir l'aménagement clé en main", href: '/surmesure' },
   },
 };

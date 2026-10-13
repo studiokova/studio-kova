@@ -24,12 +24,12 @@ const playfair = Playfair_Display({
 
 export const metadata = {
   title: "Studio Kova, l'analyse IA qui transforme votre pièce en 48h",
-  description: "Vous venez d'emménager ? Mon analyse IA transforme votre pièce avec un plan déco concret en 48h, pour 69€. Couleurs, aménagement, matières.",
+  description: "Vous venez d'emménager ? Mon analyse IA transforme votre pièce avec un plan déco concret en 48h, pour 15€. Couleurs, aménagement, matières.",
   metadataBase: new URL('https://www.studiokova.fr'),
   alternates: { canonical: 'https://www.studiokova.fr' },
   openGraph: {
     title: "Studio Kova - Transformez votre pièce en 48h",
-    description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 69€.",
+    description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 15€.",
     url: 'https://www.studiokova.fr',
     siteName: 'Studio Kova',
     locale: 'fr_FR',
@@ -46,7 +46,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: "Studio Kova - Transformez votre pièce en 48h",
-    description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 69€.",
+    description: "Analyse IA de votre pièce + plan d'action concret livré en 48h. Dès 15€.",
     images: ['/og/og-image.webp'],
   },
   other: {
@@ -71,7 +71,7 @@ export default function RootLayout({ children }) {
           "url": "https://www.studiokova.fr",
           "logo": "https://www.studiokova.fr/logos/logo-fond-vert.svg",
           "email": "hello@studiokova.fr",
-          "description": "Conseil en décoration intérieure personnalisé et accessible en ligne. Quiz gratuit, analyse photo 69€, sur-mesure dès 299€/pièce.",
+          "description": "Conseil en décoration intérieure personnalisé et accessible en ligne. Quiz gratuit, analyse photo 15€, sur-mesure dès 299€/pièce.",
           "serviceArea": { "@type": "Country", "name": "France" },
           "sameAs": ["https://instagram.com/studiokova.fr"],
         }} />

@@ -3,7 +3,7 @@ export const chambreData = {
 
   meta: {
     title: "Décorer sa chambre : analyse IA + plan d'action en 48h | Studio Kova",
-    description: "Envoyez 3 photos de votre chambre, recevez en 48h un diagnostic complet et un plan d'action concret. Couleurs, lumière, agencement. Dès 69€.",
+    description: "Envoyez 3 photos de votre chambre, recevez en 48h un diagnostic complet et un plan d'action concret. Couleurs, lumière, agencement. Dès 15€.",
     ogImage: '/og/piece-chambre.jpg',
   },
 
@@ -11,7 +11,7 @@ export const chambreData = {
     h1: 'Décorer votre chambre',
     subtitle: "Envoyez 3 photos. Recevez en 48h un diagnostic complet et un plan d'action concret pour transformer votre chambre.",
     image: '/images/pieces/bedroom1.webp',
-    ctaPrimary: { label: 'Analyser ma chambre - 69€', href: '/analyse?piece=chambre' },
+    ctaPrimary: { label: 'Analyser ma chambre - 15€', href: '/analyse?piece=chambre' },
     ctaSecondary: { label: "Faire le quiz d'abord", href: '/quiz' },
   },
 
@@ -63,7 +63,7 @@ Enfin l'ambiance : cocoon, minimal, romantique, contemporain - c'est ce qui tran
 
   ctaFinal: {
     title: 'Prête à transformer votre chambre ?',
-    ctaPrimary: { label: 'Analyser ma chambre - 69€', href: '/analyse?piece=chambre' },
+    ctaPrimary: { label: 'Analyser ma chambre - 15€', href: '/analyse?piece=chambre' },
     ctaSecondary: { label: "Voir l'aménagement clé en main", href: '/surmesure' },
   },
 };

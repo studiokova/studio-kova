@@ -22,11 +22,11 @@ export const OFFRES = [
   {
     img: "/images/site/shelves.webp",
     badgeText: "Recommandé", badgeClass: "kova-badge--copper",
-    price: PROMO.active ? PROMO.display : "69€",
+    price: PROMO.active ? PROMO.display : "15€",
     priceStrike: PROMO.active ? PROMO.originalDisplay : null,
     title: "Analyse IA + plan d'action en 48h",
     desc: "Envoyez 1 à 3 photos de votre pièce. Recevez en 48h une analyse IA complète : diagnostic, palette, priorités, matières.",
-    ctaLabel: PROMO.active ? `Analyser ma pièce - ${PROMO.display} →` : "Analyser ma pièce - 69€ →", ctaHref: "/je-transforme-ma-piece", ctaVariant: "primary",
+    ctaLabel: PROMO.active ? `Analyser ma pièce - ${PROMO.display} →` : "Analyser ma pièce - 15€ →", ctaHref: "/je-transforme-ma-piece", ctaVariant: "primary",
     event: "Clic offre 69", featured: true,
   },
   {
@@ -50,7 +50,7 @@ export const FAQ_ITEMS = [
   { q: "Combien de temps pour recevoir mon analyse ?", a: "48h maximum après réception de vos photos et du paiement." },
   { q: "À qui s'adresse l'analyse ?", a: "À toute personne qui veut transformer sa pièce sans payer un décorateur d'intérieur. Locataires comme propriétaires, petit budget comme budget confortable. L'analyse s'adapte à votre situation, votre mode de vie et ce que vous voulez garder dans la pièce." },
   { q: "L'IA, c'est vraiment fiable pour de la déco ?", a: "L'IA analyse vos photos et propose. Je supervise chaque livrable avant envoi. C'est cette combinaison qui rend l'analyse précise et personnalisée." },
-  { q: "Quelle différence avec un décorateur d'intérieur ?", a: "Un décorateur d'intérieur facture 500 à 2000€ par pièce et travaille sur plusieurs semaines. L'analyse Studio Kova livre un plan exécutable en 48h pour 69€. C'est complémentaire, pas le même usage." },
+  { q: "Quelle différence avec un décorateur d'intérieur ?", a: "Un décorateur d'intérieur facture 500 à 2000€ par pièce et travaille sur plusieurs semaines. L'analyse Studio Kova livre un plan exécutable en 48h pour 15€. C'est complémentaire, pas le même usage." },
   { q: "Et si l'analyse ne me plaît pas ?", a: "Vous m'écrivez, on ajuste. Si l'analyse ne correspond vraiment pas à votre pièce, je rembourse." },
 ];
 

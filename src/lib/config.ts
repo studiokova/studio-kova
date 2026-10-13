@@ -1,5 +1,5 @@
 export const PROMO = {
-  active: true,
+  active: false,
   price: 48.3,
   display: '48,30€',
   originalDisplay: '69€',
@@ -21,8 +21,8 @@ export const OFFERS = {
     stripeId: null as null,
   },
   analyse: {
-    amount: 69,
-    display: "69€",
+    amount: 15,
+    display: "15€",
     stripeId: process.env.STRIPE_PRICE_ID_ANALYSIS,
   },
   surmesure: {
